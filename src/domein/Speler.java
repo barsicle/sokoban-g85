@@ -9,4 +9,14 @@ public class Speler {
 		this.gebruikersnaam = gebruikersnaam;
 		this.adminrechten = adminrechten;
 	}
+
+	public String getGebruikersnaam() {
+		return gebruikersnaam;
+	}
+
+	public boolean isAdminrechten() {
+		return adminrechten;
+	}
+	
+	
 }

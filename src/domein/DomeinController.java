@@ -13,4 +13,9 @@ public class DomeinController {
 	public void meldAan(String gebruikersnaam, String wachtwoord) {
 		speler = spelerRepository.geefSpeler(gebruikersnaam, wachtwoord);
 	}
+
+	public Speler getSpeler() {
+		return speler;
+	}
+	
 }

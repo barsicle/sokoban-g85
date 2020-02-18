@@ -16,7 +16,7 @@ public class SpelerMapper {
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL);
                 PreparedStatement query = conn.prepareStatement("SELECT * FROM ID222177_g85.speler WHERE gebruikersnaam = ?")) {
-            query.setString(1, gebruikersnaam);
+            query.setString(1, gebruikersnaam.toLowerCase());
             try (ResultSet rs = query.executeQuery()) {
                 if (rs.next()) {
                 	String dbWachtwoord = rs.getString("wachtwoord");
@@ -24,6 +24,8 @@ public class SpelerMapper {
                 		throw new IllegalArgumentException("Verkeerd wachtwoord");
                 	}
                     speler = new Speler(rs.getString("gebruikersnaam"), rs.getBoolean("adminrechten"));
+                } else {
+                	throw new IllegalArgumentException("Gebruiker onbekend");
                 }
             }
         } catch (SQLException ex) {
