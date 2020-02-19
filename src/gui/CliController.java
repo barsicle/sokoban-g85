@@ -14,7 +14,7 @@ public class CliController {
 	
 	public CliController(DomeinController dc) {
 		this.dc = dc;
-		this.scan = new Scanner(System.in);
+		scan = new Scanner(System.in);
 	}
 	
 	public void startApplicatie() {
@@ -72,6 +72,8 @@ public class CliController {
 	}
 	
 	private void hoofdMenu() {
+		// Reïnitialiseren scanner
+		scan = new Scanner(System.in);
 		while (true) {
 			System.out.println("Kies een optie: (cijfer ingeven)");
 			System.out.println("1. Speel spel ");
@@ -120,6 +122,8 @@ public class CliController {
 	}
 	
 	private void startAanmelden() {
+		// Reïnitialiseren scanner
+		scan = new Scanner(System.in);
 		while(true) {
 			System.out.println("Wat is uw gebruikersnaam?");
 			String gebruikersnaam = scan.nextLine();
