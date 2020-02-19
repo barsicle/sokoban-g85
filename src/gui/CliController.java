@@ -1,7 +1,9 @@
 package gui;
 
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import domein.DomeinController;
@@ -16,12 +18,58 @@ public class CliController {
 	}
 	
 	public void startApplicatie() {
-		System.out.println("Welkom bij Sokoban!");
+		System.out.println("*****************");
+		System.out.println("SOKOBAN - g85!");
+		System.out.println("*****************");
+		taalSelect();
 		startAanmelden();
 		hoofdMenu();
 		System.out.println("Einde programma");
 	}
 	
+	private void taalSelect() {
+		// Blijf gaan zolang er geen taalbundle geselecteerd is
+		while (Objects.equals(StartUp.bundle, null)) {
+			System.out.println("Gelieve uw taal te selecteren (cijfer ingeven)");
+			System.out.println("Veuillez choisir votre langue (entrez le numéro)");
+			System.out.println("Please choose your language (enter number)");
+			System.out.println("1. Nederlands");
+			System.out.println("2. Français");
+			System.out.println("3. English");
+			int keuze = 0;
+			try {
+				keuze = scan.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Gelieve een cijfer in te voeren");
+				System.out.println("Veuillez saisir un nombre");
+				System.out.println("Please enter a number");
+				scan.nextLine();
+				continue;
+			}
+			switch (keuze) {
+			case 1:
+				Locale.setDefault(new Locale("nl", "BE"));
+				StartUp.bundle = ResourceBundle.getBundle("vertalingen/Vertaling");
+				break;
+
+			case 2:
+				Locale.setDefault(new Locale("fr", "BE"));
+				StartUp.bundle = ResourceBundle.getBundle("vertalingen/Vertaling");
+				break;
+				
+			case 3:
+				Locale.setDefault(new Locale("en", "BE"));
+				StartUp.bundle = ResourceBundle.getBundle("vertalingen/Vertaling");
+				break;
+				
+			default:
+				System.out.println("Geen geldige keuze");
+				System.out.println("Choix invalide");
+				System.out.println("Invalid choice");
+				continue;
+			}
+		}
+	}
 	
 	private void hoofdMenu() {
 		while (true) {
