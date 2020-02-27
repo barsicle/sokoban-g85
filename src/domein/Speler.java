@@ -3,6 +3,10 @@ package domein;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Stelt een speler voor.
+ * @author g85
+ */
 public class Speler {
 
 	// Properties
@@ -13,6 +17,17 @@ public class Speler {
 	private boolean adminrechten;
 
 	// Constructors
+	
+	/**
+	 * Creëert een een speler met opgegeven naam, voornaam, gebruikersnaam, wachtwoord en
+	 * adminrechten.
+	 * 
+	 * @param naam De naam van de speler.
+	 * @param voornaam De voornaam van de speler.
+	 * @param gebruikersnaam De gebruikersnaam van de speler.
+	 * @param wachtwoord Het wachtwoord van de speler.
+	 * @param adminrechten Of de speler adminrechten bezit.
+	 */
 	public Speler(String naam, String voornaam, String gebruikersnaam, String wachtwoord, boolean adminrechten)
 			throws IllegalArgumentException {
 
@@ -23,7 +38,15 @@ public class Speler {
 		setAdminrechten(adminrechten);
 
 	}
-
+	
+	/**
+	 * Creëert een een speler met opgegeven naam, voornaam, gebruikersnaam en wachtwoord. Heeft geen adminrechten.
+	 * 
+	 * @param naam De naam van de speler.
+	 * @param voornaam De voornaam van de speler.
+	 * @param gebruikersnaam De gebruikersnaam van de speler.
+	 * @param wachtwoord Het wachtwoord van de speler.
+	 */
 	public Speler(String naam, String voornaam, String gebruikersnaam, String wachtwoord)
 			throws IllegalArgumentException {
 
@@ -32,6 +55,10 @@ public class Speler {
 	}
 
 	// Methods
+	
+	/**
+	 * Geeft de naam van de speler terug.
+	 * */
 	public String getNaam() {
 		return this.naam;
 	}
@@ -41,7 +68,10 @@ public class Speler {
 		this.naam = naam;
 
 	}
-
+	
+	/**
+	 * Geeft de voornaam van de speler terug.
+	 * */
 	public String getVoornaam() {
 
 		return this.voornaam;
@@ -53,13 +83,22 @@ public class Speler {
 		this.voornaam = voornaam;
 
 	}
-
+	
+	/**
+	 * Geeft de gebruikersnaam van de speler terug.
+	 * */
 	public String getGebruikersnaam() {
 
 		return this.gebruikersnaam;
 
 	}
-
+	
+	/**
+	 * Stelt de gebruikersnaam van de speler in. Werpt een IllegalArgumentException indien
+	 * de gebruikersnaam leeg is of kleiner dan 8 karakters.
+	 * 
+	 * @param gebruikersnaam De gewenste gebruikersnaam van de speler.
+	 * */
 	public void setGebruikersnaam(String gebruikersnaam) throws IllegalArgumentException {
 
 		if (gebruikersnaam == null || gebruikersnaam.length() == 0) {
@@ -74,7 +113,10 @@ public class Speler {
 		this.gebruikersnaam = gebruikersnaam.toLowerCase();
 
 	}
-
+	
+	/**
+	 * Geeft het wachtwoord van de speler terug.
+	 * */
 	public String getWachtwoord() {
 
 		return this.wachtwoord;
@@ -99,7 +141,10 @@ public class Speler {
 		this.wachtwoord = wachtwoord;
 
 	}
-
+	
+	/**
+	 * Geeft terug of de speler adminrechten heeft of niet.
+	 * */
 	public boolean isAdminrechten() {
 
 		return this.adminrechten;
@@ -111,7 +156,10 @@ public class Speler {
 		this.adminrechten = adminrechten;
 
 	}
-
+	
+	/**
+	 * Stelt het wachtwoord van de speler terug in op null.
+	 * */
 	public void resetWachtwoord() {
 		wachtwoord = null;
 	}

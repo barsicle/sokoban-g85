@@ -7,7 +7,10 @@ import java.util.Scanner;
 import domein.DomeinController;
 import vertalingen.Taal;
 import vertalingen.Talen;
-
+/**
+ * Stelt de command line controller voor.
+ * @author g85
+ * */
 public class CliController {
 	private DomeinController dc;
 	private Scanner scan;
@@ -22,11 +25,19 @@ public class CliController {
 			"                                           ";
 	private static final String LIJN_SEPARATOR_STER = "******************************************************************";
 	
+	/**
+	 * Creëert een instantie van de command line controller met een domeincontroller object.
+	 * 
+	 * @param dc Het meegegeven domeincontroller object.
+	 * */
 	public CliController(DomeinController dc) {
 		this.dc = dc;
 		scan = new Scanner(System.in);
 	}
 	
+	/**
+	 * Start de applicatie.
+	 */
 	public void startApplicatie() {
 		System.out.println(LIJN_SEPARATOR_STER);
 		System.out.println(SOKOBAN_ASCII_ART);
