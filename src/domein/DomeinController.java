@@ -10,6 +10,7 @@ public class DomeinController {
 	private final SpelerRepository spelerRepository;
 	private Speler speler;
 	
+	//UC1
 	/**
 	 * Creëert een instantie van de domeincontroller.
 	 */
@@ -20,6 +21,7 @@ public class DomeinController {
 	// Methods
 	// To register, the properties must meet certain conditions and the password must be confirmed.
 	
+	//UC2
 	/**
 	 * Registreert de gebruiker als speler. Werpt een IllegalArgumentException indien
 	 *  het wachtwoord en de wachtwoordbevestiging niet overeenkomen.
@@ -28,7 +30,7 @@ public class DomeinController {
 	 * @param  voornaam De voornaam van de gebruiker.
 	 * @param  gebruikersnaam De gebruikersnaam van de gebruiker.
 	 * @param  wachtwoord Het wachtwoord van de gebruiker.
-	 * @param  wachtwoordbevestiging De bevestiging van het wachtwoord van de gebruiker. Moet overeenkomen met het wachtwoord.
+	 * @param  wachtwoordBevestiging De bevestiging van het wachtwoord van de gebruiker. Moet overeenkomen met het wachtwoord.
 	 */
 	public void registreer(String naam, String voornaam, String gebruikersnaam, String wachtwoord, String wachtwoordBevestiging) throws IllegalArgumentException {
 		if (!wachtwoord.equals(wachtwoordBevestiging)) {
@@ -42,7 +44,7 @@ public class DomeinController {
 		setSpeler(nieuweSpeler);
 				
 	}
-	
+	//UC1
 	/**
 	 * Meldt de speler aan. Werpt een RuntimeException indien
 	 *  de speler niet bestaat.
@@ -64,16 +66,17 @@ public class DomeinController {
         setSpeler(aangemeldeSpeler);
 		
 	}
-	
+	//UC2
 	/**
-	 * Controleert of de speler bestaat in de repository. Werpt een RuntimeException als deze niet bestaat.
+	 * Controleert of de speler bestaat in de database. Werpt een RuntimeException als deze niet bestaat.
 	 * 
-	 * @param  gebruikersnaam De gebruikersnaam van de speler.
+	 * @param gebruikersnaam De gebruikersnaam van de speler.
+	 * @return true indien de speler bestaat, false indien de speler niet bestaat.
 	 */
     public boolean bestaatSpeler(String gebruikersnaam) throws RuntimeException {
     	return spelerRepository.bestaatSpeler(gebruikersnaam);
     }
-    
+    //UC3
 	/**
 	 * Sluit de applicatie af.
 	 */
@@ -82,19 +85,18 @@ public class DomeinController {
 	}
 
 	// Only return the user name and no other properties (e.g. password)
-	
+	//UC1
 	/**
 	 * Geeft de speler terug.
+	 * @return De speler.
 	 */
 	public Speler getSpeler() {
 		return speler;
 	}
 	
-	// Set the current player
+	//UC1
 	private void setSpeler(Speler speler) {
         this.speler = speler;
     }
-	
-	
 	
 }

@@ -25,6 +25,7 @@ public class CliController {
 			"                                           ";
 	private static final String LIJN_SEPARATOR_STER = "******************************************************************";
 	
+	//UC1
 	/**
 	 * Creëert een instantie van de command line controller met een domeincontroller object.
 	 * 
@@ -35,6 +36,7 @@ public class CliController {
 		scan = new Scanner(System.in);
 	}
 	
+	//UC1
 	/**
 	 * Start de applicatie.
 	 */
@@ -46,7 +48,7 @@ public class CliController {
 		taalSelect();
 		loginMenu();
 	}
-	
+	//UC2
 	private void taalSelect() {
 		// Blijf gaan zolang er geen taal geselecteerd is
 		System.out.println("Gelieve uw taal te selecteren (cijfer ingeven)");
@@ -100,6 +102,7 @@ public class CliController {
 		
 	}
 	
+	//UC1
 	private void loginMenu() {
 		
 		// Reïnitialiseren scanner
@@ -142,6 +145,7 @@ public class CliController {
 		
 	}
 	
+	//UC1
 	private void hoofdMenu() {
 		// Reïnitialiseren scanner
 		scan = new Scanner(System.in);
@@ -229,6 +233,7 @@ public class CliController {
 		
 	}
 	
+	//UC1
 	private void startAanmelden() {
 		
 		// Reïnitialiseren scanner
@@ -266,6 +271,7 @@ public class CliController {
 
 	}
 	
+	//UC2
 	private void startRegistreer() {
 		
 		// Reïnitialiseren scanner

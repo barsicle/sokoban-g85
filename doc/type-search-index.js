@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"gui","l":"CliController"},{"p":"domein","l":"DomeinController"},{"p":"domein","l":"Spel"},{"p":"domein","l":"Speler"},{"p":"persistentie","l":"SpelerMapper"},{"p":"domein","l":"SpelerRepository"},{"p":"gui","l":"StartUp"},{"p":"vertalingen","l":"Taal"},{"p":"vertalingen","l":"Talen"}]

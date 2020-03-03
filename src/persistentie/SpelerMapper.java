@@ -8,6 +8,11 @@ import java.sql.SQLException;
 
 import domein.Speler;
 
+//UC2
+/**
+ * Stelt de mapper voor die met de database communiceert.
+ * @author g85
+ */
 public class SpelerMapper {
 
 	// Properties
@@ -19,6 +24,12 @@ public class SpelerMapper {
 	private static final String GET_SPELER = "SELECT * FROM ID222177_g85.speler WHERE gebruikersnaam = ?";
 
 	// Methods
+	//UC2
+	/**
+	 * Voegt de meegegeven speler toe aan de database.
+	 * 
+	 * @param speler De speler die toegevoegd wordt aan de database.
+	 */
 	public void voegSpelerToe(Speler speler) throws RuntimeException {
 
 		try {
@@ -40,7 +51,14 @@ public class SpelerMapper {
 
 
 	}
-
+	//UC2
+	/**
+	 * Geeft de speler met meegegeven gebruikersnaam terug uit de database.
+	 * Werpt een RuntimeException indien er problemen zijn met de database.
+	 * 
+	 * @param gebruikersnaam De gebruikersnaam die wordt gebruikt om de speler op te zoeken.
+	 * @return De speler met gegeven gebruikersnaam.
+	 */
 	public Speler geefSpeler(String gebruikersnaam) throws RuntimeException {
 		
 		Speler speler = null;
