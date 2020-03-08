@@ -26,7 +26,7 @@ public class SpelerRepository {
 	}
 	
 	// Methods
-	// Return player from database after checking if the entered password matches the password in the database
+	// Return player from database based on user name
 	
 	//UC2
 	/**

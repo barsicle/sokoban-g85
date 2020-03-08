@@ -1,5 +1,7 @@
 package domein;
 
+import java.util.List;
+
 /**
  * Stelt de domeincontroller voor.
  * @author g85
@@ -8,18 +10,19 @@ public class DomeinController {
 	
 	// Properties
 	private final SpelerRepository spelerRepository;
+	private final SpelRepository spelRepository;
 	private Speler speler;
+	private Spel gekozenSpel;
 	
 	//UC1
 	/**
-	 * Creëert een instantie van de domeincontroller.
+	 * Creï¿½ert een instantie van de domeincontroller.
 	 */
 	public DomeinController() {
 		spelerRepository = new SpelerRepository();
+		spelRepository = new SpelRepository();
 	}
 	
-	// Methods
-	// To register, the properties must meet certain conditions and the password must be confirmed.
 	
 	//UC2
 	/**
@@ -66,32 +69,23 @@ public class DomeinController {
         setSpeler(aangemeldeSpeler);
 		
 	}
-	//UC2
-	/**
-	 * Controleert of de speler bestaat in de database. Werpt een RuntimeException als deze niet bestaat.
-	 * 
-	 * @param gebruikersnaam De gebruikersnaam van de speler.
-	 * @return true indien de speler bestaat, false indien de speler niet bestaat.
-	 */
-    public boolean bestaatSpeler(String gebruikersnaam) throws RuntimeException {
-    	return spelerRepository.bestaatSpeler(gebruikersnaam);
-    }
-    //UC3
-	/**
-	 * Sluit de applicatie af.
-	 */
-	public void afsluiten() {
-		System.exit(0);
-	}
 
-	// Only return the user name and no other properties (e.g. password)
 	//UC1
 	/**
-	 * Geeft de speler terug.
-	 * @return De speler.
+	 * Geeft de speler zijn gebruikersnaam terug.
+	 * @return gebruikersnaam
 	 */
-	public Speler getSpeler() {
-		return speler;
+	public String getGebruikersnaam() {
+		return speler.getGebruikersnaam();
+	}	
+	
+	//UC1
+	/**
+	 * Geeft de speler zijn adminrechten terug.
+	 * @return adminrechten
+	 */
+	public boolean isAdminrechten() {
+		return speler.isAdminrechten();
 	}
 	
 	//UC1
@@ -99,4 +93,50 @@ public class DomeinController {
         this.speler = speler;
     }
 	
+	public List<String> getSpelNamen(){
+		return spelRepository.getSpelNamen();
+	}
+	
+	public void geefOp() {
+		
+	}
+	
+	public void kiesSpel(String spelNaam) {
+		gekozenSpel = spelRepository.geefSpel(spelNaam);
+		
+	}
+
+	public Veld[][] geefVelden() {
+		return gekozenSpel.geefVelden();
+	}
+
+	public boolean beweeg(BeweegRichting richting) {
+		return gekozenSpel.beweeg(richting);
+	}
+
+
+    public Moveable getMannetje() {
+		return gekozenSpel.geefMannetje();
+    }
+
+	public List<Moveable> getKisten() {
+		return gekozenSpel.geefKisten();
+	}
+
+	public boolean checkBordVoltooid() {
+		return gekozenSpel.checkBordVoltooid();
+	}
+	
+	public boolean checkSpelVoltooid() {
+		return gekozenSpel.checkSpelvoltooid();
+	}
+	
+	public int getBordenVoltooid() {
+		return gekozenSpel.getBordenVoltooid();
+	}
+	
+	public int getBordenTotaal() {
+		return gekozenSpel.getBordenTotaal();
+	}
+
 }

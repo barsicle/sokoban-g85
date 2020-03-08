@@ -1,0 +1,4 @@
+ALTER TABLE `ID222177_g85`.`spel` 
+CHANGE COLUMN `spelNaam` `spelNaam` VARCHAR(45) NOT NULL ,
+ADD UNIQUE INDEX `spelNaam_UNIQUE` (`spelNaam` ASC);
+;

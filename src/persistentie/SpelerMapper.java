@@ -15,9 +15,6 @@ import domein.Speler;
  */
 public class SpelerMapper {
 
-	// Properties
-	// Establish connection with database
-	private static final String JDBC_URL = "jdbc:mysql://ID222177_g85.db.webhosting.be?serverTimezone=UTC&useLegacyDatetimeCode=false&user=ID222177_g85&password=fi4pinVo";
 	// Use this string to insert a player into the database
 	private static final String INSERT_SPELER = "INSERT INTO ID222177_g85.speler(naam, voornaam, gebruikersnaam, wachtwoord, adminrechten)"
 			+ "VALUES (?, ?, ?, ?, ?)";
@@ -33,7 +30,7 @@ public class SpelerMapper {
 	public void voegSpelerToe(Speler speler) throws RuntimeException {
 
 		try {
-			Connection conn = DriverManager.getConnection(JDBC_URL);
+			Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
 
 			PreparedStatement query = conn.prepareStatement(INSERT_SPELER);
 
@@ -64,7 +61,7 @@ public class SpelerMapper {
 		Speler speler = null;
 
 		try {
-		Connection conn = DriverManager.getConnection(JDBC_URL);
+		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
 		PreparedStatement query = conn.prepareStatement(GET_SPELER);
 
 		query.setString(1, gebruikersnaam.toLowerCase());

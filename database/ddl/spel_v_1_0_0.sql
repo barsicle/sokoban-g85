@@ -1,0 +1,6 @@
+CREATE TABLE `ID222177_g85`.`spel` (
+  `spelId` INT NOT NULL AUTO_INCREMENT,
+  `spelNaam` VARCHAR(45) NULL,
+  PRIMARY KEY (`spelId`),
+  UNIQUE INDEX `spelid_UNIQUE` (`spelId` ASC));
+COMMIT;

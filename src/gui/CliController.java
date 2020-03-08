@@ -1,12 +1,12 @@
 package gui;
 
 import java.util.InputMismatchException;
-// import java.util.Objects;
 import java.util.Scanner;
 
 import domein.DomeinController;
 import vertalingen.Taal;
 import vertalingen.Talen;
+
 /**
  * Stelt de command line controller voor.
  * @author g85
@@ -27,7 +27,7 @@ public class CliController {
 	
 	//UC1
 	/**
-	 * Creëert een instantie van de command line controller met een domeincontroller object.
+	 * Creï¿½ert een instantie van de command line controller met een domeincontroller object.
 	 * 
 	 * @param dc Het meegegeven domeincontroller object.
 	 * */
@@ -52,12 +52,12 @@ public class CliController {
 	private void taalSelect() {
 		// Blijf gaan zolang er geen taal geselecteerd is
 		System.out.println("Gelieve uw taal te selecteren (cijfer ingeven)");
-		System.out.println("Veuillez choisir votre langue (entrez le numéro)");
+		System.out.println("Veuillez choisir votre langue (entrez le numï¿½ro)");
 		System.out.println("Please choose your language (enter number)");
 		
 		while (Taal.taalIngesteld() == false) {
 			System.out.println("1. Nederlands");
-			System.out.println("2. Français");
+			System.out.println("2. Franï¿½ais");
 			System.out.println("3. English");
 			System.out.println(LIJN_SEPARATOR_STER);
 			
@@ -76,7 +76,6 @@ public class CliController {
 			}
 			
 			switch (keuze) {
-			
 				case 1:
 					Taal.setTaal(Talen.nl);
 					break;
@@ -95,7 +94,6 @@ public class CliController {
 					System.out.println("Invalid choice");
 					System.out.println(LIJN_SEPARATOR_STER);
 					continue;
-					
 			}
 			
 		}
@@ -104,8 +102,7 @@ public class CliController {
 	
 	//UC1
 	private void loginMenu() {
-		
-		// Reïnitialiseren scanner
+		// Reï¿½nitialiseren scanner
 		scan = new Scanner(System.in);
 		int keuze = 0;
 		System.out.println(Taal.vertaal("login_choose_option"));
@@ -125,7 +122,7 @@ public class CliController {
 						break;
 
 					case 3:
-						dc.afsluiten();
+						afsluiten();
 						break;
 						
 					default:
@@ -147,11 +144,10 @@ public class CliController {
 	
 	//UC1
 	private void hoofdMenu() {
-		// Reïnitialiseren scanner
+		// Reï¿½nitialiseren scanner
 		scan = new Scanner(System.in);
 		while (true) {
-			if(dc.getSpeler().isAdminrechten() == false) {
-				
+			if(dc.isAdminrechten() == false) {
 				System.out.println(Taal.vertaal("menu_choose_option_no_admin"));
 			}
 			else {
@@ -161,9 +157,7 @@ public class CliController {
 			int keuze = 0;
 			
 			try {
-				
 				keuze = scan.nextInt();
-				
 			} 
 			
 			catch (InputMismatchException e) {
@@ -174,31 +168,26 @@ public class CliController {
 			
 			// TO DO
 			switch (keuze) {
-			
 				case 1:
-					System.out.println("Nog niet geïmplementeerd");
+					System.out.println("Nog niet geï¿½mplementeerd");
 					break;
 
 				case 2:
-					if(dc.getSpeler().isAdminrechten()) {
-						
-						// TO DO: maak een nieuw spel optie
-						System.out.println("Nog niet geïmplementeerd");
-						
+					if(dc.isAdminrechten()) {
+						System.out.println("Nog niet geï¿½mplementeerd");
 					}
 					
 					else {
-						
-						dc.afsluiten();
+						afsluiten();
 						
 					}					
 					break;
 
 				case 3:
-					if(dc.getSpeler().isAdminrechten()) {
+					if(dc.isAdminrechten()) {
 						
 						// TO DO: wijzig een spel optie
-						System.out.println("Nog niet geïmplementeerd");
+						System.out.println("Nog niet geï¿½mplementeerd");
 						
 					}
 					
@@ -210,9 +199,8 @@ public class CliController {
 					break;
 
 				case 4:
-					if(dc.getSpeler().isAdminrechten()) {
-						
-						dc.afsluiten();
+					if(dc.isAdminrechten()) {
+						afsluiten();
 						
 					}
 					
@@ -236,7 +224,7 @@ public class CliController {
 	//UC1
 	private void startAanmelden() {
 		
-		// Reïnitialiseren scanner
+		// Reï¿½nitialiseren scanner
 		scan = new Scanner(System.in);
 		
 		while(true) {
@@ -261,7 +249,7 @@ public class CliController {
 			}
 			
 			System.out.println(LIJN_SEPARATOR_STER);
-			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s %n", dc.getSpeler().getGebruikersnaam());
+			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s %n", dc.getGebruikersnaam());
 			System.out.println(LIJN_SEPARATOR_STER);
 			
 			hoofdMenu();
@@ -274,7 +262,7 @@ public class CliController {
 	//UC2
 	private void startRegistreer() {
 		
-		// Reïnitialiseren scanner
+		// Reï¿½nitialiseren scanner
 		scan = new Scanner(System.in);
 		
 		while(true) {
@@ -320,7 +308,7 @@ public class CliController {
 			}
 			
 			System.out.println(LIJN_SEPARATOR_STER);
-			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s %n", dc.getSpeler().getGebruikersnaam());
+			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s %n", dc.getGebruikersnaam());
 			System.out.println(LIJN_SEPARATOR_STER);
 			
 			hoofdMenu();
@@ -328,6 +316,11 @@ public class CliController {
 			
 		}
 
+	}
+	
+
+	protected void afsluiten() {
+		System.exit(0);
 	}
 
 }
