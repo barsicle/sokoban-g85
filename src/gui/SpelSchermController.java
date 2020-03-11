@@ -129,7 +129,7 @@ public class SpelSchermController {
 		if(gc.dc.checkBordVoltooid()){
 			if(gc.dc.checkSpelVoltooid()) {
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("Spel voltooid!");
+				alert.setTitle(Taal.vertaal("game_complete_title"));
 				alert.setHeaderText(null);
 				alert.setContentText(Taal.vertaal("game_complete"));
 
@@ -140,7 +140,7 @@ public class SpelSchermController {
 				ButtonType buttonVolgendLevel = new ButtonType(Taal.vertaal("next_board"));
 				ButtonType buttonOpgeven = new ButtonType(Taal.vertaal("quit"));
 				alert.getButtonTypes().setAll(buttonVolgendLevel, buttonOpgeven);
-				alert.setTitle("Bord voltooid");
+				alert.setTitle(Taal.vertaal("board_complete_title"));
 				alert.setHeaderText(null);
 				int voltooideBorden = gc.dc.getBordenVoltooid();
 				int totaalBorden = gc.dc.getBordenTotaal();
@@ -192,7 +192,7 @@ public class SpelSchermController {
 	
 	@FXML
 	private void back(){
-		gc.switchScherm(Scherm.HoofdMenuScherm);
+		gc.switchScherm(Scherm.SpelMenuScherm);
 	}
 
 	@FXML

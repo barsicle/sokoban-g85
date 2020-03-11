@@ -39,7 +39,7 @@ public class SpelerMapper {
 			query.setString(2, speler.getVoornaam());
 			query.setString(3, speler.getGebruikersnaam());
 			query.setString(4, speler.getWachtwoord());
-			query.setBoolean(5, speler.isAdminrechten());
+			query.setBoolean(5, speler.hasAdminrechten());
 			query.executeUpdate();
 			conn.commit();
 		} catch (SQLException e) {

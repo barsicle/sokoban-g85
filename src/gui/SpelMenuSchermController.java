@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import vertalingen.Taal;
 
-public class HoofdMenuSchermController extends GridPane{
+public class SpelMenuSchermController extends GridPane{
 
 	private GuiController gc;
 	
@@ -19,7 +19,7 @@ public class HoofdMenuSchermController extends GridPane{
 	private Button btnExit;
 	
 	
-	public HoofdMenuSchermController(GuiController guiController) {
+	public SpelMenuSchermController(GuiController guiController) {
 		gc = guiController;
 	}
 	

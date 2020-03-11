@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * Stelt een speler voor.
  * @author g85
  */
-public class Speler {
+public class Speler implements SpelerInfo{
 
 	// Properties
 	private String naam;
@@ -159,7 +159,7 @@ public class Speler {
 	 * 
 	 * @return true indien de speler adminrechten heeft, false indien de speler geen adminrechten heeft.
 	 */
-	public boolean isAdminrechten() {
+	public boolean hasAdminrechten() {
 
 		return this.adminrechten;
 

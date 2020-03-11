@@ -39,9 +39,9 @@ public class GuiController extends Application {
 				e.printStackTrace();
 			}
 			break;
-		case HoofdMenuScherm:
-			fxmlLoader = new FXMLLoader(getClass().getResource("HoofdMenuScherm.fxml"));
-			fxmlLoader.setController(new HoofdMenuSchermController(this));
+		case SpelMenuScherm:
+			fxmlLoader = new FXMLLoader(getClass().getResource("SpelMenuScherm.fxml"));
+			fxmlLoader.setController(new SpelMenuSchermController(this));
 			try {
 				scene.setRoot(fxmlLoader.load());
 			} catch (IOException e) {

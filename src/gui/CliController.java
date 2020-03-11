@@ -147,7 +147,7 @@ public class CliController {
 		// Re�nitialiseren scanner
 		scan = new Scanner(System.in);
 		while (true) {
-			if(dc.isAdminrechten() == false) {
+			if(dc.isAdmin() == false) {
 				System.out.println(Taal.vertaal("menu_choose_option_no_admin"));
 			}
 			else {
@@ -173,7 +173,7 @@ public class CliController {
 					break;
 
 				case 2:
-					if(dc.isAdminrechten()) {
+					if(dc.isAdmin()) {
 						System.out.println("Nog niet ge�mplementeerd");
 					}
 					
@@ -184,7 +184,7 @@ public class CliController {
 					break;
 
 				case 3:
-					if(dc.isAdminrechten()) {
+					if(dc.isAdmin()) {
 						
 						// TO DO: wijzig een spel optie
 						System.out.println("Nog niet ge�mplementeerd");
@@ -199,7 +199,7 @@ public class CliController {
 					break;
 
 				case 4:
-					if(dc.isAdminrechten()) {
+					if(dc.isAdmin()) {
 						afsluiten();
 						
 					}

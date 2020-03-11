@@ -55,7 +55,7 @@ public class LoginSchermController extends GridPane{
 		
 		try {
 			gc.dc.meldAan(gebruikersnaam, wachtwoord);
-			gc.switchScherm(Scherm.HoofdMenuScherm);
+			gc.switchScherm(Scherm.SpelMenuScherm);
 		}
 		catch(RuntimeException e) {
 			e.printStackTrace();
