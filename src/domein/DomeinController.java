@@ -46,6 +46,7 @@ public class DomeinController {
 		Speler nieuweSpeler = new Speler(naam, voornaam, gebruikersnaam, wachtwoord);
 		spelerRepository.voegSpelerToe(nieuweSpeler);
 		
+		nieuweSpeler.resetWachtwoord();
 		setSpeler(nieuweSpeler);
 				
 	}
