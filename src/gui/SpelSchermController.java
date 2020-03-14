@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import domein.BeweegRichting;
+import domein.DomeinController;
+import domein.VeldenInterface;
 import domein.Moveable;
 import domein.Veld;
 import javafx.fxml.FXML;

@@ -66,7 +66,7 @@ public class SpelbordMapper {
 			throw new RuntimeException(e);
 		}
 		
-		bord = new Spelbord(spelbordNaam, volgorde, mannetje, kisten, velden);
+		bord = new Spelbord(spelbordNaam, volgorde, mannetje, kisten, velden, null);
 		
 		return bord;
 	}

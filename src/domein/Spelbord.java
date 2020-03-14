@@ -12,22 +12,42 @@ public class Spelbord {
 	private Moveable mannetje;
 	private List<Moveable> kisten;
 	private boolean voltooid;
+	private SpelbordRepository spelbordRepository;
 	
-	public Spelbord(String spelbordNaam, int volgorde, Moveable mannetje, List<Moveable> kisten, Veld[][] velden) {
+	/**
+	 * Creëert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
+	 * 
+	 * @param spelbordNaam De naam van het spelbord.
+	 * @param volgorde De volgorde waarin het spelbord in het spel verschijnt.
+	 * @param mannetje Het mannetje dat in het spelbord wordt gebruikt om te spelen.
+	 * @param kisten De kisten die op het spelbord staan en moeten worden verplaatst.
+	 * @param velden De velden die het spelbord bezit.
+	 * @param spelbordRepository Testing van de klasse.
+	 */
+	public Spelbord(String spelbordNaam, int volgorde, SpelbordRepository spelbordRepository) {
+		this.spelbordNaam = spelbordNaam;
+		this.volgorde = volgorde;
+		this.spelbordRepository = spelbordRepository;
+	}
+	
+	/**
+	 * Creëert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
+	 * 
+	 * @param spelbordNaam De naam van het spelbord.
+	 * @param volgorde De volgorde waarin het spelbord in het spel verschijnt.
+	 * @param mannetje Het mannetje dat in het spelbord wordt gebruikt om te spelen.
+	 * @param kisten De kisten die op het spelbord staan en moeten worden verplaatst.
+	 * @param velden De velden die het spelbord bezit.
+	 * @param spelbordRepository Testing van de klasse.
+	 */
+	public Spelbord(String spelbordNaam, int volgorde, Moveable mannetje, List<Moveable> kisten, Veld[][] velden, SpelbordRepository spelbordRepository) {
 		this.velden = velden;
 		this.mannetje = mannetje;
 		this.kisten = kisten;
 		this.spelbordNaam = spelbordNaam;
 		this.volgorde = volgorde;
+		this.spelbordRepository = spelbordRepository;
 	}
-	
-	
-	public Spelbord(String spelbordNaam, int volgorde) {
-		super();
-		this.spelbordNaam = spelbordNaam;
-		this.volgorde = volgorde;
-	}
-
 
 	//TEMP DUMMY INIT
 	/*

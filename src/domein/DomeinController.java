@@ -41,7 +41,7 @@ public class DomeinController {
         }
 		
 		// Instantiate new player and add him/her to repository
-		Speler nieuweSpeler = new Speler(naam, voornaam, gebruikersnaam, wachtwoord);
+		Speler nieuweSpeler = new Speler(naam, voornaam, gebruikersnaam, wachtwoord, false, spelerRepository);
 		spelerRepository.voegSpelerToe(nieuweSpeler);
 		
 		setSpeler(nieuweSpeler);

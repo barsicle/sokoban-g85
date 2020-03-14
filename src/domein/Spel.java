@@ -13,13 +13,19 @@ public class Spel {
 	private Spelbord huidigSpelbord;
 	private boolean spelVoltooid = false;
 	private final SpelbordRepository spelbordRepository = new SpelbordRepository();
+	private SpelRepository spelRepository;
 	
-	public Spel(String spelNaam) {
-		this.spelNaam = spelNaam;
-	}
-	public Spel(String spelNaam, List<Spelbord> borden) {
+	/**
+	 * Creëert een een spel met opgegeven naam.
+	 * 
+	 * @param spelNaam De naam van het spel.
+	 * @param spelborden Een lijst met spelborden waaruit het spel is samengesteld.
+	 * @param spelRepository Testing van de klasse.
+	 */		
+	public Spel(String spelNaam, List<Spelbord> borden, SpelRepository spelRepository) {
 		this.spelNaam = spelNaam;
 		this.spelborden = borden;
+		this.spelRepository = spelRepository;
 		//Sorteer ze
 		this.spelborden = spelborden.stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
 		//Zet het huidige spelbord op eerste

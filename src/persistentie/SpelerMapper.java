@@ -75,7 +75,7 @@ public class SpelerMapper {
 			String wachtwoord = rs.getString("wachtwoord");
 			boolean adminrechten = rs.getBoolean("adminrechten");
 
-			speler = new Speler(naam, voornaam, gebruikersnaam, wachtwoord, adminrechten);
+			speler = new Speler(naam, voornaam, gebruikersnaam, wachtwoord, adminrechten, null);
 			return speler;
 		}
 		} catch (SQLException | IllegalArgumentException e) {

@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 
 import domein.DomeinController;
+import domein.VeldenInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ public class GuiController extends Application {
 	
 	public GuiController() {
 		dc = new DomeinController();
+		
 	}
 	
 	@Override

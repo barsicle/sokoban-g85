@@ -16,12 +16,13 @@ public class Speler {
 	private String gebruikersnaam;
 	private String wachtwoord;
 	private boolean adminrechten;
+	private SpelerRepository spelerRepository;
 
 	// Constructors
 	
 	//UC2
 	/**
-	 * Creëert een een speler met opgegeven naam, voornaam, gebruikersnaam, wachtwoord en
+	 * Creëert een speler met opgegeven naam, voornaam, gebruikersnaam, wachtwoord en
 	 * adminrechten.
 	 * 
 	 * @param naam De naam van de speler.
@@ -29,8 +30,9 @@ public class Speler {
 	 * @param gebruikersnaam De gebruikersnaam van de speler.
 	 * @param wachtwoord Het wachtwoord van de speler.
 	 * @param adminrechten Of de speler adminrechten bezit.
+	 * @param spelerRepository Testing van de klasse.
 	 */
-	public Speler(String naam, String voornaam, String gebruikersnaam, String wachtwoord, boolean adminrechten)
+	public Speler(String naam, String voornaam, String gebruikersnaam, String wachtwoord, boolean adminrechten, SpelerRepository spelerRepository)
 			throws IllegalArgumentException {
 
 		setNaam(naam);
@@ -38,21 +40,7 @@ public class Speler {
 		setGebruikersnaam(gebruikersnaam);
 		setWachtwoord(wachtwoord);
 		setAdminrechten(adminrechten);
-
-	}
-	//UC2
-	/**
-	 * Creëert een een speler met opgegeven naam, voornaam, gebruikersnaam en wachtwoord. Heeft geen adminrechten.
-	 * 
-	 * @param naam De naam van de speler.
-	 * @param voornaam De voornaam van de speler.
-	 * @param gebruikersnaam De gebruikersnaam van de speler.
-	 * @param wachtwoord Het wachtwoord van de speler.
-	 */
-	public Speler(String naam, String voornaam, String gebruikersnaam, String wachtwoord)
-			throws IllegalArgumentException {
-
-		this(naam, voornaam, gebruikersnaam, wachtwoord, false);
+		this.spelerRepository = spelerRepository;
 
 	}
 

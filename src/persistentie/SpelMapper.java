@@ -29,14 +29,14 @@ public class SpelMapper {
 		ResultSet rs = query.executeQuery();
 
 		while (rs.next()) {
-			Spelbord bord = new Spelbord(rs.getString("spelbordNaam"), rs.getInt("volgorde"));
+			Spelbord bord = new Spelbord(rs.getString("spelbordNaam"), rs.getInt("volgorde"), null);
 			spelBorden.add(bord);
 		}
 		} catch (SQLException | IllegalArgumentException e) {
 			throw new RuntimeException(e);
 		}
 		
-		Spel spel = new Spel(spelNaam, spelBorden);
+		Spel spel = new Spel(spelNaam, spelBorden, null);
 		
 		return spel;
 	}
