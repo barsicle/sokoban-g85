@@ -26,14 +26,6 @@ public class Spel {
 		String naamEersteBord = spelborden.get(0).getSpelbordNaam();
 		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(naamEersteBord);
 	}
-	
-	//Dummy init
-	/*
-	public Spel() {
-		huidigSpelbord = new Spelbord();
-	}
-	*/
-	
 	public Veld[][] geefVelden() {
 		return huidigSpelbord.getVelden();
 	}
@@ -45,8 +37,8 @@ public class Spel {
 		this.spelNaam = spelNaam;
 	}
 
-	public boolean beweeg(BeweegRichting richting) {
-		return huidigSpelbord.beweeg(richting);
+	public void beweeg(BeweegRichting richting) throws RuntimeException {
+		huidigSpelbord.beweeg(richting);
 	}
 
     public Moveable geefMannetje() {
@@ -83,5 +75,11 @@ public class Spel {
 	}
 	public int getBordenTotaal() {
 		return spelborden.size();
+	}
+	public void resetBord() {
+		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(huidigSpelbord.getSpelbordNaam());
+	}
+	public int getAantalBewegingen() {
+		return huidigSpelbord.getAantalBewegingen();
 	}
 }

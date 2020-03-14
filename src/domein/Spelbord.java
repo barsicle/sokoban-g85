@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import vertalingen.Taal;
+
 public class Spelbord {
 
 	private String spelbordNaam;
@@ -12,6 +14,7 @@ public class Spelbord {
 	private Moveable mannetje;
 	private List<Moveable> kisten;
 	private boolean voltooid;
+	private int aantalBewegingen;
 	
 	public Spelbord(String spelbordNaam, int volgorde, Moveable mannetje, List<Moveable> kisten, Veld[][] velden) {
 		this.velden = velden;
@@ -19,6 +22,7 @@ public class Spelbord {
 		this.kisten = kisten;
 		this.spelbordNaam = spelbordNaam;
 		this.volgorde = volgorde;
+		this.aantalBewegingen = 0;
 	}
 	
 	
@@ -27,52 +31,6 @@ public class Spelbord {
 		this.spelbordNaam = spelbordNaam;
 		this.volgorde = volgorde;
 	}
-
-
-	//TEMP DUMMY INIT
-	/*
-	public Spelbord() {
-		voltooid = false;
-		// i = kolom, j = rij!
-		kisten = new ArrayList<>();
-		Veld[][] velden = new Veld[10][10];
-
-		//Basis muren
-		for (int i = 2; i < 9; i++) {
-			for (int j = 2; j < 9; j++) {
-				velden[i][j] = new Veld(VeldType.MUUR, false, i, j);
-			}
-		}
-		for (int i = 3; i < 8; i++) {
-			for (int j = 3; j < 8; j++) {
-				velden[i][j] = new Veld(VeldType.VELD, false, i, j);
-			}
-		}
-			// Paar changes
-			Veld kist1Veld = velden[4][6];
-			Veld kist2Veld = velden[5][7];
-			Moveable kist1 = new Kist(kist1Veld);
-			Moveable kist2 = new Kist(kist2Veld);
-			kisten.add(kist1);
-			kisten.add(kist2);
-			Veld mannetjeVeld = velden[5][5];
-			mannetje = new Mannetje(mannetjeVeld);
-			velden[4][6].setMoveable(kist1);
-			velden[5][7].setMoveable(kist2);
-			velden[7][7] = new Veld(VeldType.VELD, true, 7, 7);
-			velden[3][3] = new Veld(VeldType.VELD, true, 3,3);
-			velden[5][5].setMoveable(mannetje);
-		this.velden = velden;
-		
-		for (Veld[] row : this.velden) {
-			for (Veld veld : row) {
-				if(!Objects.equals(veld, null))
-				veld.print();
-			}
-		}
-		
-	}
-*/
 	
 	public String getSpelbordNaam() {
 		return spelbordNaam;
@@ -95,8 +53,7 @@ public class Spelbord {
 	}
 
 
-	public boolean beweeg(BeweegRichting richting) {
-		boolean succes = false;
+	public void beweeg(BeweegRichting richting) throws RuntimeException {
 		Veld huidigePositie = mannetje.getPositie();
 		int xHuidig = huidigePositie.getX();
 		int yHuidig = huidigePositie.getY();
@@ -128,12 +85,11 @@ public class Spelbord {
 				huidigePositie.setMoveable(null);
 				mannetje.setPositie(target);
 				target.setMoveable(mannetje);
-				succes = true;
 				//Indien het een kist is
 			} else {
 				Veld achterTarget = velden[xAchterTarget][yAchterTarget];
 				if (!(achterTarget.getVeldType().equals(VeldType.VELD) && Objects.equals(achterTarget.getMoveable(), null))) {
-					succes = false;
+					throw new RuntimeException(Taal.vertaal("illegal_movement"));
 				} else {
 					Moveable kist = target.getMoveable();
 					kisten.remove(kist);
@@ -146,19 +102,16 @@ public class Spelbord {
 					huidigePositie.setMoveable(null);
 					mannetje.setPositie(target);
 					target.setMoveable(mannetje);
-
-					succes = true;
 				}
-
-				
 			}
 
 		}
 		if (target.getVeldType().equals(VeldType.MUUR)) {
-			succes =  false;
+			throw new IllegalArgumentException(Taal.vertaal("illegal_movement"));
 		}
+		
 		checkVoltooid();
-		return succes;
+		aantalBewegingen++;
 	}
 
 	public boolean isVoltooid() {
@@ -179,4 +132,10 @@ public class Spelbord {
 			voltooid = true;
 		}
 	}
+
+	public int getAantalBewegingen() {
+		return aantalBewegingen;
+	}
+	
+	
 }

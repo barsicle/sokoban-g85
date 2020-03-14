@@ -113,8 +113,8 @@ public class DomeinController {
 		return gekozenSpel.geefVelden();
 	}
 
-	public boolean beweeg(BeweegRichting richting) {
-		return gekozenSpel.beweeg(richting);
+	public void beweeg(BeweegRichting richting) throws RuntimeException {
+		gekozenSpel.beweeg(richting);
 	}
 
 
@@ -140,6 +140,14 @@ public class DomeinController {
 	
 	public int getBordenTotaal() {
 		return gekozenSpel.getBordenTotaal();
+	}
+	
+	public void resetBord() {
+		gekozenSpel.resetBord();
+	}
+	
+	public int getAantalBewegingen() {
+		return gekozenSpel.getAantalBewegingen();
 	}
 
 }
