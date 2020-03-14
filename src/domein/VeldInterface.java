@@ -2,8 +2,12 @@ package domein;
 
 public interface VeldInterface {
 	
-	int getX();
+	public int getX();
 	
-	int getY();
+	public int getY();
+	
+	public VeldType getVeldType();
+	
+	public boolean isDoel();
 	
 }
