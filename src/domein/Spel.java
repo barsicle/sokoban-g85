@@ -21,13 +21,12 @@ public class Spel {
 	 * @param spelborden Een lijst met spelborden waaruit het spel is samengesteld.
 	 * @param spelbordRepository Repository om spelborden op te halen.
 	 */		
-	public Spel(String spelNaam, List<Spelbord> borden, SpelbordRepository spelbordRepository) {
+	public Spel(String spelNaam, SpelbordRepository spelbordRepository) {
 		this.spelNaam = spelNaam;
-		this.spelborden = borden;
 		this.spelbordRepository = spelbordRepository;
 		//Sorteer ze
-		this.spelborden = spelborden.stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
-		//Zet het huidige spelbord op eerste
+		this.spelborden = spelbordRepository.geefSpelborden(spelNaam).stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
+		//Zet het huidige spelbord op eerste en haal de velden en details op
 		String naamEersteBord = spelborden.get(0).getSpelbordNaam();
 		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(naamEersteBord);
 	}

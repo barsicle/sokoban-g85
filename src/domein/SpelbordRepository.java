@@ -1,5 +1,7 @@
 package domein;
 
+import java.util.List;
+
 import persistentie.SpelbordMapper;
 
 public class SpelbordRepository {
@@ -11,5 +13,9 @@ public class SpelbordRepository {
 	
 	public Spelbord geefSpelbordMetVelden(String spelbordNaam) {
 		return spelbordMapper.geefBordMetVelden(spelbordNaam);
+	}
+	
+	public List<Spelbord> geefSpelborden(String spelNaam){
+		return spelbordMapper.geefBorden(spelNaam);
 	}
 }

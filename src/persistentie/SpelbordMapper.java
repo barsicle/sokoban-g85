@@ -16,11 +16,12 @@ import domein.Veld;
 import domein.VeldType;
 
 public class SpelbordMapper {
+	private static final String GET_SPELBORDEN = "SELECT * FROM ID222177_g85.spel INNER JOIN ID222177_g85.spelbord ON spel.spelId = spelbord.spelId WHERE spel.spelNaam = ?";
 	private static final String GET_SPELBORD = "SELECT * FROM ID222177_g85.spelbord INNER JOIN ID222177_g85.veld ON spelbord.spelbordId = veld.spelbordId WHERE spelbord.spelbordNaam = ?";
 	
 	public Spelbord geefBordMetVelden(String spelbordNaam) throws RuntimeException {
 		Veld[][] velden = new Veld[10][10];
-		int volgorde = 0;
+		
 		Spelbord bord = null;
 		List<Moveable> kisten = new ArrayList<>();
 		Moveable mannetje = null;
@@ -33,9 +34,7 @@ public class SpelbordMapper {
 		ResultSet rs = query.executeQuery();
 
 		while (rs.next()) {
-			if(volgorde != 0) {
-				volgorde = rs.getInt("volgorde");
-			}
+			int volgorde = rs.getInt("volgorde");
 			VeldType type = VeldType.MUUR;
 			// Indien een veld, override
 			if (rs.getBoolean("veldType")) {
@@ -61,13 +60,37 @@ public class SpelbordMapper {
 			
 			//Inserteer veld op juiste plaats in de array
 			velden[x][y] = veld;
+			
+			bord = new Spelbord(spelbordNaam, volgorde, mannetje, kisten, velden);
 		}
 		} catch (SQLException | IllegalArgumentException e) {
 			throw new RuntimeException(e);
 		}
 		
-		bord = new Spelbord(spelbordNaam, volgorde, mannetje, kisten, velden);
+		
 		
 		return bord;
+	}
+
+	public List<Spelbord> geefBorden(String spelNaam) throws RuntimeException {
+		List<Spelbord> borden = new ArrayList<>();
+		try {
+		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+		PreparedStatement query = conn.prepareStatement(GET_SPELBORDEN);
+		query.setString(1, spelNaam);
+
+		ResultSet rs = query.executeQuery();
+
+		while (rs.next()) {
+			String spelbordNaam = rs.getString("spelbordNaam");
+			int volgorde = rs.getInt("volgorde");
+			Spelbord bord = new Spelbord(spelbordNaam, volgorde);
+			borden.add(bord);
+		}
+		} catch (SQLException | IllegalArgumentException e) {
+			throw new RuntimeException(e);
+		}
+		
+		return borden;
 	}
 }

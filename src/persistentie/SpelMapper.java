@@ -9,18 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domein.Spel;
-import domein.Spelbord;
 import domein.SpelbordRepository;
-import domein.Speler;
 
 public class SpelMapper {
 
-	private static final String GET_SPEL = "SELECT * FROM ID222177_g85.spel INNER JOIN ID222177_g85.spelbord ON spel.spelId = spelbord.spelId WHERE spel.spelNaam = ?";
+	private static final String GET_SPEL = "SELECT * FROM ID222177_g85.spel WHERE spel.spelNaam = ?";
 	private static final String GET_SPELLEN = "SELECT * FROM ID222177_g85.spel";
 
 	public Spel geefSpel(String spelNaam) throws RuntimeException {
-
-		List<Spelbord> spelBorden = new ArrayList<>();
+		Spel spel = null;
 
 		try {
 		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
@@ -28,16 +25,15 @@ public class SpelMapper {
 		query.setString(1, spelNaam);
 
 		ResultSet rs = query.executeQuery();
-
-		while (rs.next()) {
-			Spelbord bord = new Spelbord(rs.getString("spelbordNaam"), rs.getInt("volgorde"));
-			spelBorden.add(bord);
+		
+		if (rs.next()) {
+			spel = new Spel(spelNaam, new SpelbordRepository());
 		}
 		} catch (SQLException | IllegalArgumentException e) {
 			throw new RuntimeException(e);
 		}
 		
-		Spel spel = new Spel(spelNaam, spelBorden, new SpelbordRepository());
+		
 		
 		return spel;
 	}
