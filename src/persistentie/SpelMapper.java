@@ -10,6 +10,7 @@ import java.util.List;
 
 import domein.Spel;
 import domein.Spelbord;
+import domein.SpelbordRepository;
 import domein.Speler;
 
 public class SpelMapper {
@@ -29,14 +30,14 @@ public class SpelMapper {
 		ResultSet rs = query.executeQuery();
 
 		while (rs.next()) {
-			Spelbord bord = new Spelbord(rs.getString("spelbordNaam"), rs.getInt("volgorde"), null);
+			Spelbord bord = new Spelbord(rs.getString("spelbordNaam"), rs.getInt("volgorde"));
 			spelBorden.add(bord);
 		}
 		} catch (SQLException | IllegalArgumentException e) {
 			throw new RuntimeException(e);
 		}
 		
-		Spel spel = new Spel(spelNaam, spelBorden, null);
+		Spel spel = new Spel(spelNaam, spelBorden, new SpelbordRepository());
 		
 		return spel;
 	}

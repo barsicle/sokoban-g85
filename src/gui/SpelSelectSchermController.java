@@ -57,6 +57,6 @@ public class SpelSelectSchermController {
 	
 	@FXML
 	private void back(){
-		gc.switchScherm(Scherm.HoofdMenuScherm);
+		gc.switchScherm(Scherm.SpelMenuScherm);
 	}
 }

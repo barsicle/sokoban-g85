@@ -3,7 +3,7 @@ package gui;
 import java.io.IOException;
 
 import domein.DomeinController;
-import domein.VeldenInterface;
+import domein.VeldInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -41,9 +41,9 @@ public class GuiController extends Application {
 				e.printStackTrace();
 			}
 			break;
-		case HoofdMenuScherm:
-			fxmlLoader = new FXMLLoader(getClass().getResource("HoofdMenuScherm.fxml"));
-			fxmlLoader.setController(new HoofdMenuSchermController(this));
+		case SpelMenuScherm:
+			fxmlLoader = new FXMLLoader(getClass().getResource("SpelMenuScherm.fxml"));
+			fxmlLoader.setController(new SpelMenuSchermController(this));
 			try {
 				scene.setRoot(fxmlLoader.load());
 			} catch (IOException e) {

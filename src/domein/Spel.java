@@ -12,34 +12,25 @@ public class Spel {
 	private List<Spelbord> spelborden;
 	private Spelbord huidigSpelbord;
 	private boolean spelVoltooid = false;
-	private final SpelbordRepository spelbordRepository = new SpelbordRepository();
-	private SpelRepository spelRepository;
+	private final SpelbordRepository spelbordRepository;
 	
 	/**
 	 * Creëert een een spel met opgegeven naam.
 	 * 
 	 * @param spelNaam De naam van het spel.
 	 * @param spelborden Een lijst met spelborden waaruit het spel is samengesteld.
-	 * @param spelRepository Testing van de klasse.
+	 * @param spelbordRepository Repository om spelborden op te halen.
 	 */		
-	public Spel(String spelNaam, List<Spelbord> borden, SpelRepository spelRepository) {
+	public Spel(String spelNaam, List<Spelbord> borden, SpelbordRepository spelbordRepository) {
 		this.spelNaam = spelNaam;
 		this.spelborden = borden;
-		this.spelRepository = spelRepository;
+		this.spelbordRepository = spelbordRepository;
 		//Sorteer ze
 		this.spelborden = spelborden.stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
 		//Zet het huidige spelbord op eerste
 		String naamEersteBord = spelborden.get(0).getSpelbordNaam();
 		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(naamEersteBord);
 	}
-	
-	//Dummy init
-	/*
-	public Spel() {
-		huidigSpelbord = new Spelbord();
-	}
-	*/
-	
 	public Veld[][] geefVelden() {
 		return huidigSpelbord.getVelden();
 	}
@@ -51,8 +42,8 @@ public class Spel {
 		this.spelNaam = spelNaam;
 	}
 
-	public boolean beweeg(BeweegRichting richting) {
-		return huidigSpelbord.beweeg(richting);
+	public void beweeg(BeweegRichting richting) throws RuntimeException {
+		huidigSpelbord.beweeg(richting);
 	}
 
     public Moveable geefMannetje() {
@@ -89,5 +80,11 @@ public class Spel {
 	}
 	public int getBordenTotaal() {
 		return spelborden.size();
+	}
+	public void resetBord() {
+		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(huidigSpelbord.getSpelbordNaam());
+	}
+	public int getAantalBewegingen() {
+		return huidigSpelbord.getAantalBewegingen();
 	}
 }

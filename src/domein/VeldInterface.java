@@ -1,6 +1,6 @@
 package domein;
 
-public interface VeldenInterface {
+public interface VeldInterface {
 	
 	int getX();
 	

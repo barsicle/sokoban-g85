@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import domein.BeweegRichting;
 import domein.DomeinController;
-import domein.VeldenInterface;
+import domein.VeldInterface;
 import domein.Moveable;
 import domein.Veld;
 import javafx.fxml.FXML;
@@ -17,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -26,29 +27,29 @@ import vertalingen.Taal;
 
 public class SpelSchermController {
 	private GuiController gc;
-	
-    @FXML
-    private GridPane rootPane;
 
-    @FXML
-    private GridPane speelVeld;
+	@FXML
+	private GridPane rootPane;
+
+	@FXML
+	private GridPane speelVeld;
 
 	@FXML
 	private GridPane beweegVeld;
 
-    @FXML
-    private TextArea title;
-    
+	@FXML
+	private TextArea title;
+
 	@FXML
 	private Button btnBack;
-	
+
 	public SpelSchermController(GuiController guiController) {
 		gc = guiController;
 	}
 
 	private void bouwScherm() {
-		Veld [][] velden = gc.dc.geefVelden();
-		//i = kolom, j = rij
+		Veld[][] velden = gc.dc.geefVelden();
+		// i = kolom, j = rij
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				HBox box = new HBox();
@@ -64,9 +65,9 @@ public class SpelSchermController {
 							break;
 						case VELD:
 							boolean doel = veld.isDoel();
-							if(doel){
+							if (doel) {
 								image = new Image(new FileInputStream("bin/gui/assets/images/floor-goal.jpg"));
-							} else{
+							} else {
 								image = new Image(new FileInputStream("bin/gui/assets/images/floor.jpg"));
 							}
 
@@ -78,10 +79,10 @@ public class SpelSchermController {
 					}
 
 					ImageView imageView = new ImageView(image);
-				    imageView.setFitHeight(50);
-				    imageView.setFitWidth(50);
+					imageView.setFitHeight(50);
+					imageView.setFitWidth(50);
 					box.getChildren().add(imageView);
-					speelVeld.add(box,i,j);
+					speelVeld.add(box, i, j);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -92,11 +93,11 @@ public class SpelSchermController {
 		updateScherm();
 	}
 
-	private void updateScherm(){
-		//Eerst wissen, daarna opnieuw opbouwen
+	private void updateScherm() {
+		// Eerst wissen, daarna opnieuw opbouwen
 		beweegVeld.getChildren().clear();
 		try {
-			//Mannetje
+			// Mannetje
 			HBox box = new HBox();
 			Image image = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
 			Moveable mannetje = gc.dc.getMannetje();
@@ -105,9 +106,8 @@ public class SpelSchermController {
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);
 			box.getChildren().add(imageView);
-			beweegVeld.add(box,mannetjePositie.getX(),mannetjePositie.getY());
-			
-			
+			beweegVeld.add(box, mannetjePositie.getX(), mannetjePositie.getY());
+
 			List<Moveable> kisten = gc.dc.getKisten();
 			for (Moveable kist : kisten) {
 				HBox kistBox = new HBox();
@@ -116,22 +116,22 @@ public class SpelSchermController {
 				imageView.setFitHeight(50);
 				imageView.setFitWidth(50);
 				kistBox.getChildren().add(imageView);
-				beweegVeld.add(kistBox,kist.getPositie().getX(),kist.getPositie().getY());
+				beweegVeld.add(kistBox, kist.getPositie().getX(), kist.getPositie().getY());
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		//Check of spel voltooid is
+		// Check of spel voltooid is
 		checkVoltooid();
 	}
 
-	private void checkVoltooid(){
-		if(gc.dc.checkBordVoltooid()){
-			if(gc.dc.checkSpelVoltooid()) {
+	private void checkVoltooid() {
+		if (gc.dc.checkBordVoltooid()) {
+			if (gc.dc.checkSpelVoltooid()) {
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("Spel voltooid!");
+				alert.setTitle(Taal.vertaal("game_complete_title"));
 				alert.setHeaderText(null);
 				alert.setContentText(Taal.vertaal("game_complete"));
 
@@ -142,18 +142,17 @@ public class SpelSchermController {
 				ButtonType buttonVolgendLevel = new ButtonType(Taal.vertaal("next_board"));
 				ButtonType buttonOpgeven = new ButtonType(Taal.vertaal("quit"));
 				alert.getButtonTypes().setAll(buttonVolgendLevel, buttonOpgeven);
-				alert.setTitle("Bord voltooid");
+				alert.setTitle(Taal.vertaal("board_complete_title"));
 				alert.setHeaderText(null);
 				int voltooideBorden = gc.dc.getBordenVoltooid();
 				int totaalBorden = gc.dc.getBordenTotaal();
-				String bordVoltooidContent = Taal.vertaal("board_complete") + 
-						Taal.vertaal("completed_boards")+voltooideBorden+"\r\n" + 
-						Taal.vertaal("total_boards")+totaalBorden;
+				String bordVoltooidContent = Taal.vertaal("board_complete") + Taal.vertaal("completed_boards")
+						+ voltooideBorden + "\r\n" + Taal.vertaal("total_boards") + totaalBorden;
 				alert.setContentText(bordVoltooidContent);
 
 				Optional<ButtonType> keuze = alert.showAndWait();
-				if (keuze.get() == buttonVolgendLevel){
-					//Bouw volgend bord
+				if (keuze.get() == buttonVolgendLevel) {
+					// Bouw volgend bord
 					bouwScherm();
 				} else if (keuze.get() == buttonOpgeven) {
 					back();
@@ -165,41 +164,46 @@ public class SpelSchermController {
 		}
 
 	}
-	
+
 	@FXML
 	private void beweeg(KeyEvent event) {
-		boolean succes = false;
-		switch (event.getCode()) {
-		case UP:
-			succes = gc.dc.beweeg(BeweegRichting.BOVEN);
-			break;
-		case DOWN:
-			succes = gc.dc.beweeg(BeweegRichting.ONDER);
-			break;
-		case LEFT:
-			succes = gc.dc.beweeg(BeweegRichting.LINKS);
-			break;
-		case RIGHT:
-			succes = gc.dc.beweeg(BeweegRichting.RECHTS);
-			break;
-		default:
-			break;
-		}
-		
-		if (succes) {
+		try {
+			switch (event.getCode()) {
+			case UP:
+				gc.dc.beweeg(BeweegRichting.BOVEN);
+				break;
+			case DOWN:
+				gc.dc.beweeg(BeweegRichting.ONDER);
+				break;
+			case LEFT:
+				gc.dc.beweeg(BeweegRichting.LINKS);
+				break;
+			case RIGHT:
+				gc.dc.beweeg(BeweegRichting.RECHTS);
+				break;
+			default:
+				break;
+			}
+
 			updateScherm();
+		} catch (RuntimeException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText(null);
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();
 		}
-		
+
 	}
-	
+
 	@FXML
-	private void back(){
-		gc.switchScherm(Scherm.HoofdMenuScherm);
+	private void back() {
+		gc.switchScherm(Scherm.SpelMenuScherm);
 	}
 
 	@FXML
 	public void initialize() {
-        btnBack.setText(Taal.vertaal("back"));
+		btnBack.setText(Taal.vertaal("back"));
 		bouwScherm();
 	}
 

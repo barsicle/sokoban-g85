@@ -2,6 +2,8 @@ package domein;
 
 import java.util.List;
 
+import vertalingen.Taal;
+
 /**
  * Stelt de domeincontroller voor.
  * @author g85
@@ -11,7 +13,7 @@ public class DomeinController {
 	// Properties
 	private final SpelerRepository spelerRepository;
 	private final SpelRepository spelRepository;
-	private Speler speler;
+	private SpelerInfo speler;
 	private Spel gekozenSpel;
 	
 	//UC1
@@ -19,8 +21,8 @@ public class DomeinController {
 	 * Cre�ert een instantie van de domeincontroller.
 	 */
 	public DomeinController() {
-		spelerRepository = new SpelerRepository();
-		spelRepository = new SpelRepository();
+		this.spelerRepository = new SpelerRepository();
+		this.spelRepository = new SpelRepository();
 	}
 	
 	
@@ -37,13 +39,14 @@ public class DomeinController {
 	 */
 	public void registreer(String naam, String voornaam, String gebruikersnaam, String wachtwoord, String wachtwoordBevestiging) throws IllegalArgumentException {
 		if (!wachtwoord.equals(wachtwoordBevestiging)) {
-            throw new IllegalArgumentException("Wachtwoorden komen niet overeen.");
+            throw new IllegalArgumentException(Taal.vertaal("exception_passwords"));
         }
 		
 		// Instantiate new player and add him/her to repository
-		Speler nieuweSpeler = new Speler(naam, voornaam, gebruikersnaam, wachtwoord, false, spelerRepository);
+		Speler nieuweSpeler = new Speler(naam, voornaam, gebruikersnaam, wachtwoord, false);
 		spelerRepository.voegSpelerToe(nieuweSpeler);
 		
+		nieuweSpeler.resetWachtwoord();
 		setSpeler(nieuweSpeler);
 				
 	}
@@ -57,12 +60,12 @@ public class DomeinController {
 	 */
 	public void meldAan(String gebruikersnaam, String wachtwoord) throws RuntimeException {
 		if(!spelerRepository.bestaatSpeler(gebruikersnaam)) {
-			throw new RuntimeException("Speler niet gevonden");
+			throw new RuntimeException(Taal.vertaal("player_not_found"));
 		}
 		
 		Speler aangemeldeSpeler = spelerRepository.geefSpeler(gebruikersnaam);
 		if (!aangemeldeSpeler.getWachtwoord().equals(wachtwoord)) {
-			throw new RuntimeException("Gebruikersnaam en wachtwoord komen niet overeen");
+			throw new RuntimeException(Taal.vertaal("exception_username_password"));
 		}
 		
 		aangemeldeSpeler.resetWachtwoord();
@@ -84,8 +87,8 @@ public class DomeinController {
 	 * Geeft de speler zijn adminrechten terug.
 	 * @return adminrechten
 	 */
-	public boolean isAdminrechten() {
-		return speler.isAdminrechten();
+	public boolean isAdmin() {
+		return speler.hasAdminrechten();
 	}
 	
 	//UC1
@@ -110,8 +113,8 @@ public class DomeinController {
 		return gekozenSpel.geefVelden();
 	}
 
-	public boolean beweeg(BeweegRichting richting) {
-		return gekozenSpel.beweeg(richting);
+	public void beweeg(BeweegRichting richting) throws RuntimeException {
+		gekozenSpel.beweeg(richting);
 	}
 
 
@@ -137,6 +140,14 @@ public class DomeinController {
 	
 	public int getBordenTotaal() {
 		return gekozenSpel.getBordenTotaal();
+	}
+	
+	public void resetBord() {
+		gekozenSpel.resetBord();
+	}
+	
+	public int getAantalBewegingen() {
+		return gekozenSpel.getAantalBewegingen();
 	}
 
 }

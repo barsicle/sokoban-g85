@@ -1,6 +1,6 @@
 package domein;
 
-public class Veld implements VeldenInterface {
+public class Veld implements VeldInterface {
 
 	private VeldType veldType;
 	private boolean doel;

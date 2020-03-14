@@ -77,7 +77,7 @@ public class RegistreerSchermController extends GridPane{
 		
 		try {
 			gc.dc.registreer(naam, voornaam, gebruikersnaam, wachtwoord, wachtwoordBevestiging);
-			gc.switchScherm(Scherm.HoofdMenuScherm);
+			gc.switchScherm(Scherm.SpelMenuScherm);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			Alert alert = new Alert(AlertType.ERROR);

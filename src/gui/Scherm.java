@@ -2,7 +2,7 @@ package gui;
 
 public enum Scherm {
 	Hoofdscherm,
-	HoofdMenuScherm,
+	SpelMenuScherm,
 	LoginScherm,
 	RegistreerScherm,
 	SpelScherm,

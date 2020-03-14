@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * Stelt een speler voor.
  * @author g85
  */
-public class Speler {
+public class Speler implements SpelerInfo{
 
 	// Properties
 	private String naam;
@@ -16,7 +16,6 @@ public class Speler {
 	private String gebruikersnaam;
 	private String wachtwoord;
 	private boolean adminrechten;
-	private SpelerRepository spelerRepository;
 
 	// Constructors
 	
@@ -32,7 +31,7 @@ public class Speler {
 	 * @param adminrechten Of de speler adminrechten bezit.
 	 * @param spelerRepository Testing van de klasse.
 	 */
-	public Speler(String naam, String voornaam, String gebruikersnaam, String wachtwoord, boolean adminrechten, SpelerRepository spelerRepository)
+	public Speler(String naam, String voornaam, String gebruikersnaam, String wachtwoord, boolean adminrechten)
 			throws IllegalArgumentException {
 
 		setNaam(naam);
@@ -40,7 +39,6 @@ public class Speler {
 		setGebruikersnaam(gebruikersnaam);
 		setWachtwoord(wachtwoord);
 		setAdminrechten(adminrechten);
-		this.spelerRepository = spelerRepository;
 
 	}
 
@@ -147,7 +145,7 @@ public class Speler {
 	 * 
 	 * @return true indien de speler adminrechten heeft, false indien de speler geen adminrechten heeft.
 	 */
-	public boolean isAdminrechten() {
+	public boolean hasAdminrechten() {
 
 		return this.adminrechten;
 
