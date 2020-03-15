@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -42,6 +43,9 @@ public class SpelSchermController {
 
 	@FXML
 	private Button btnBack;
+	
+	@FXML
+	private Label lblMessage;
 
 	public SpelSchermController(GuiController guiController) {
 		gc = guiController;
@@ -94,6 +98,8 @@ public class SpelSchermController {
 	}
 
 	private void updateScherm() {
+		//Label wissen
+		lblMessage.setText("");
 		// Eerst wissen, daarna opnieuw opbouwen
 		beweegVeld.getChildren().clear();
 		try {
@@ -187,11 +193,7 @@ public class SpelSchermController {
 
 			updateScherm();
 		} catch (RuntimeException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText(null);
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
+			lblMessage.setText(e.getMessage());
 		}
 
 	}
