@@ -57,11 +57,8 @@ public class Speler{
 	}
 	
 	//UC1
-	private void setNaam(String naam) throws IllegalArgumentException {
-		if (Objects.equals(naam, null) || naam.isBlank())
-			throw new IllegalArgumentException(Taal.vertaal("name") + Taal.vertaal("exception_not_null"));
+	private void setNaam(String naam) {
 		this.naam = naam;
-
 	}
 	
 	//UC1
@@ -70,17 +67,12 @@ public class Speler{
 	 * @return de voornaam van de speler.
 	 */
 	public String getVoornaam() {
-
 		return this.voornaam;
-
 	}
 	
 	//UC1
-	private void setVoornaam(String voornaam) throws IllegalArgumentException {
-		if (Objects.equals(voornaam, null) || voornaam.isBlank())
-			throw new IllegalArgumentException(Taal.vertaal("first_name") + Taal.vertaal("exception_not_null"));
+	private void setVoornaam(String voornaam){
 		this.voornaam = voornaam;
-
 	}
 	
 	//UC1

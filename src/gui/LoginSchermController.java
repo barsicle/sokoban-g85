@@ -24,6 +24,8 @@ public class LoginSchermController extends GridPane{
 	private Button btnLogin;
 	@FXML
 	private Button btnBack;
+	@FXML
+	private Label lblMessage;
 	
 	private GuiController gc;
 	
@@ -59,11 +61,7 @@ public class LoginSchermController extends GridPane{
 		}
 		catch(RuntimeException e) {
 			e.printStackTrace();
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText(null);
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
+			lblMessage.setText(e.getMessage());
 		}
 		
 	}

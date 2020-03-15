@@ -38,5 +38,6 @@
       <PasswordField fx:id="pwfWachtwoord" promptText="Geef uw wachtwoord" GridPane.columnIndex="2" GridPane.rowIndex="4" />
       <PasswordField fx:id="pwfWachtwoordBevestiging" promptText="Bevestig uw wachtwoord" GridPane.columnIndex="2" GridPane.rowIndex="5" />
       <Button fx:id="btnBack" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#backButtonPushed" text="Annuleer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+      <Label fx:id="lblMessage" textFill="RED" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
    </children>
 </GridPane>

@@ -35,6 +35,8 @@ public class RegistreerSchermController extends GridPane{
 	private PasswordField pwfWachtwoordBevestiging;
 	@FXML
 	private Button btnBack;
+	@FXML
+	private Label lblMessage;
 	
 	private GuiController gc;
 	
@@ -80,11 +82,7 @@ public class RegistreerSchermController extends GridPane{
 			gc.switchScherm(Scherm.SpelMenuScherm);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText(null);
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
+			lblMessage.setText(e.getMessage());
 		}
 		
 	}

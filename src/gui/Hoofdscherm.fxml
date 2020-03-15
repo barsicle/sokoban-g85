@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="504.999951171875" minWidth="10.0" prefWidth="404.19996337890626" />
@@ -48,7 +47,7 @@
       </MenuBar>
       <ImageView fx:id="imgSega" fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
          <image>
-            <Image url="@Sega.png" />
+            <Image url="@assets/images/Sega.png" />
          </image>
          <viewport>
             <Rectangle2D />

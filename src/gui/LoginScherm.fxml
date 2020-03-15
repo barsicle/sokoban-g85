@@ -29,5 +29,6 @@
       <PasswordField fx:id="pwfWachtwoord" GridPane.columnIndex="2" GridPane.rowIndex="2" />
       <Button fx:id="btnBack" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#back" text="Annuleer" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
       <Button fx:id="btnLogin" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#login" text="Log in" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Label fx:id="lblMessage" textFill="RED" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
    </children>
 </GridPane>
