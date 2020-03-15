@@ -1,6 +1,7 @@
 package domein;
 
 import java.util.List;
+import java.util.Objects;
 
 import vertalingen.Taal;
 
@@ -13,7 +14,7 @@ public class DomeinController {
 	// Properties
 	private final SpelerRepository spelerRepository;
 	private final SpelRepository spelRepository;
-	private SpelerInfo speler;
+	private Speler speler;
 	private Spel gekozenSpel;
 	
 	//UC1
@@ -48,6 +49,7 @@ public class DomeinController {
 		
 		nieuweSpeler.resetWachtwoord();
 		setSpeler(nieuweSpeler);
+
 				
 	}
 	//UC1
@@ -93,6 +95,8 @@ public class DomeinController {
 	
 	//UC1
 	private void setSpeler(Speler speler) {
+		if (Objects.equals(speler, null))
+			throw new IllegalArgumentException(Taal.vertaal("player") + Taal.vertaal("exception_not_null"));
         this.speler = speler;
     }
 	

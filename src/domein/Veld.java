@@ -1,5 +1,9 @@
 package domein;
 
+import java.util.Objects;
+
+import vertalingen.Taal;
+
 public class Veld implements VeldInterface {
 
 	private VeldType veldType;
@@ -9,7 +13,7 @@ public class Veld implements VeldInterface {
 	private Moveable moveable;
 	
 	public Veld(VeldType veldType, boolean doel, int x, int y) {
-		this.veldType = veldType;
+		setVeldType(veldType);
 		this.doel = doel;
 		this.x = x;
 		this.y = y;
@@ -37,7 +41,9 @@ public class Veld implements VeldInterface {
 		this.y = y;
 	}
 
-	public void setVeldType(VeldType value) {
+	public void setVeldType(VeldType value) throws IllegalArgumentException{
+		if (Objects.equals(value, null))
+			throw new IllegalArgumentException(Taal.vertaal("fieldtype") + Taal.vertaal("exception_not_null"));
 		this.veldType = value;
 	}
 

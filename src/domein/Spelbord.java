@@ -1,6 +1,5 @@
 package domein;
 
-import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,11 +25,11 @@ public class Spelbord {
 	 * @param velden De velden die het spelbord bezit.
 	 */
 	public Spelbord(String spelbordNaam, int volgorde, Moveable mannetje, List<Moveable> kisten, Veld[][] velden) {
-		this.velden = velden;
-		this.mannetje = mannetje;
-		this.kisten = kisten;
-		this.spelbordNaam = spelbordNaam;
-		this.volgorde = volgorde;
+			setVelden(velden);
+			this.mannetje = mannetje;
+			this.kisten = kisten;
+			setSpelbordNaam(spelbordNaam);
+			setVolgorde(volgorde);
 	}
 	
 	public Spelbord(String spelbordNaam, int volgorde) {
@@ -41,20 +40,26 @@ public class Spelbord {
 	public String getSpelbordNaam() {
 		return spelbordNaam;
 	}
-	public void setSpelbordNaam(String spelbordNaam) {
+	public void setSpelbordNaam(String spelbordNaam) throws IllegalArgumentException {
+		if (Objects.equals(spelbordNaam, null) || spelbordNaam.isBlank())
+			throw new IllegalArgumentException(Taal.vertaal("game_board_name") + Taal.vertaal("exception_not_null"));
 		this.spelbordNaam = spelbordNaam;
 	}
 	public Veld[][] getVelden() {
 		return velden;
 	}
-	public void setVelden(Veld[][] velden) {
+	public void setVelden(Veld[][] velden) throws IllegalArgumentException {
+		if (Objects.equals(velden, null))
+			throw new IllegalArgumentException(Taal.vertaal("field") + Taal.vertaal("exception_not_null"));
 		this.velden = velden;
 	}
 	
 	public int getVolgorde() {
 		return volgorde;
 	}
-	public void setVolgorde(int volgorde) {
+	public void setVolgorde(int volgorde) throws IllegalArgumentException {
+		if (Objects.equals(volgorde, null))
+			throw new IllegalArgumentException(Taal.vertaal("order") + Taal.vertaal("exception_not_null"));
 		this.volgorde = volgorde;
 	}
 
