@@ -16,8 +16,8 @@ import domein.Veld;
 import domein.VeldType;
 
 public class SpelbordMapper {
-	private static final String GET_SPELBORDEN = "SELECT * FROM ID222177_g85.spel INNER JOIN ID222177_g85.spelbord ON spel.spelId = spelbord.spelId WHERE spel.spelNaam = ?";
-	private static final String GET_SPELBORD = "SELECT * FROM ID222177_g85.spelbord INNER JOIN ID222177_g85.veld ON spelbord.spelbordId = veld.spelbordId WHERE spelbord.spelbordNaam = ?";
+	private static final String GET_SPELBORDEN = "SELECT * FROM ID222177_g85.spelbord WHERE spelNaam = ?";
+	private static final String GET_SPELBORD = "SELECT * FROM ID222177_g85.spelbord INNER JOIN ID222177_g85.veld ON spelbord.spelbordNaam = veld.spelbordNaam WHERE spelbord.spelbordNaam = ?";
 	
 	public Spelbord geefBordMetVelden(String spelbordNaam) throws RuntimeException {
 		Veld[][] velden = new Veld[10][10];
