@@ -1,8 +1,9 @@
 package gui;
 
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import vertalingen.Taal;
 
@@ -11,13 +12,15 @@ public class SpelMenuSchermController extends GridPane{
 	private GuiController gc;
 	
     @FXML
-    private TextField txtWelkom;
-	
+    private Label lblWelkom;
 	@FXML
 	private Button btnPlay;
 	@FXML
 	private Button btnExit;
-	
+	@FXML
+	private Button btnCreate;
+	@FXML
+	private Button btnModify;
 	
 	public SpelMenuSchermController(GuiController guiController) {
 		gc = guiController;
@@ -28,7 +31,14 @@ public class SpelMenuSchermController extends GridPane{
 		
 		btnPlay.setText(Taal.vertaal("play"));
 		btnExit.setText(Taal.vertaal("quit"));
-		txtWelkom.setText(Taal.vertaal("sign_in_welcome")+ " "+ gc.dc.getGebruikersnaam());
+		btnCreate.setText(Taal.vertaal("create"));
+		btnModify.setText(Taal.vertaal("modify"));
+		lblWelkom.setText(Taal.vertaal("sign_in_welcome") + " " + gc.dc.getGebruikersnaam());
+		
+		if (!gc.dc.isAdmin()) {
+			btnCreate.setVisible(false);
+			btnModify.setVisible(false);
+		}
 	}
 
 	@FXML
@@ -40,4 +50,5 @@ public class SpelMenuSchermController extends GridPane{
 	private void exitButtonPushed(){
 		gc.afsluiten();
 	}
+	
 }

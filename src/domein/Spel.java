@@ -3,6 +3,8 @@ package domein;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import vertalingen.Taal;
+
 /**
  * Stelt het spel voor.
  * @author g85
@@ -22,7 +24,7 @@ public class Spel {
 	 * @param spelbordRepository Repository om spelborden op te halen.
 	 */		
 	public Spel(String spelNaam, SpelbordRepository spelbordRepository) {
-		this.spelNaam = spelNaam;
+			setSpelNaam(spelNaam);
 		this.spelbordRepository = spelbordRepository;
 		//Sorteer ze
 		this.spelborden = spelbordRepository.geefSpelborden(spelNaam).stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
@@ -37,7 +39,9 @@ public class Spel {
 	public String getSpelNaam() {
 		return spelNaam;
 	}
-	public void setSpelNaam(String spelNaam) {
+	public void setSpelNaam(String spelNaam) throws IllegalArgumentException {
+		if (Objects.equals(spelNaam, null) || spelNaam.isEmpty())
+			throw new IllegalArgumentException(Taal.vertaal("game_name") + Taal.vertaal("exception_not_null"));
 		this.spelNaam = spelNaam;
 	}
 

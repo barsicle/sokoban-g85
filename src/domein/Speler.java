@@ -1,14 +1,17 @@
 package domein;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import vertalingen.Taal;
 
 //UC1
 /**
  * Stelt een speler voor.
  * @author g85
  */
-public class Speler implements SpelerInfo{
+public class Speler{
 
 	// Properties
 	private String naam;
@@ -55,9 +58,7 @@ public class Speler implements SpelerInfo{
 	
 	//UC1
 	private void setNaam(String naam) {
-
 		this.naam = naam;
-
 	}
 	
 	//UC1
@@ -66,16 +67,12 @@ public class Speler implements SpelerInfo{
 	 * @return de voornaam van de speler.
 	 */
 	public String getVoornaam() {
-
 		return this.voornaam;
-
 	}
 	
 	//UC1
-	private void setVoornaam(String voornaam) {
-
+	private void setVoornaam(String voornaam){
 		this.voornaam = voornaam;
-
 	}
 	
 	//UC1
@@ -99,11 +96,11 @@ public class Speler implements SpelerInfo{
 
 		if (gebruikersnaam == null || gebruikersnaam.length() == 0) {
 
-			throw new IllegalArgumentException("Elke speler heeft verplicht een gebruikersnaam");
+			throw new IllegalArgumentException(Taal.vertaal("exception_username_required"));
 
 		}
 		if (gebruikersnaam.length() < 8) {
-			throw new IllegalArgumentException("Gebruikersnaam bestaat minstens uit 8 karakters");
+			throw new IllegalArgumentException(Taal.vertaal("exception_username_minimum"));
 		}
 
 		this.gebruikersnaam = gebruikersnaam.toLowerCase();
@@ -124,16 +121,15 @@ public class Speler implements SpelerInfo{
 	private void setWachtwoord(String wachtwoord) throws IllegalArgumentException {
 
 		if (wachtwoord == null || wachtwoord.length() == 0) {
-			throw new IllegalArgumentException("Elke speler heeft verplicht een wachtwoord.");
+			throw new IllegalArgumentException(Taal.vertaal("exception_password_required"));
 		}
 		if (wachtwoord.length() < 8) {
-			throw new IllegalArgumentException("Wachtwoord bestaat minstens uit 8 karakters");
+			throw new IllegalArgumentException(Taal.vertaal("exception_password_minimum"));
 		}
 		Pattern p = Pattern.compile("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}");
 		Matcher m = p.matcher(wachtwoord);
 		if (!m.matches()) {
-			throw new IllegalArgumentException(
-					"Wachtwoord bestaat ten minste uit 1 hoofdletter, 1 kleine letter en 1 cijfer");
+			throw new IllegalArgumentException(Taal.vertaal("exception_password_make"));
 		}
 
 		this.wachtwoord = wachtwoord;
@@ -151,8 +147,9 @@ public class Speler implements SpelerInfo{
 
 	}
 	//UC1
-	private void setAdminrechten(boolean adminrechten) {
-
+	private void setAdminrechten(boolean adminrechten) throws IllegalArgumentException{
+		if (Objects.equals(adminrechten, null))
+			throw new IllegalArgumentException(Taal.vertaal("exception_not_null"));
 		this.adminrechten = adminrechten;
 
 	}
