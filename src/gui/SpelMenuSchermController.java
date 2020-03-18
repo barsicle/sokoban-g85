@@ -47,6 +47,11 @@ public class SpelMenuSchermController extends GridPane{
 	}
 	
 	@FXML
+	private void spelCreateButtonPushed() {
+		gc.switchScherm(Scherm.SpelCreatieScherm);
+	}
+	
+	@FXML
 	private void exitButtonPushed(){
 		gc.afsluiten();
 	}

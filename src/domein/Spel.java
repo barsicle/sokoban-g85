@@ -27,8 +27,13 @@ public class Spel {
 	public Spel(String spelNaam, SpelbordRepository spelbordRepository) {
 			setSpelNaam(spelNaam);
 		this.spelbordRepository = spelbordRepository;
+		spelborden = new ArrayList<>();
+
+	}
+	
+	protected void startSpel() {
 		//Sorteer ze
-		this.spelborden = spelbordRepository.geefSpelborden(spelNaam).stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
+		spelborden = spelbordRepository.geefSpelborden(spelNaam).stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
 		//Zet het huidige spelbord op eerste en haal de velden en details op
 		String naamEersteBord = spelborden.get(0).getSpelbordNaam();
 		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(naamEersteBord);
@@ -103,7 +108,9 @@ public class Spel {
 		//TO DO DELETE NU DUMMY IMPLEMENTATIE
 		//Maak kopie van de velden van eerste bord
 		Spelbord bordClone = spelbordRepository.geefSpelbordMetVelden("Eerste bord");
+	
 		Spelbord bord = new Spelbord(spelbordNaam, volgorde, bordClone.getMannetje(), bordClone.getKisten(), bordClone.getVelden());
+		bord.setSpel(this);
 		spelborden.add(bord);
 	}
 	protected void registreerBorden() {

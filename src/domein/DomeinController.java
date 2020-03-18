@@ -146,6 +146,7 @@ public class DomeinController {
 	
 	public void kiesSpel(String spelNaam) {
 		gekozenSpel = spelRepository.geefSpel(spelNaam);
+		gekozenSpel.startSpel();
 		
 	}
 
