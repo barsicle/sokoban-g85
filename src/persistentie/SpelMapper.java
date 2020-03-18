@@ -15,7 +15,8 @@ public class SpelMapper {
 
 	private static final String GET_SPEL = "SELECT * FROM ID222177_g85.spel WHERE spel.spelNaam = ?";
 	private static final String GET_SPELLEN = "SELECT * FROM ID222177_g85.spel";
-
+	private static final String INSERT_SPEL = "INSERT INTO ID222177_g85.spel(spelNaam, speler) VALUES (?, ?)";
+			
 	public Spel geefSpel(String spelNaam) throws RuntimeException {
 		Spel spel = null;
 
@@ -56,6 +57,21 @@ public class SpelMapper {
 		}
 		
 		return spellen;
+	}
+	
+	public void insertSpel(Spel spel) throws RuntimeException {
+		try {
+		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+		PreparedStatement query = conn.prepareStatement(INSERT_SPEL);
+
+		conn.setAutoCommit(false);
+		query.setString(1, spel.getSpelNaam());
+		query.setString(2, spel.getAanmaker().getGebruikersnaam());
+		query.executeUpdate();
+		conn.commit();
+		} catch (SQLException | IllegalArgumentException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

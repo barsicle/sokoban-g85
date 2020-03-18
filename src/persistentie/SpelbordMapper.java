@@ -18,6 +18,7 @@ import domein.VeldType;
 public class SpelbordMapper {
 	private static final String GET_SPELBORDEN = "SELECT * FROM ID222177_g85.spelbord WHERE spelNaam = ?";
 	private static final String GET_SPELBORD = "SELECT * FROM ID222177_g85.spelbord INNER JOIN ID222177_g85.veld ON spelbord.spelbordNaam = veld.spelbordNaam WHERE spelbord.spelbordNaam = ?";
+	private static final String INSERT_SPELBORD = "INSERT INTO ID222177_g85.spelbord(spelbordNaam,volgorde,spelNaam) VALUES(?, ?, ?)";
 	
 	public Spelbord geefBordMetVelden(String spelbordNaam) throws RuntimeException {
 		Veld[][] velden = new Veld[10][10];
@@ -92,5 +93,22 @@ public class SpelbordMapper {
 		}
 		
 		return borden;
+	}
+	
+	public void insertBord(Spelbord spelbord) throws RuntimeException {
+		try {
+			Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+
+			PreparedStatement query = conn.prepareStatement(INSERT_SPELBORD);
+
+			conn.setAutoCommit(false);
+			query.setString(1, spelbord.getSpelbordNaam());
+			query.setInt(2, spelbord.getVolgorde());
+			query.setString(3, spelbord.getSpel().getSpelNaam());
+			query.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

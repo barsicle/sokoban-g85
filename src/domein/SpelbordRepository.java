@@ -18,4 +18,8 @@ public class SpelbordRepository {
 	public List<Spelbord> geefSpelborden(String spelNaam){
 		return spelbordMapper.geefBorden(spelNaam);
 	}
+	
+	public void insertBord(Spelbord spelbord) {
+		spelbordMapper.insertBord(spelbord);
+	}
 }

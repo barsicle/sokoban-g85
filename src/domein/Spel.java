@@ -15,6 +15,7 @@ public class Spel {
 	private Spelbord huidigSpelbord;
 	private boolean spelVoltooid = false;
 	private final SpelbordRepository spelbordRepository;
+	private Speler aanmaker;
 	
 	/**
 	 * Creëert een een spel met opgegeven naam.
@@ -90,4 +91,26 @@ public class Spel {
 	public int getAantalBewegingen() {
 		return huidigSpelbord.getAantalBewegingen();
 	}
+	public Speler getAanmaker() {
+		return aanmaker;
+	}
+	protected void setAanmaker(Speler aanmaker) {
+		this.aanmaker = aanmaker;
+	}
+	protected void voegNieuwSpelbordToe(String spelbordNaam) {
+		int volgorde = spelborden.size()+1;
+		
+		//TO DO DELETE NU DUMMY IMPLEMENTATIE
+		//Maak kopie van de velden van eerste bord
+		Spelbord bordClone = spelbordRepository.geefSpelbordMetVelden("Eerste bord");
+		Spelbord bord = new Spelbord(spelbordNaam, volgorde, bordClone.getMannetje(), bordClone.getKisten(), bordClone.getVelden());
+		spelborden.add(bord);
+	}
+	protected void registreerBorden() {
+		spelborden.stream().forEach(b -> spelbordRepository.insertBord(b));
+	}
+	public List<String> getBordnamen(){
+		return spelborden.stream().map(b -> b.getSpelbordNaam()).collect(Collectors.toList());
+	}
+	
 }
