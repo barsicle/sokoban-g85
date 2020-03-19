@@ -45,6 +45,12 @@ public class SpelSchermController {
 	private Button btnBack;
 	
 	@FXML
+	private Button btnReset;
+	
+	@FXML
+	private Label lblNumberMoves;
+	
+	@FXML
 	private Label lblMessage;
 
 	public SpelSchermController(GuiController guiController) {
@@ -98,6 +104,8 @@ public class SpelSchermController {
 	}
 
 	private void updateScherm() {
+		//Zet aantal moves
+		lblNumberMoves.setText("Aantal zetten: "+gc.dc.getAantalBewegingen());
 		//Label wissen
 		lblMessage.setText("");
 		// Eerst wissen, daarna opnieuw opbouwen
@@ -171,6 +179,12 @@ public class SpelSchermController {
 
 	}
 
+	@FXML
+	private void resetBord() {
+		gc.dc.resetBord();
+		bouwScherm();
+	}
+	
 	@FXML
 	private void beweeg(KeyEvent event) {
 		try {

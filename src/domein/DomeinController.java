@@ -108,8 +108,45 @@ public class DomeinController {
 		
 	}
 	
+	public void creatieSpel(String spelNaam) throws RuntimeException {
+		//Check dat er geen spaties zijn
+		if (spelNaam.contains(" ")) {
+			throw new RuntimeException(Taal.vertaal("exception_name_no_spaces"));
+		}
+		//Check of spel al bestaat
+		if (spelRepository.geefSpel(spelNaam) != null) {
+			throw new RuntimeException(Taal.vertaal("exception_game_exists"));
+		}
+		
+		Spel spel = new Spel(spelNaam, new SpelbordRepository());
+		spel.setAanmaker(speler);
+		
+		gekozenSpel = spel;
+	}
+	
+	public void creatieSpelbord(String spelbordNaam) {
+		if(gekozenSpel.getBordnamen().contains(spelbordNaam)) {
+			throw new RuntimeException(Taal.vertaal("exception_board_exists"));
+		}
+		
+		gekozenSpel.voegNieuwSpelbordToe(spelbordNaam);
+	}
+	
+	public void registreerSpel() {
+		spelRepository.insertSpel(gekozenSpel);
+		
+		gekozenSpel.registreerBorden();
+		resetGekozenSpel();
+		
+	}
+	
+	public void resetGekozenSpel() {
+		gekozenSpel = null;
+	}
+	
 	public void kiesSpel(String spelNaam) {
 		gekozenSpel = spelRepository.geefSpel(spelNaam);
+		gekozenSpel.startSpel();
 		
 	}
 
@@ -153,5 +190,6 @@ public class DomeinController {
 	public int getAantalBewegingen() {
 		return gekozenSpel.getAantalBewegingen();
 	}
+	
 
 }

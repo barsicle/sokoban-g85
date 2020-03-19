@@ -28,7 +28,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="btnCreate" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Maak spel" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Button fx:id="btnCreate" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#spelCreateButtonPushed" text="Maak spel" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
       <Button fx:id="btnModify" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Wijzig spel" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
    </children>
 </GridPane>

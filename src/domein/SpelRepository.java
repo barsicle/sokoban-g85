@@ -19,5 +19,9 @@ public class SpelRepository {
 	public Spel geefSpel(String spelNaam) {
 		return spelMapper.geefSpel(spelNaam);
 	}
+	
+	public void insertSpel(Spel spel) {
+		spelMapper.insertSpel(spel);
+	}
 
 }
