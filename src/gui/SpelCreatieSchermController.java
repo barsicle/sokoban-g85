@@ -2,6 +2,7 @@ package gui;
 
 import java.util.Date;
 
+import domein.Spel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -89,11 +90,11 @@ public class SpelCreatieSchermController extends GridPane {
     @FXML
     private void saveGame() {
     	try {
-    	gc.dc.registreerSpel();
+    	Spel spel = gc.dc.registreerSpel();
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("Done");
 		alert.setHeaderText(null);
-		alert.setContentText("Game saved");
+		alert.setContentText("Game saved: "+spel.getSpelNaam()+"\nNumber of boards: "+spel.getBordenTotaal());
 		alert.showAndWait();
     	gc.switchScherm(Scherm.SpelMenuScherm);
     	} catch (Exception e) {

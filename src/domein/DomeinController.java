@@ -132,12 +132,13 @@ public class DomeinController {
 		gekozenSpel.voegNieuwSpelbordToe(spelbordNaam);
 	}
 	
-	public void registreerSpel() {
+	public Spel registreerSpel() {
 		spelRepository.insertSpel(gekozenSpel);
 		
 		gekozenSpel.registreerBorden();
 		//resetGekozenSpel();
 		
+		return gekozenSpel;
 	}
 	
 	/*
