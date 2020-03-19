@@ -108,7 +108,7 @@ public class DomeinController {
 		
 	}
 	
-	public void creatieSpel(String spelNaam) throws RuntimeException {
+	public void creeerSpel(String spelNaam) throws RuntimeException {
 		//Check dat er geen spaties zijn
 		if (spelNaam.contains(" ")) {
 			throw new RuntimeException(Taal.vertaal("exception_name_no_spaces"));
@@ -124,7 +124,7 @@ public class DomeinController {
 		gekozenSpel = spel;
 	}
 	
-	public void creatieSpelbord(String spelbordNaam) {
+	public void creeerSpelbord(String spelbordNaam) {
 		if(gekozenSpel.getBordnamen().contains(spelbordNaam)) {
 			throw new RuntimeException(Taal.vertaal("exception_board_exists"));
 		}
@@ -136,17 +136,18 @@ public class DomeinController {
 		spelRepository.insertSpel(gekozenSpel);
 		
 		gekozenSpel.registreerBorden();
-		resetGekozenSpel();
+		//resetGekozenSpel();
 		
 	}
 	
+	/*
 	public void resetGekozenSpel() {
 		gekozenSpel = null;
 	}
+	*/
 	
 	public void kiesSpel(String spelNaam) {
 		gekozenSpel = spelRepository.geefSpel(spelNaam);
-		gekozenSpel.startSpel();
 		
 	}
 
