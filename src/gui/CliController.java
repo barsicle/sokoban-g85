@@ -1,10 +1,5 @@
 package gui;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
@@ -13,12 +8,8 @@ import java.util.Scanner;
 import domein.DomeinController;
 import domein.Moveable;
 import domein.Veld;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import vertalingen.Taal;
 import vertalingen.Talen;
-import java.io.Console;
 
 /**
  * Stelt de command line controller voor.
