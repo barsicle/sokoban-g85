@@ -1,11 +1,24 @@
 package gui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 import domein.DomeinController;
+import domein.Moveable;
+import domein.Veld;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import vertalingen.Taal;
 import vertalingen.Talen;
+import java.io.Console;
 
 /**
  * Stelt de command line controller voor.
@@ -24,6 +37,7 @@ public class CliController {
 			"                                           \r\n" + 
 			"                                           ";
 	private static final String LIJN_SEPARATOR_STER = "******************************************************************";
+	Console cnsl = System.console();
 	
 	//UC1
 	/**
@@ -148,7 +162,7 @@ public class CliController {
 		scan = new Scanner(System.in);
 		while (true) {
 			if(dc.isAdmin() == false) {
-				System.out.println(Taal.vertaal("menu_choose_option_no_admin"));
+				speelSpel();
 			}
 			else {
 				System.out.println(Taal.vertaal("menu_choose_option_admin"));
@@ -315,6 +329,223 @@ public class CliController {
 			break;
 			
 		}
+
+	}
+	
+	// UC3
+	private void speelSpel() {
+		
+		System.out.println("Nog niet ge�mplementeerd. Hier komt je functie.");
+		startKiesSpel();
+		bouwScherm();
+		clearScreen();
+		afsluiten();
+		
+		
+	}
+	
+	private void startKiesSpel() {
+		
+		scan = new Scanner(System.in);
+		List<String> spelNamen = dc.getSpelNamen();
+		int i = 1;
+		int keuze = 0;
+		
+		do {
+			
+			System.out.printf("Kies een geldig spelnummer.");
+			
+			for(String spel: spelNamen) {
+				
+				System.out.printf("\n" + i + ". " + spel);
+				i++;
+				
+			}
+			System.out.printf("\n");
+			keuze = scan.nextInt();
+			i = 1;
+			
+		}
+		while(keuze <= 0 || keuze > spelNamen.size());
+		
+		System.out.printf("Keuze gemaakt!");
+		
+		dc.kiesSpel(spelNamen.get(keuze));
+			
+	}
+	
+	// UC4
+	private void bouwScherm() {
+		Veld[][] velden = dc.geefVelden();
+		Moveable mannetje = dc.getMannetje();
+		Veld mannetjePositie = mannetje.getPositie();
+		int manX = mannetjePositie.getX();
+		int manY = mannetjePositie.getY();
+		//System.out.print(manX);
+		//System.out.print(manY);
+		List<Moveable> kisten = dc.getKisten();
+		ArrayList<Integer> kistCoordinatePairs = new ArrayList<Integer>(); 
+		//ArrayList<List<Integer>> kistCoordinates = new ArrayList<>();
+		//Integer[] coord = new Integer[2];
+		int kistX;
+		int kistY;
+		// int sentinel = 0;
+		
+		for(Moveable kist: kisten) {
+			
+			System.out.printf("\nKistenposities\n");
+			System.out.print(kist.getPositie().getX() + "\n");
+			System.out.print(kist.getPositie().getY() + "\n");
+			kistX = kist.getPositie().getX();
+			kistY = kist.getPositie().getY();
+			kistCoordinatePairs.add(kistX);
+			kistCoordinatePairs.add(kistY);
+			//kistX = (Integer) kist.getPositie().getX();
+			//kistY = (Integer) kist.getPositie().getY();
+			//coord[0] = kistX;
+			//coord[1] = kistY;
+			//kistCoordinates.add(index, Arrays.asList(coord));
+			//kistCoordinates.add(index, kistCoordinatePairs);
+			
+		}
+		//System.out.print(kistCoordinates.get(0));
+		//System.out.print(kistCoordinates.get(1));
+		System.out.print(kistCoordinatePairs.get(0));
+		System.out.print(kistCoordinatePairs.get(1));
+		
+		for (int i = 0; i < velden.length; i++) {
+			
+			System.out.printf("\n");
+			
+			for (int j = 0; j < velden.length; j++) { 
+				
+				Veld veld = velden[i][j];
+				
+				if (Objects.equals(veld, null)) {
+					
+					System.out.printf("/");
+
+				}
+				
+				else if(i == manY-1 && j == manX-1) {
+						
+						System.out.printf("M");
+					
+				}
+				
+				else if(kistCoordinatePairs.get(0)-1 == j && kistCoordinatePairs.get(1)-1 == i) {
+					
+					System.out.printf("X");
+					
+				}
+				
+				else if(kistCoordinatePairs.get(2)-1 == j && kistCoordinatePairs.get(3)-1 == i) {
+					
+					System.out.printf("X");
+					
+				}
+				
+				/*else if(!kistCoordinatePairs.isEmpty()) {
+					
+					if(kistCoordinatePairs.get(sentinel)-1 == j && kistCoordinatePairs.get(sentinel+1)-1 == i) {
+					
+						System.out.printf("X");
+						kistCoordinatePairs.remove(0);
+						kistCoordinatePairs.remove(1);
+						sentinel += 2;
+					
+					}
+				
+				}*/
+				
+				else if(veld instanceof Veld) {
+					
+					switch (veld.getVeldType()) {
+					
+						case MUUR:
+							System.out.printf("#");
+							break;
+					
+						case VELD:
+							boolean doel = veld.isDoel();
+							
+							if (doel) {
+								
+								System.out.printf("o");
+								
+							} 
+							
+							else {
+								
+								System.out.printf(" ");
+								
+							}
+						break;
+						
+					default:
+						System.out.printf("/");
+						break;
+						
+					}
+					
+				}
+				
+				else {
+					
+					System.out.printf("/");
+
+					
+				}
+				
+				
+			}
+			
+		}
+		
+	}
+	
+	private void updateScherm() {
+		
+		
+		
+		
+		// Eerst wissen, daarna opnieuw opbouwen
+		
+		/**beweegVeld.getChildren().clear();
+		try {
+			// Mannetje
+			HBox box = new HBox();
+			Image image = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
+			Moveable mannetje = gc.dc.getMannetje();
+			ImageView imageView = new ImageView(image);
+			Veld mannetjePositie = mannetje.getPositie();
+			imageView.setFitHeight(50);
+			imageView.setFitWidth(50);
+			box.getChildren().add(imageView);
+			beweegVeld.add(box, mannetjePositie.getX(), mannetjePositie.getY());
+
+			List<Moveable> kisten = gc.dc.getKisten();
+			for (Moveable kist : kisten) {
+				HBox kistBox = new HBox();
+				Image kistImage = new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
+				imageView = new ImageView(kistImage);
+				imageView.setFitHeight(50);
+				imageView.setFitWidth(50);
+				kistBox.getChildren().add(imageView);
+				beweegVeld.add(kistBox, kist.getPositie().getX(), kist.getPositie().getY());
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		// Check of spel voltooid is
+		checkVoltooid();**/
+	}
+	
+	public void clearScreen() {
+		
+		System.out.flush();
 
 	}
 	
