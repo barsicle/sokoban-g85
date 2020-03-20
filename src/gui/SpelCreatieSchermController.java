@@ -2,6 +2,7 @@ package gui;
 
 import java.util.Date;
 
+import domein.Spel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -34,12 +35,12 @@ public class SpelCreatieSchermController extends GridPane {
     private Button btnCreateGame;
 
     @FXML
-    void addBoard(ActionEvent event) {
+    private void addBoard() {
     	try {
     	//TO DO DELETE DUMMY
     	Date date = new Date();
     	String dummyName = "Dummy"+date.getTime();
-    	gc.dc.creatieSpelbord(dummyName);
+    	gc.dc.creeerSpelbord(dummyName);
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("Done");
 		alert.setHeaderText(null);
@@ -57,15 +58,15 @@ public class SpelCreatieSchermController extends GridPane {
     }
 
     @FXML
-    void back(ActionEvent event) {
+    private void back() {
     	gc.switchScherm(Scherm.SpelMenuScherm);
     }
 
 
     @FXML
-    void createGame(ActionEvent event) {
+    private void createGame() {
     	try {
-    		gc.dc.creatieSpel(gameNameField.getText());
+    		gc.dc.creeerSpel(gameNameField.getText());
     		
     		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     		alert.setTitle("Done");
@@ -87,13 +88,13 @@ public class SpelCreatieSchermController extends GridPane {
     }
     
     @FXML
-    void saveGame(ActionEvent event) {
+    private void saveGame() {
     	try {
-    	gc.dc.registreerSpel();
+    	Spel spel = gc.dc.registreerSpel();
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("Done");
 		alert.setHeaderText(null);
-		alert.setContentText("Game saved");
+		alert.setContentText("Game saved: "+spel.getSpelNaam()+"\nNumber of boards: "+spel.getBordenTotaal());
 		alert.showAndWait();
     	gc.switchScherm(Scherm.SpelMenuScherm);
     	} catch (Exception e) {

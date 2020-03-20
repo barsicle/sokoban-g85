@@ -27,17 +27,20 @@ public class Spel {
 	public Spel(String spelNaam, SpelbordRepository spelbordRepository) {
 			setSpelNaam(spelNaam);
 		this.spelbordRepository = spelbordRepository;
-		spelborden = new ArrayList<>();
+		
+		spelborden = spelbordRepository.geefSpelborden(spelNaam);
+		//Check of er borden zijn, zoja is het geen nieuw spel en willen we starten
+		if (spelborden.size() > 0) {
+			//Sorteer ze
+			spelborden = spelborden.stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
+			//Zet het huidige spelbord op eerste en haal de velden en details op
+			String naamEersteBord = spelborden.get(0).getSpelbordNaam();
+			huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(naamEersteBord);
+		}
+
 
 	}
 	
-	protected void startSpel() {
-		//Sorteer ze
-		spelborden = spelbordRepository.geefSpelborden(spelNaam).stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
-		//Zet het huidige spelbord op eerste en haal de velden en details op
-		String naamEersteBord = spelborden.get(0).getSpelbordNaam();
-		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(naamEersteBord);
-	}
 	public Veld[][] geefVelden() {
 		return huidigSpelbord.getVelden();
 	}
