@@ -22,35 +22,34 @@ import java.io.Console;
 
 /**
  * Stelt de command line controller voor.
+ * 
  * @author g85
- * */
+ */
 public class CliController {
 	private DomeinController dc;
 	private Scanner scan;
-	private static final String SOKOBAN_ASCII_ART = 
-			"   _____       _         _                 \r\n" + 
-			"  / ____|     | |       | |                \r\n" + 
-			" | (___   ___ | | _____ | |__   __ _ _ __  \r\n" + 
-			"  \\___ \\ / _ \\| |/ / _ \\| '_ \\ / _` | '_ \\ \r\n" + 
-			"  ____) | (_) |   < (_) | |_) | (_| | | | |\r\n" + 
-			" |_____/ \\___/|_|\\_\\___/|_.__/ \\__,_|_| |_|\r\n" + 
-			"                                           \r\n" + 
-			"                                           ";
+	private static final String SOKOBAN_ASCII_ART = "   _____       _         _                 \r\n"
+			+ "  / ____|     | |       | |                \r\n" + " | (___   ___ | | _____ | |__   __ _ _ __  \r\n"
+			+ "  \\___ \\ / _ \\| |/ / _ \\| '_ \\ / _` | '_ \\ \r\n"
+			+ "  ____) | (_) |   < (_) | |_) | (_| | | | |\r\n" + " |_____/ \\___/|_|\\_\\___/|_.__/ \\__,_|_| |_|\r\n"
+			+ "                                           \r\n" + "                                           ";
 	private static final String LIJN_SEPARATOR_STER = "******************************************************************";
-	Console cnsl = System.console();
-	
-	//UC1
+	Character[][] fields = new Character[10][10];
+	Character[][] moveables = new Character[10][10];
+
+	// UC1
 	/**
-	 * Cre�ert een instantie van de command line controller met een domeincontroller object.
+	 * Cre�ert een instantie van de command line controller met een
+	 * domeincontroller object.
 	 * 
 	 * @param dc Het meegegeven domeincontroller object.
-	 * */
+	 */
 	public CliController(DomeinController dc) {
 		this.dc = dc;
 		scan = new Scanner(System.in);
 	}
-	
-	//UC1
+
+	// UC1
 	/**
 	 * Start de applicatie.
 	 */
@@ -62,24 +61,25 @@ public class CliController {
 		taalSelect();
 		loginMenu();
 	}
-	//UC2
+
+	// UC2
 	private void taalSelect() {
 		// Blijf gaan zolang er geen taal geselecteerd is
 		System.out.println("Gelieve uw taal te selecteren (cijfer ingeven)");
 		System.out.println("Veuillez choisir votre langue (entrez le num�ro)");
 		System.out.println("Please choose your language (enter number)");
-		
+
 		while (Taal.taalIngesteld() == false) {
 			System.out.println("1. Nederlands");
 			System.out.println("2. Fran�ais");
 			System.out.println("3. English");
 			System.out.println(LIJN_SEPARATOR_STER);
-			
+
 			int keuze = 0;
 			try {
 				keuze = scan.nextInt();
-			} 
-			
+			}
+
 			catch (InputMismatchException e) {
 				System.out.println("Gelieve een cijfer in te voeren");
 				System.out.println("Veuillez saisir un nombre");
@@ -88,467 +88,406 @@ public class CliController {
 				scan.nextLine();
 				continue;
 			}
-			
-			switch (keuze) {
-				case 1:
-					Taal.setTaal(Talen.nl);
-					break;
 
-				case 2:
-					Taal.setTaal(Talen.fr);
-					break;
-				
-				case 3:
-					Taal.setTaal(Talen.en);
-					break;
-				
-				default:
-					System.out.println("Geen geldige keuze");
-					System.out.println("Choix invalide");
-					System.out.println("Invalid choice");
-					System.out.println(LIJN_SEPARATOR_STER);
-					continue;
+			switch (keuze) {
+			case 1:
+				Taal.setTaal(Talen.nl);
+				break;
+
+			case 2:
+				Taal.setTaal(Talen.fr);
+				break;
+
+			case 3:
+				Taal.setTaal(Talen.en);
+				break;
+
+			default:
+				System.out.println("Geen geldige keuze");
+				System.out.println("Choix invalide");
+				System.out.println("Invalid choice");
+				System.out.println(LIJN_SEPARATOR_STER);
+				continue;
 			}
-			
+
 		}
-		
+
 	}
-	
-	//UC1
+
+	// UC1
 	private void loginMenu() {
 		// Re�nitialiseren scanner
 		scan = new Scanner(System.in);
 		int keuze = 0;
 		System.out.println(Taal.vertaal("login_choose_option"));
-		while (keuze <= 0 || keuze > 3) {	
+		while (keuze <= 0 || keuze > 3) {
 
 			try {
-				
+
 				keuze = scan.nextInt();
-				
+
 				switch (keuze) {
-					case 1:
-						startAanmelden();
-						break;
+				case 1:
+					startAanmelden();
+					break;
 
-					case 2:
-						startRegistreer();
-						break;
+				case 2:
+					startRegistreer();
+					break;
 
-					case 3:
-						afsluiten();
-						break;
-						
-					default:
-						System.out.println(Taal.vertaal("exception_invalid_login_choose_option"));
-						break;
-						
+				case 3:
+					afsluiten();
+					break;
+
+				default:
+					System.out.println(Taal.vertaal("exception_invalid_login_choose_option"));
+					break;
+
 				}
-				
-			} 
-			
+
+			}
+
 			catch (InputMismatchException e) {
 				System.out.println(Taal.vertaal("exception_invalid_login_choose_option"));
 				scan.nextLine();
 			}
-		
+
 		}
-		
+
 	}
-	
-	//UC1
+
+	// UC1
 	private void hoofdMenu() {
 		// Re�nitialiseren scanner
 		scan = new Scanner(System.in);
 		while (true) {
-			if(dc.isAdmin() == false) {
+			if (dc.isAdmin() == false) {
 				speelSpel();
-			}
-			else {
+			} else {
 				System.out.println(Taal.vertaal("menu_choose_option_admin"));
 			}
-			
+
 			int keuze = 0;
-			
+
 			try {
 				keuze = scan.nextInt();
-			} 
-			
+			}
+
 			catch (InputMismatchException e) {
 				System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
 				scan.nextLine();
 				continue;
 			}
-			
+
 			// TO DO
 			switch (keuze) {
-				case 1:
+			case 1:
+				System.out.println("Nog niet ge�mplementeerd");
+				break;
+
+			case 2:
+				if (dc.isAdmin()) {
 					System.out.println("Nog niet ge�mplementeerd");
-					break;
+				}
 
-				case 2:
-					if(dc.isAdmin()) {
-						System.out.println("Nog niet ge�mplementeerd");
-					}
-					
-					else {
-						afsluiten();
-						
-					}					
-					break;
+				else {
+					afsluiten();
 
-				case 3:
-					if(dc.isAdmin()) {
-						
-						// TO DO: wijzig een spel optie
-						System.out.println("Nog niet ge�mplementeerd");
-						
-					}
-					
-					else {
-						
-						System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-						
-					}
-					break;
+				}
+				break;
 
-				case 4:
-					if(dc.isAdmin()) {
-						afsluiten();
-						
-					}
-					
-					else {
-						
-						System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-						
-					}
-					break;
-			
-				default:
+			case 3:
+				if (dc.isAdmin()) {
+
+					// TO DO: wijzig een spel optie
+					System.out.println("Nog niet ge�mplementeerd");
+
+				}
+
+				else {
+
 					System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-					continue;
-					
+
+				}
+				break;
+
+			case 4:
+				if (dc.isAdmin()) {
+					afsluiten();
+
+				}
+
+				else {
+
+					System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
+
+				}
+				break;
+
+			default:
+				System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
+				continue;
+
 			}
-			
+
 		}
-		
+
 	}
-	
-	//UC1
+
+	// UC1
 	private void startAanmelden() {
-		
+
 		// Re�nitialiseren scanner
 		scan = new Scanner(System.in);
-		
-		while(true) {
-			
+
+		while (true) {
+
 			System.out.println(Taal.vertaal("sign_in_username"));
 			String gebruikersnaam = scan.nextLine();
-			
+
 			System.out.println(Taal.vertaal("sign_in_password"));
 			String wachtwoord = scan.nextLine();
-			
+
 			try {
-				
+
 				dc.meldAan(gebruikersnaam, wachtwoord);
-				
-			} 
-			
+
+			}
+
 			catch (Exception e) {
 
 				System.out.println(Taal.vertaal("exception_invalid_sign_in"));
 				continue;
-				
+
 			}
-			
+
 			System.out.println(LIJN_SEPARATOR_STER);
 			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s %n", dc.getGebruikersnaam());
 			System.out.println(LIJN_SEPARATOR_STER);
-			
+
 			hoofdMenu();
 			break;
-			
+
 		}
 
 	}
-	
-	//UC2
+
+	// UC2
 	private void startRegistreer() {
-		
+
 		// Re�nitialiseren scanner
 		scan = new Scanner(System.in);
-		
-		while(true) {
-			
+
+		while (true) {
+
 			System.out.println(Taal.vertaal("register_choose_user_name"));
 			String gebruikersnaam = scan.nextLine().toLowerCase();
-			
+
 			System.out.println(Taal.vertaal("register_choose_password"));
 			String wachtwoord = scan.nextLine();
-			
+
 			System.out.println(Taal.vertaal("register_confirm_password"));
 			String wachtwoordBevestiging = scan.nextLine();
-			
+
 			System.out.println(Taal.vertaal("register_choose_lastname"));
 			String naam = scan.nextLine().trim();
-		
+
 			if (naam.equals("")) {
-				
+
 				naam = null;
-				
+
 			}
 
 			System.out.println(Taal.vertaal("register_choose_firstname"));
 			String voornaam = scan.nextLine().trim();
-			
+
 			if (voornaam.equals("")) {
-				
+
 				voornaam = null;
-				
+
 			}
-			
+
 			try {
-				
+
 				dc.registreer(naam, voornaam, gebruikersnaam, wachtwoord, wachtwoordBevestiging);
-				
-			} 
-			
+
+			}
+
 			catch (Exception e) {
-				
+
 				System.out.println(Taal.vertaal("exception_invalid_registration"));
 				continue;
-				
+
 			}
-			
+
 			System.out.println(LIJN_SEPARATOR_STER);
 			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s %n", dc.getGebruikersnaam());
 			System.out.println(LIJN_SEPARATOR_STER);
-			
+
 			hoofdMenu();
 			break;
-			
+
 		}
 
 	}
-	
+
 	// UC3
 	private void speelSpel() {
-		
+
 		System.out.println("Nog niet ge�mplementeerd. Hier komt je functie.");
 		startKiesSpel();
 		bouwScherm();
 		clearScreen();
 		afsluiten();
-		
-		
+
 	}
-	
+
 	private void startKiesSpel() {
-		
+
 		scan = new Scanner(System.in);
 		List<String> spelNamen = dc.getSpelNamen();
 		int i = 1;
 		int keuze = 0;
-		
+
 		do {
-			
+
 			System.out.printf("Kies een geldig spelnummer.");
-			
-			for(String spel: spelNamen) {
-				
+
+			for (String spel : spelNamen) {
+
 				System.out.printf("\n" + i + ". " + spel);
 				i++;
-				
+
 			}
 			System.out.printf("\n");
 			keuze = scan.nextInt();
 			i = 1;
-			
-		}
-		while(keuze <= 0 || keuze > spelNamen.size());
-		
-		System.out.printf("Keuze gemaakt!");
-		
+
+		} while (keuze <= 0 || keuze > spelNamen.size());
+
+		System.out.printf("Keuze gemaakt!\n");
+
 		dc.kiesSpel(spelNamen.get(keuze));
-			
+
 	}
-	
+
 	// UC4
 	private void bouwScherm() {
 		Veld[][] velden = dc.geefVelden();
+
+		// i = kolom, j = rij
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+
+				Veld veld = velden[i][j];
+				char teken = '/';
+				if (Objects.equals(veld, null)) {
+
+				} else {
+					switch (veld.getVeldType()) {
+					case MUUR:
+						teken = '#';
+						break;
+					case VELD:
+						boolean doel = veld.isDoel();
+						if (doel) {
+							teken = 'o';
+						} else {
+							teken = ' ';
+						}
+
+						break;
+					default:
+						teken = '/';
+						break;
+					}
+				}
+
+				fields[i][j] = teken;
+
+			}
+
+		}
+
+		updateScherm();
+
+	}
+
+	private void updateScherm() {
+
+		// Eerst wissen, daarna opnieuw opbouwen
+		for (int i = 0; i < /* fields.length */ 10; i++) {
+
+			for (int j = 0; j < /* fields[i].length */ 10; j++) {
+				
+				moveables[i][j] = null;
+
+			}
+			
+		}
+		// Mannetje
+
 		Moveable mannetje = dc.getMannetje();
 		Veld mannetjePositie = mannetje.getPositie();
-		int manX = mannetjePositie.getX();
-		int manY = mannetjePositie.getY();
-		//System.out.print(manX);
-		//System.out.print(manY);
+
+		moveables[mannetjePositie.getY()][mannetjePositie.getX()] = 'M';
+
 		List<Moveable> kisten = dc.getKisten();
-		ArrayList<Integer> kistCoordinatePairs = new ArrayList<Integer>(); 
-		//ArrayList<List<Integer>> kistCoordinates = new ArrayList<>();
-		//Integer[] coord = new Integer[2];
-		int kistX;
-		int kistY;
-		// int sentinel = 0;
-		
-		for(Moveable kist: kisten) {
-			
-			System.out.printf("\nKistenposities\n");
-			System.out.print(kist.getPositie().getX() + "\n");
-			System.out.print(kist.getPositie().getY() + "\n");
-			kistX = kist.getPositie().getX();
-			kistY = kist.getPositie().getY();
-			kistCoordinatePairs.add(kistX);
-			kistCoordinatePairs.add(kistY);
-			//kistX = (Integer) kist.getPositie().getX();
-			//kistY = (Integer) kist.getPositie().getY();
-			//coord[0] = kistX;
-			//coord[1] = kistY;
-			//kistCoordinates.add(index, Arrays.asList(coord));
-			//kistCoordinates.add(index, kistCoordinatePairs);
-			
+
+		for (Moveable kist : kisten) {
+
+			moveables[kist.getPositie().getY()][kist.getPositie().getX()] = 'X';
+
 		}
-		//System.out.print(kistCoordinates.get(0));
-		//System.out.print(kistCoordinates.get(1));
-		System.out.print(kistCoordinatePairs.get(0));
-		System.out.print(kistCoordinatePairs.get(1));
-		
-		for (int i = 0; i < velden.length; i++) {
-			
-			System.out.printf("\n");
-			
-			for (int j = 0; j < velden.length; j++) { 
-				
-				Veld veld = velden[i][j];
-				
-				if (Objects.equals(veld, null)) {
-					
-					System.out.printf("/");
 
-				}
-				
-				else if(i == manY-1 && j == manX-1) {
-						
-						System.out.printf("M");
-					
-				}
-				
-				else if(kistCoordinatePairs.get(0)-1 == j && kistCoordinatePairs.get(1)-1 == i) {
-					
-					System.out.printf("X");
-					
-				}
-				
-				else if(kistCoordinatePairs.get(2)-1 == j && kistCoordinatePairs.get(3)-1 == i) {
-					
-					System.out.printf("X");
-					
-				}
-				
-				/*else if(!kistCoordinatePairs.isEmpty()) {
-					
-					if(kistCoordinatePairs.get(sentinel)-1 == j && kistCoordinatePairs.get(sentinel+1)-1 == i) {
-					
-						System.out.printf("X");
-						kistCoordinatePairs.remove(0);
-						kistCoordinatePairs.remove(1);
-						sentinel += 2;
-					
-					}
-				
-				}*/
-				
-				else if(veld instanceof Veld) {
-					
-					switch (veld.getVeldType()) {
-					
-						case MUUR:
-							System.out.printf("#");
-							break;
-					
-						case VELD:
-							boolean doel = veld.isDoel();
-							
-							if (doel) {
-								
-								System.out.printf("o");
-								
-							} 
-							
-							else {
-								
-								System.out.printf(" ");
-								
-							}
-						break;
-						
-					default:
-						System.out.printf("/");
-						break;
-						
-					}
-					
-				}
-				
-				else {
-					
-					System.out.printf("/");
-
-					
-				}
-				
-				
-			}
-			
-		}
-		
-	}
-	
-	private void updateScherm() {
-		
-		
-		
-		
-		// Eerst wissen, daarna opnieuw opbouwen
-		
-		/**beweegVeld.getChildren().clear();
-		try {
-			// Mannetje
-			HBox box = new HBox();
-			Image image = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
-			Moveable mannetje = gc.dc.getMannetje();
-			ImageView imageView = new ImageView(image);
-			Veld mannetjePositie = mannetje.getPositie();
-			imageView.setFitHeight(50);
-			imageView.setFitWidth(50);
-			box.getChildren().add(imageView);
-			beweegVeld.add(box, mannetjePositie.getX(), mannetjePositie.getY());
-
-			List<Moveable> kisten = gc.dc.getKisten();
-			for (Moveable kist : kisten) {
-				HBox kistBox = new HBox();
-				Image kistImage = new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
-				imageView = new ImageView(kistImage);
-				imageView.setFitHeight(50);
-				imageView.setFitWidth(50);
-				kistBox.getChildren().add(imageView);
-				beweegVeld.add(kistBox, kist.getPositie().getX(), kist.getPositie().getY());
-			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		tekenScherm();
 
 		// Check of spel voltooid is
-		checkVoltooid();**/
+		// checkVoltooid();
+
 	}
-	
+
+	private void tekenScherm() {
+
+		Character[][] statusBord = new Character[10][10];
+
+		for (int i = 0; i < /* fields.length */ 10; i++) {
+
+			for (int j = 0; j < /* fields[i].length */ 10; j++) {
+
+				statusBord[i][j] = fields[i][j];
+
+				if (!Objects.equals(null, moveables[i][j])) {
+
+					statusBord[i][j] = moveables[i][j];
+
+				}
+
+			}
+
+		}
+
+		for (Character[] rij : statusBord) {
+			
+			String rijResult = "";
+			
+			for(char teken : rij) {
+				
+				rijResult += teken;
+
+			}
+
+			System.out.print(rijResult + '\n');
+
+		}
+
+	}
+
 	public void clearScreen() {
-		
+
 		System.out.flush();
 
 	}
-	
 
 	protected void afsluiten() {
 		System.exit(0);
