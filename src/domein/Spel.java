@@ -9,7 +9,7 @@ import vertalingen.Taal;
  * Stelt het spel voor.
  * @author g85
  */
-public class Spel {
+public class Spel implements SpelInterface{
 	private String spelNaam;
 	private List<Spelbord> spelborden;
 	private Spelbord huidigSpelbord;

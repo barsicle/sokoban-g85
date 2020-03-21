@@ -58,14 +58,14 @@ public class SpelSchermController {
 	}
 
 	private void bouwScherm() {
-		Veld[][] velden = gc.dc.geefVelden();
+		VeldInterface[][] velden = gc.dc.geefVelden();
 		// i = kolom, j = rij
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				HBox box = new HBox();
 				Image image;
 				try {
-					Veld veld = velden[i][j];
+					VeldInterface veld = velden[i][j];
 					if (Objects.equals(veld, null)) {
 						image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
 					} else {
@@ -105,7 +105,7 @@ public class SpelSchermController {
 
 	private void updateScherm() {
 		//Zet aantal moves
-		lblNumberMoves.setText("Aantal zetten: "+gc.dc.getAantalBewegingen());
+		lblNumberMoves.setText(Taal.vertaal("number_of_moves")+gc.dc.getAantalBewegingen());
 		//Label wissen
 		lblMessage.setText("");
 		// Eerst wissen, daarna opnieuw opbouwen
@@ -116,7 +116,7 @@ public class SpelSchermController {
 			Image image = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
 			Moveable mannetje = gc.dc.getMannetje();
 			ImageView imageView = new ImageView(image);
-			Veld mannetjePositie = mannetje.getPositie();
+			VeldInterface mannetjePositie = mannetje.getPositie();
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);
 			box.getChildren().add(imageView);

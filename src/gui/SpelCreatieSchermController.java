@@ -3,6 +3,7 @@ package gui;
 import java.util.Date;
 
 import domein.Spel;
+import domein.SpelInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -85,7 +86,7 @@ public class SpelCreatieSchermController extends GridPane {
     @FXML
     private void saveGame() {
     	try {
-    	Spel spel = gc.dc.registreerSpel();
+    	SpelInterface spel = gc.dc.registreerSpel();
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("Done");
 		alert.setHeaderText(null);
@@ -105,7 +106,7 @@ public class SpelCreatieSchermController extends GridPane {
 	public void initialize() {
 	}
 
-	private void resetMessageLabel() {
+	/*private void resetMessageLabel() {
 		lblMessage.setText("");
-	}
+	}*/
 }
