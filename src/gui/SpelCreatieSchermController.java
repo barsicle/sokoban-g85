@@ -35,6 +35,7 @@ public class SpelCreatieSchermController extends GridPane {
 
     @FXML
     private Button btnCreateGame;
+    
     @FXML
     private Label lblMessage;
 

@@ -73,6 +73,7 @@ public class Spelbord {
 		int yTarget = yHuidig;
 		int xAchterTarget = xHuidig;
 		int yAchterTarget = yHuidig;
+		
 		switch (richting) {
 		case LINKS:
 			xTarget--;
@@ -91,37 +92,7 @@ public class Spelbord {
 			yAchterTarget=yTarget-1;
 			break;
 		}
-		Veld target = velden[xTarget][yTarget];
-		if (target.getVeldType().equals(VeldType.VELD)) {
-			if (Objects.equals(target.getMoveable(), null)){
-				huidigePositie.setMoveable(null);
-				mannetje.setPositie(target);
-				target.setMoveable(mannetje);
-				//Indien het een kist is
-			} else {
-				Veld achterTarget = velden[xAchterTarget][yAchterTarget];
-				if (!(achterTarget.getVeldType().equals(VeldType.VELD) && Objects.equals(achterTarget.getMoveable(), null))) {
-					throw new RuntimeException(Taal.vertaal("illegal_movement"));
-				} else {
-					Moveable kist = target.getMoveable();
-					kisten.remove(kist);
-					//Zet kist 1 vooruit
-					achterTarget.setMoveable(kist);
-					kist.setPositie(achterTarget);
-					kisten.add(kist);
-
-					//Zet mannetje 1 vooruit
-					huidigePositie.setMoveable(null);
-					mannetje.setPositie(target);
-					target.setMoveable(mannetje);
-				}
-			}
-
-		}
-		if (target.getVeldType().equals(VeldType.MUUR)) {
-			throw new IllegalArgumentException(Taal.vertaal("illegal_movement"));
-		}
-		
+		updateBord(huidigePositie, xHuidig, yHuidig, xTarget, yTarget, xAchterTarget, yAchterTarget);
 		checkVoltooid();
 		aantalBewegingen++;
 	}
@@ -157,7 +128,37 @@ public class Spelbord {
 		this.spel = spel;
 	}
 	
-	
-	
+	private void updateBord(Veld huidigePositie, int xHuidig, int yHuidig, int xTarget, int yTarget, int xAchterTarget, int yAchterTarget) {
+		Veld target = velden[xTarget][yTarget];
+		if (target.getVeldType().equals(VeldType.VELD)) {
+			if (Objects.equals(target.getMoveable(), null)){
+				huidigePositie.setMoveable(null);
+				mannetje.setPositie(target);
+				target.setMoveable(mannetje);
+				//Indien het een kist is
+			} else {
+				Veld achterTarget = velden[xAchterTarget][yAchterTarget];
+				if (!(achterTarget.getVeldType().equals(VeldType.VELD) && Objects.equals(achterTarget.getMoveable(), null))) {
+					throw new RuntimeException(Taal.vertaal("illegal_movement"));
+				} else {
+					Moveable kist = target.getMoveable();
+					kisten.remove(kist);
+					//Zet kist 1 vooruit
+					achterTarget.setMoveable(kist);
+					kist.setPositie(achterTarget);
+					kisten.add(kist);
+
+					//Zet mannetje 1 vooruit
+					huidigePositie.setMoveable(null);
+					mannetje.setPositie(target);
+					target.setMoveable(mannetje);
+				}
+			}
+
+		}
+		if (target.getVeldType().equals(VeldType.MUUR)) {
+			throw new IllegalArgumentException(Taal.vertaal("illegal_movement"));
+		}
+	}
 	
 }
