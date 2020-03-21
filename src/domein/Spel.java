@@ -9,16 +9,18 @@ import vertalingen.Taal;
  * Stelt het spel voor.
  * @author g85
  */
-public class Spel {
+public class Spel implements SpelInterface{
 	private String spelNaam;
 	private List<Spelbord> spelborden;
 	private Spelbord huidigSpelbord;
 	private boolean spelVoltooid = false;
 	private final SpelbordRepository spelbordRepository;
 	private Speler aanmaker;
+	private int aantalRijen, aantalKolommen;
+
 	
 	/**
-	 * Creëert een een spel met opgegeven naam.
+	 * Creëert een spel met opgegeven naam.
 	 * 
 	 * @param spelNaam De naam van het spel.
 	 * @param spelborden Een lijst met spelborden waaruit het spel is samengesteld.
@@ -26,6 +28,8 @@ public class Spel {
 	 */		
 	public Spel(String spelNaam, SpelbordRepository spelbordRepository) {
 			setSpelNaam(spelNaam);
+			setAantalRijen(10);
+			setAantalKolommen(10);
 		this.spelbordRepository = spelbordRepository;
 		
 		spelborden = spelbordRepository.geefSpelborden(spelNaam);
@@ -35,7 +39,7 @@ public class Spel {
 			spelborden = spelborden.stream().sorted(Comparator.comparingInt(Spelbord::getVolgorde)).collect(Collectors.toList());
 			//Zet het huidige spelbord op eerste en haal de velden en details op
 			String naamEersteBord = spelborden.get(0).getSpelbordNaam();
-			huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(naamEersteBord);
+			huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(naamEersteBord, getAantalRijen(), getAantalKolommen());
 		}
 
 
@@ -74,7 +78,7 @@ public class Spel {
 			int vorigBordIndex = spelborden.indexOf(vorigBord.get(0));
 			spelborden.set(vorigBordIndex, huidigSpelbord);
 			if (vorigBordIndex != spelborden.size()-1) {
-				huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(spelborden.get(vorigBordIndex+1).getSpelbordNaam());
+				huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(spelborden.get(vorigBordIndex+1).getSpelbordNaam(), getAantalRijen(), getAantalKolommen());
 			} else {
 				spelVoltooid = true;
 			}
@@ -94,7 +98,7 @@ public class Spel {
 		return spelborden.size();
 	}
 	public void resetBord() {
-		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(huidigSpelbord.getSpelbordNaam());
+		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(huidigSpelbord.getSpelbordNaam(), getAantalRijen(), getAantalKolommen());
 	}
 	public int getAantalBewegingen() {
 		return huidigSpelbord.getAantalBewegingen();
@@ -105,12 +109,28 @@ public class Spel {
 	protected void setAanmaker(Speler aanmaker) {
 		this.aanmaker = aanmaker;
 	}
+	public int getAantalRijen() {
+		return this.aantalRijen;
+	}
+	private void setAantalRijen(int aantalRijen) {
+		if(Objects.equals(aantalRijen, null))
+				throw new IllegalArgumentException("Het aantal rijen moet bepaald zijn.");
+		this.aantalRijen = aantalRijen;
+	}
+	public int getAantalKolommen() {
+		return this.aantalKolommen;
+	}
+	private void setAantalKolommen(int aantalKolommen) {
+		if(Objects.equals(aantalKolommen, null))
+				throw new IllegalArgumentException("Het aantal kolommen moet bepaald zijn.");
+		this.aantalKolommen = aantalKolommen;
+	}
 	protected void voegNieuwSpelbordToe(String spelbordNaam) {
 		int volgorde = spelborden.size()+1;
 		
 		//TO DO DELETE NU DUMMY IMPLEMENTATIE
 		//Maak kopie van de velden van eerste bord
-		Spelbord bordClone = spelbordRepository.geefSpelbordMetVelden("Eerste bord");
+		Spelbord bordClone = spelbordRepository.geefSpelbordMetVelden("Eerste bord", getAantalRijen(), getAantalKolommen());
 	
 		Spelbord bord = new Spelbord(spelbordNaam, volgorde, bordClone.getMannetje(), bordClone.getKisten(), bordClone.getVelden());
 		bord.setSpel(this);

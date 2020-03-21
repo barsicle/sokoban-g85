@@ -22,8 +22,8 @@ public class SpelbordMapper {
 	private static final String INSERT_SPELBORD = "INSERT INTO ID222177_g85.spelbord(spelbordNaam,volgorde,spelNaam) VALUES(?, ?, ?)";
 	private static final String INSERT_VELDEN = "INSERT INTO ID222177_g85.veld(x,y,doel,veldType,moveable,spelbordNaam) VALUES(?, ?, ?, ?, ?, ?)";
 	
-	public Spelbord geefBordMetVelden(String spelbordNaam) throws RuntimeException {
-		Veld[][] velden = new Veld[10][10];
+	public Spelbord geefBordMetVelden(String spelbordNaam, int aantalRijen, int aantalKolommen) throws RuntimeException {
+		Veld[][] velden = new Veld[aantalRijen][aantalKolommen];
 		
 		Spelbord bord = null;
 		List<Moveable> kisten = new ArrayList<>();

@@ -3,13 +3,16 @@ package gui;
 import java.util.Date;
 
 import domein.Spel;
+import domein.SpelInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import vertalingen.Taal;
 
 public class SpelCreatieSchermController extends GridPane {
 	
@@ -33,6 +36,9 @@ public class SpelCreatieSchermController extends GridPane {
 
     @FXML
     private Button btnCreateGame;
+    
+    @FXML
+    private Label lblMessage;
 
     @FXML
     private void addBoard() {
@@ -48,12 +54,7 @@ public class SpelCreatieSchermController extends GridPane {
 		alert.showAndWait();
 		
     	} catch (Exception e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("ERROR");
-			alert.setHeaderText(null);
-			e.printStackTrace();
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
+			lblMessage.setText(e.getMessage());
     	}
     }
 
@@ -78,32 +79,22 @@ public class SpelCreatieSchermController extends GridPane {
     		
     	
     	} catch (Exception e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("ERROR");
-			alert.setHeaderText(null);
-			e.printStackTrace();
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
+    		lblMessage.setText(e.getMessage());
     	}
     }
     
     @FXML
     private void saveGame() {
     	try {
-    	Spel spel = gc.dc.registreerSpel();
+    	SpelInterface spel = gc.dc.registreerSpel();
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("Done");
 		alert.setHeaderText(null);
-		alert.setContentText("Game saved: "+spel.getSpelNaam()+"\nNumber of boards: "+spel.getBordenTotaal());
+		alert.setContentText(Taal.vertaal("game_saved")+spel.getSpelNaam()+"\n"+Taal.vertaal("number_of_boards") +spel.getBordenTotaal());
 		alert.showAndWait();
     	gc.switchScherm(Scherm.SpelMenuScherm);
     	} catch (Exception e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("ERROR");
-			alert.setHeaderText(null);
-			e.printStackTrace();
-			alert.setContentText(e.getMessage());
-			alert.showAndWait();
+    		lblMessage.setText(e.getMessage());
     	}
     }
     
@@ -115,4 +106,7 @@ public class SpelCreatieSchermController extends GridPane {
 	public void initialize() {
 	}
 
+	/*private void resetMessageLabel() {
+		lblMessage.setText("");
+	}*/
 }

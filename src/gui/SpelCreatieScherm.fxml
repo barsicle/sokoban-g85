@@ -17,11 +17,12 @@
          </font>
       </TextArea>
       <Button fx:id="btnBack" layoutX="23.0" layoutY="146.0" mnemonicParsing="false" onAction="#back" text="Terug" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <Label text="Enter game name" GridPane.rowIndex="2" />
-      <TextField fx:id="gameNameField" GridPane.rowIndex="3" />
+      <Label text="Enter game name: " GridPane.rowIndex="2" />
+      <TextField fx:id="gameNameField" GridPane.rowIndex="3" GridPane.valignment="TOP" />
       <Button fx:id="btnAddBoard" mnemonicParsing="false" onAction="#addBoard" text="Add board" GridPane.rowIndex="5" />
       <Button fx:id="btnSaveGame" mnemonicParsing="false" onAction="#saveGame" text="Save game" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <Button fx:id="btnCreateGame" mnemonicParsing="false" onAction="#createGame" text="Create game" GridPane.rowIndex="4" />
+      <Label fx:id="lblMessage" textFill="RED" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
    <columnConstraints>
       <ColumnConstraints minWidth="400.0" prefWidth="400.0" />
