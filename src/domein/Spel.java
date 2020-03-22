@@ -45,7 +45,7 @@ public class Spel implements SpelInterface{
 
 	}
 	
-	public Veld[][] geefVelden() {
+	public VeldInterface[][] geefVelden() {
 		return huidigSpelbord.getVelden();
 	}
 
@@ -88,6 +88,10 @@ public class Spel implements SpelInterface{
 	}
 	
 	public boolean checkSpelvoltooid() {
+		if (getBordenVoltooid() < getBordenTotaal())
+			spelVoltooid = false;
+		else
+			spelVoltooid = true;
 		return spelVoltooid;
 	}
 	
