@@ -11,11 +11,15 @@ public class SpelbordRepository {
 		this.spelbordMapper = new SpelbordMapper();
 	}
 	
-	public Spelbord geefSpelbordMetVelden(String spelbordNaam) {
-		return spelbordMapper.geefBordMetVelden(spelbordNaam);
+	public Spelbord geefSpelbordMetVelden(String spelbordNaam, int aantalRijen, int aantalKolommen) {
+		return spelbordMapper.geefBordMetVelden(spelbordNaam, aantalRijen, aantalKolommen);
 	}
 	
 	public List<Spelbord> geefSpelborden(String spelNaam){
 		return spelbordMapper.geefBorden(spelNaam);
+	}
+	
+	public void insertBord(Spelbord spelbord) {
+		spelbordMapper.insertBord(spelbord);
 	}
 }

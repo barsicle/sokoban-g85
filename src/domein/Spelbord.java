@@ -14,6 +14,7 @@ public class Spelbord {
 	private List<Moveable> kisten;
 	private boolean voltooid;
 	private int aantalBewegingen;
+	private Spel spel;
 
 	/**
 	 * Creëert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
@@ -72,6 +73,7 @@ public class Spelbord {
 		int yTarget = yHuidig;
 		int xAchterTarget = xHuidig;
 		int yAchterTarget = yHuidig;
+		
 		switch (richting) {
 		case LINKS:
 			xTarget--;
@@ -90,6 +92,43 @@ public class Spelbord {
 			yAchterTarget=yTarget-1;
 			break;
 		}
+		updateBord(huidigePositie, xHuidig, yHuidig, xTarget, yTarget, xAchterTarget, yAchterTarget);
+		checkVoltooid();
+		aantalBewegingen++;
+	}
+
+	public boolean isVoltooid() {
+		return voltooid;
+	}
+
+	public Moveable getMannetje() {
+		return mannetje;
+	}
+
+	public List<Moveable> getKisten() {
+		return kisten;
+	}
+
+	private void checkVoltooid(){
+		List<Moveable> kistenOpDoel = kisten.stream().filter(k -> k.getPositie().isDoel()).collect(Collectors.toList());
+		if (kistenOpDoel.equals(kisten)){
+			voltooid = true;
+		}
+	}
+
+	public int getAantalBewegingen() {
+		return aantalBewegingen;
+	}
+
+	public Spel getSpel() {
+		return spel;
+	}
+
+	public void setSpel(Spel spel) {
+		this.spel = spel;
+	}
+	
+	private void updateBord(Veld huidigePositie, int xHuidig, int yHuidig, int xTarget, int yTarget, int xAchterTarget, int yAchterTarget) {
 		Veld target = velden[xTarget][yTarget];
 		if (target.getVeldType().equals(VeldType.VELD)) {
 			if (Objects.equals(target.getMoveable(), null)){
@@ -120,33 +159,6 @@ public class Spelbord {
 		if (target.getVeldType().equals(VeldType.MUUR)) {
 			throw new IllegalArgumentException(Taal.vertaal("illegal_movement"));
 		}
-		
-		checkVoltooid();
-		aantalBewegingen++;
 	}
-
-	public boolean isVoltooid() {
-		return voltooid;
-	}
-
-	public Moveable getMannetje() {
-		return mannetje;
-	}
-
-	public List<Moveable> getKisten() {
-		return kisten;
-	}
-
-	private void checkVoltooid(){
-		List<Moveable> kistenOpDoel = kisten.stream().filter(k -> k.getPositie().isDoel()).collect(Collectors.toList());
-		if (kistenOpDoel.equals(kisten)){
-			voltooid = true;
-		}
-	}
-
-	public int getAantalBewegingen() {
-		return aantalBewegingen;
-	}
-	
 	
 }
