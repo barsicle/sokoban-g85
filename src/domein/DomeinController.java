@@ -132,7 +132,7 @@ public class DomeinController {
 		gekozenSpel.voegNieuwSpelbordToe(spelbordNaam);
 	}
 	
-	public Spel registreerSpel() {
+	public SpelInterface registreerSpel() {
 		spelRepository.insertSpel(gekozenSpel);
 		
 		gekozenSpel.registreerBorden();
@@ -152,7 +152,7 @@ public class DomeinController {
 		
 	}
 
-	public Veld[][] geefVelden() {
+	public VeldInterface[][] geefVelden() {
 		return gekozenSpel.geefVelden();
 	}
 
