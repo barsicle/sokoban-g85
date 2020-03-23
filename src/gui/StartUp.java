@@ -1,6 +1,7 @@
 package gui;
 
 import javafx.application.Application;
+import domein.DomeinController;
 
 /**
  * StartUp-klasse van de applicatie.
@@ -15,7 +16,10 @@ public class StartUp {
 	 * @param args De command line argumenten.
 	 */
 	public static void main(String[] args){
-		Application.launch(GuiController.class);
+		//Application.launch(GuiController.class);
+		DomeinController dc = new DomeinController();
+		CliController controller = new CliController(dc);
+		controller.startApplicatie();
 	}
 
 }
