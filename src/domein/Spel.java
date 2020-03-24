@@ -88,11 +88,7 @@ public class Spel implements SpelInterface{
 	}
 	
 	public boolean checkSpelvoltooid() {
-		if (getBordenVoltooid() < getBordenTotaal())
-			spelVoltooid = false;
-		else
-			spelVoltooid = true;
-		return spelVoltooid;
+		return (getBordenVoltooid() == getBordenTotaal());
 	}
 	
 	public int getBordenVoltooid() {
