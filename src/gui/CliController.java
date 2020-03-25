@@ -8,6 +8,7 @@ import java.util.Scanner;
 import domein.DomeinController;
 import domein.Moveable;
 import domein.Veld;
+import domein.VeldInterface;
 import vertalingen.Taal;
 import vertalingen.Talen;
 
@@ -364,13 +365,13 @@ public class CliController {
 
 	// UC4
 	private void bouwScherm() {
-		Veld[][] velden = dc.geefVelden();
+		VeldInterface[][] velden = dc.geefVelden();
 
 		// i = kolom, j = rij
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 
-				Veld veld = velden[i][j];
+				VeldInterface veld = velden[i][j];
 				char teken = '/';
 				if (Objects.equals(veld, null)) {
 
