@@ -193,5 +193,23 @@ public class DomeinController {
 		return gekozenSpel.getAantalBewegingen();
 	}
 	
-
+	public void maakLeegSpelbord(String spelbordNaam) {
+		//TODO
+	}
+	
+	public void onderneemActie(Actie actie, int x, int y) {
+		//TODO
+		/*switch(actie) {
+			case PLAATSMUUR: ;
+			break;
+			case PLAATSVELD: ;
+			break;
+			case PLAATSMANNETJE: ;
+			break;
+			case PLAATSKIST: ;
+			break;
+			case CLEAR: ;
+			break;
+		}*/
+	}
 }
