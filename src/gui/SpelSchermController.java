@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import domein.BeweegRichting;
+import domein.BordDimensies;
 import domein.DomeinController;
 import domein.VeldInterface;
 import domein.Moveable;
@@ -60,8 +61,8 @@ public class SpelSchermController {
 	private void bouwScherm() {
 		VeldInterface[][] velden = gc.dc.geefVelden();
 		// i = kolom, j = rij
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
+			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
 				HBox box = new HBox();
 				Image image;
 				try {

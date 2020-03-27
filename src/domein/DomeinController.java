@@ -223,7 +223,7 @@ public class DomeinController {
 		return huidigSpelbord.getAantalBewegingen();
 	}
 	
-	
-	
-
+	public void creeerVeld(Actie actie, int x, int y) {
+		huidigSpelbord.creeerVeld(actie, x, y);
+	}
 }

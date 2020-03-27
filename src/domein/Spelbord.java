@@ -122,27 +122,21 @@ public class Spelbord {
 	private void updateBord(Veld huidigePositie, int xHuidig, int yHuidig, int xTarget, int yTarget, int xAchterTarget, int yAchterTarget) {
 		Veld target = velden[xTarget][yTarget];
 		if (target.getVeldType().equals(VeldType.VELD)) {
-			if (Objects.equals(target.getMoveable(), null)){
-				huidigePositie.setMoveable(null);
-				mannetje.setPositie(target);
-				target.setMoveable(mannetje);
+			if (hasNoMoveable(target)){
+				verplaatsMannetje(huidigePositie, target);
 				//Indien het een kist is
 			} else {
 				Veld achterTarget = velden[xAchterTarget][yAchterTarget];
-				if (!(achterTarget.getVeldType().equals(VeldType.VELD) && Objects.equals(achterTarget.getMoveable(), null))) {
+				if (!(achterTarget.getVeldType().equals(VeldType.VELD) && hasNoMoveable(achterTarget))) {
 					throw new RuntimeException(Taal.vertaal("illegal_movement"));
 				} else {
 					Moveable kist = target.getMoveable();
 					kisten.remove(kist);
 					//Zet kist 1 vooruit
-					achterTarget.setMoveable(kist);
-					kist.setPositie(achterTarget);
-					kisten.add(kist);
+					verplaatsKist(kist, achterTarget);
 
 					//Zet mannetje 1 vooruit
-					huidigePositie.setMoveable(null);
-					mannetje.setPositie(target);
-					target.setMoveable(mannetje);
+					verplaatsMannetje(huidigePositie, target);
 				}
 			}
 
@@ -152,4 +146,49 @@ public class Spelbord {
 		}
 	}
 	
+	private boolean hasNoMoveable(Veld target) {
+		return Objects.equals(target.getMoveable(), null);
+	}
+	
+	private void verplaatsMannetje(Veld huidigePositie, Veld target) {
+		huidigePositie.setMoveable(null);
+		mannetje.setPositie(target);
+		target.setMoveable(mannetje);
+	}
+	
+	private void verplaatsKist(Moveable kist, Veld achterTarget) {
+		achterTarget.setMoveable(kist);
+		kist.setPositie(achterTarget);
+		kisten.add(kist);
+	}
+	
+	private void setVeld(Veld veld, int x, int y) {
+		this.velden[x][y] = veld;
+	}
+	
+	protected void creeerVeld(Actie actie, int x, int y) {
+		Veld muur = new Veld(VeldType.MUUR, false, x, y);
+		Veld nieuwVeld = new Veld(VeldType.VELD, false, x, y);
+		Veld doel = new Veld(VeldType.VELD, true, x, y);
+		
+		switch(actie) { 
+			case PLAATSMUUR: setVeld(muur, x, y);
+			break;
+			case PLAATSVELD: setVeld(nieuwVeld, x, y);
+			break;
+			case PLAATSMANNETJE: {
+				setVeld(nieuwVeld, x, y);
+				nieuwVeld.setMoveable(new Mannetje(nieuwVeld));
+			}
+			break;
+			case PLAATSKIST: {
+				setVeld(nieuwVeld, x, y);
+				nieuwVeld.setMoveable(new Kist(nieuwVeld));
+			}
+			case PLAATSDOEL: setVeld(doel, x, y);
+			break;
+			case CLEAR: setVeld(null, x, y);
+			break;
+		}
+	}
 }
