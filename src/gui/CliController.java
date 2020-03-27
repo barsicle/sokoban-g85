@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
+import domein.BeweegRichting;
 import domein.DomeinController;
 import domein.Moveable;
 import domein.Veld;
@@ -60,8 +61,9 @@ public class CliController {
 		System.out.println("Gelieve uw taal te selecteren (cijfer ingeven)");
 		System.out.println("Veuillez choisir votre langue (entrez le num�ro)");
 		System.out.println("Please choose your language (enter number)");
+		
+		do {
 
-		while (Taal.taalIngesteld() == false) {
 			System.out.println("1. Nederlands");
 			System.out.println("2. Fran�ais");
 			System.out.println("3. English");
@@ -101,8 +103,12 @@ public class CliController {
 				System.out.println(LIJN_SEPARATOR_STER);
 				continue;
 			}
-
+			
 		}
+
+		while (Taal.taalIngesteld() == false);
+		
+		loginMenu();
 
 	}
 
@@ -122,12 +128,16 @@ public class CliController {
 				case 1:
 					startAanmelden();
 					break;
-
+					
 				case 2:
+					taalSelect();
+					// Noot: nog te fixen dat je de taal kan resetten!!!!
+
+				case 3:
 					startRegistreer();
 					break;
 
-				case 3:
+				case 4:
 					afsluiten();
 					break;
 
@@ -142,84 +152,6 @@ public class CliController {
 			catch (InputMismatchException e) {
 				System.out.println(Taal.vertaal("exception_invalid_login_choose_option"));
 				scan.nextLine();
-			}
-
-		}
-
-	}
-
-	// UC1
-	private void hoofdMenu() {
-		// Re�nitialiseren scanner
-		scan = new Scanner(System.in);
-		while (true) {
-			if (dc.isAdmin() == false) {
-				speelSpel();
-			} else {
-				System.out.println(Taal.vertaal("menu_choose_option_admin"));
-			}
-
-			int keuze = 0;
-
-			try {
-				keuze = scan.nextInt();
-			}
-
-			catch (InputMismatchException e) {
-				System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-				scan.nextLine();
-				continue;
-			}
-
-			// TO DO
-			switch (keuze) {
-			case 1:
-				System.out.println("Nog niet ge�mplementeerd");
-				break;
-
-			case 2:
-				if (dc.isAdmin()) {
-					System.out.println("Nog niet ge�mplementeerd");
-				}
-
-				else {
-					afsluiten();
-
-				}
-				break;
-
-			case 3:
-				if (dc.isAdmin()) {
-
-					// TO DO: wijzig een spel optie
-					System.out.println("Nog niet ge�mplementeerd");
-
-				}
-
-				else {
-
-					System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-
-				}
-				break;
-
-			case 4:
-				if (dc.isAdmin()) {
-					afsluiten();
-
-				}
-
-				else {
-
-					System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-
-				}
-				break;
-
-			default:
-				System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-				continue;
-
 			}
 
 		}
@@ -322,14 +254,98 @@ public class CliController {
 		}
 
 	}
+	
+	// UC1
+		private void hoofdMenu() {
+			// Re�nitialiseren scanner
+			scan = new Scanner(System.in);
+			
+			while (true) {
+				if (dc.isAdmin() == false) {
+					System.out.println(Taal.vertaal("menu_choose_option_no_admin"));
+				} else {
+					System.out.println(Taal.vertaal("menu_choose_option_admin"));
+				}
+
+				int keuze = 0;
+
+				try {
+					keuze = scan.nextInt();
+				}
+
+				catch (InputMismatchException e) {
+					System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
+					scan.nextLine();
+					continue;
+				}
+
+				// TO DO
+				switch (keuze) {
+				case 1:
+					speelSpel();
+					break;
+
+				case 2:
+					if (dc.isAdmin()) {
+						System.out.println("Nog niet ge�mplementeerd");
+					}
+
+					else {
+						afsluiten();
+
+					}
+					break;
+
+				case 3:
+					if (dc.isAdmin()) {
+
+						// TO DO: wijzig een spel optie
+						System.out.println("Nog niet ge�mplementeerd");
+
+					}
+
+					else {
+
+						System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
+
+					}
+					break;
+
+				case 4:
+					if (dc.isAdmin()) {
+						afsluiten();
+
+					}
+
+					else {
+
+						System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
+
+					}
+					break;
+
+				default:
+					System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
+					continue;
+
+				}
+
+			}
+
+		}	
 
 	// UC3
 	private void speelSpel() {
 
-		System.out.println("Nog niet ge�mplementeerd. Hier komt je functie.");
 		startKiesSpel();
 		bouwScherm();
-		clearScreen();
+		while(!dc.checkBordVoltooid()) {
+
+			beweeg();
+			
+		}
+		//clearScreen();
+		
 		afsluiten();
 
 	}
@@ -406,6 +422,9 @@ public class CliController {
 	}
 
 	private void updateScherm() {
+		
+		// Toon aantal verplaatsingen
+		System.out.printf(Taal.vertaal("total_displacements") + dc.getAantalBewegingen() + "\n");
 
 		// Eerst wissen, daarna opnieuw opbouwen
 		for (int i = 0; i < /* fields.length */ 10; i++) {
@@ -433,9 +452,10 @@ public class CliController {
 		}
 
 		tekenScherm();
-
+		
 		// Check of spel voltooid is
-		// checkVoltooid();
+		checkVoltooid();
+
 
 	}
 
@@ -473,6 +493,93 @@ public class CliController {
 
 		}
 
+	}
+	
+
+	private void checkVoltooid() {
+		if (dc.checkBordVoltooid()) {
+			if (dc.checkSpelVoltooid()) {
+				System.out.println(Taal.vertaal("game_complete_title"));
+				System.out.println(Taal.vertaal("game_complete"));
+				hoofdMenu();
+			} else {
+				System.out.println("");	
+				System.out.println(Taal.vertaal("board_complete_title"));
+				int voltooideBorden = dc.getBordenVoltooid();
+				int totaalBorden = dc.getBordenTotaal();
+				int totaalVerplaatsingen = dc.getAantalBewegingen();
+				String bordVoltooidContent = Taal.vertaal("board_complete") + Taal.vertaal("completed_boards") + voltooideBorden + "\r\n" + 
+						Taal.vertaal("total_boards") + totaalBorden + "\r\n";		
+				System.out.println(bordVoltooidContent + "\n");
+				int keuze = 0;
+				do {
+					System.out.println("Maak een geldige keuze: \n");
+					System.out.println("1. " + Taal.vertaal("next_board") + "\n" + "2. " + Taal.vertaal("quit") + "\n");
+					keuze = scan.nextInt();
+				} while (keuze <= 0 && keuze > 2);
+				if (keuze == 1) {
+					// Bouw volgend bord
+					bouwScherm();
+				} else if (keuze == 2) {
+					back();
+					// Voor de cancellation
+				} else {
+					back();
+				}
+			}
+		}
+	}
+	
+	private void beweeg() {
+		
+		int keuze = 0;
+
+		do {
+			
+			System.out.println("Kies een geldige richting om je mannetje in te bewegen of keer terug: \n1. Boven \n2. Onder\n3. Links\n4. Rechts\n5. " + Taal.vertaal("back") + "\n6. Reset spelbord\n");
+			keuze = scan.nextInt();
+
+		} while (keuze <= 0 || keuze > 6);
+		
+		try {			
+			switch (keuze) {
+			case 1:
+				dc.beweeg(BeweegRichting.BOVEN);
+				break;
+			case 2:
+				dc.beweeg(BeweegRichting.ONDER);
+				break;
+			case 3:
+				dc.beweeg(BeweegRichting.LINKS);
+				break;
+			case 4:
+				dc.beweeg(BeweegRichting.RECHTS);
+				break;
+			case 5:
+				back();
+				break;
+			case 6:
+				resetSpelbord();
+				break;
+			default:
+				break;
+			}
+			if(keuze != 6)
+				updateScherm();
+		} catch (RuntimeException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	private void back() {
+		hoofdMenu();
+	}
+	
+	private void resetSpelbord() {
+		
+		dc.resetBord();
+		bouwScherm();
+		
 	}
 
 	public void clearScreen() {
