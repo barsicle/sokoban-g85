@@ -97,7 +97,7 @@ public class SpelbordMapper {
 		return borden;
 	}
 	
-	public void insertBord(Spelbord spelbord) throws RuntimeException {
+	public void insertBord(Spelbord spelbord, String spelNaam) throws RuntimeException {
 		try {
 			Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
 			conn.setAutoCommit(false);
@@ -107,7 +107,7 @@ public class SpelbordMapper {
 
 			query.setString(1, spelbord.getSpelbordNaam());
 			query.setInt(2, spelbord.getVolgorde());
-			query.setString(3, spelbord.getSpel().getSpelNaam());
+			query.setString(3, spelNaam);
 			query.executeUpdate();
 			
 			//Velden inserten

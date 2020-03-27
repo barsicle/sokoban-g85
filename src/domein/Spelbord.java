@@ -14,7 +14,6 @@ public class Spelbord {
 	private List<Moveable> kisten;
 	private boolean voltooid;
 	private int aantalBewegingen;
-	private Spel spel;
 
 	/**
 	 * Creëert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
@@ -118,14 +117,6 @@ public class Spelbord {
 
 	public int getAantalBewegingen() {
 		return aantalBewegingen;
-	}
-
-	public Spel getSpel() {
-		return spel;
-	}
-
-	public void setSpel(Spel spel) {
-		this.spel = spel;
 	}
 	
 	private void updateBord(Veld huidigePositie, int xHuidig, int yHuidig, int xTarget, int yTarget, int xAchterTarget, int yAchterTarget) {
