@@ -161,4 +161,34 @@ public class Spelbord {
 		kist.setPositie(achterTarget);
 		kisten.add(kist);
 	}
+	
+	private void setVeld(Veld veld, int x, int y) {
+		this.velden[x][y] = veld;
+	}
+	
+	protected void creeerVeld(Actie actie, int x, int y) {
+		Veld muur = new Veld(VeldType.MUUR, false, x, y);
+		Veld nieuwVeld = new Veld(VeldType.VELD, false, x, y);
+		Veld doel = new Veld(VeldType.VELD, true, x, y);
+		
+		switch(actie) { 
+			case PLAATSMUUR: setVeld(muur, x, y);
+			break;
+			case PLAATSVELD: setVeld(nieuwVeld, x, y);
+			break;
+			case PLAATSMANNETJE: {
+				setVeld(nieuwVeld, x, y);
+				nieuwVeld.setMoveable(new Mannetje(nieuwVeld));
+			}
+			break;
+			case PLAATSKIST: {
+				setVeld(nieuwVeld, x, y);
+				nieuwVeld.setMoveable(new Kist(nieuwVeld));
+			}
+			case PLAATSDOEL: setVeld(doel, x, y);
+			break;
+			case CLEAR: setVeld(null, x, y);
+			break;
+		}
+	}
 }
