@@ -129,24 +129,16 @@ public class DomeinController {
 	}
 	
 	public void creeerSpelbord(String spelbordNaam) {
-		//REFACTOR: bordnamen moeten eigenlijk sowieso uniek zijn
-		//Dus ophalen uit de repo
-		if(gekozenSpel.getBordnamen().contains(spelbordNaam)) {
+		//Check dat het niet in de huidige selectie zit om toe te voegen of al in de DB
+		if(gekozenSpel.getBordnamen().contains(spelbordNaam) || spelbordRepository.bordExists(spelbordNaam)) {
 			throw new RuntimeException(Taal.vertaal("exception_board_exists"));
 		}
 		
 		int volgorde = gekozenSpel.getBordenTotaal();
 		huidigSpelbord = new Spelbord(spelbordNaam, volgorde);
-		
-		//TO DO: DIT WEG BIJ UC6!
-		voegSpelbordToe(huidigSpelbord);
 	}
 	
-	//TO DO REFACTOR DUMMY
 	public void voegSpelbordToe(Spelbord bord) {
-		Spelbord bordClone = spelbordRepository.geefSpelbordMetVelden("Eerste bord", BordDimensies.getAantalRijen(),
-				BordDimensies.getAantalKolommen());
-        bord = new Spelbord(bord.getSpelbordNaam(), bord.getVolgorde(), bordClone.getMannetje(), bordClone.getKisten(), bordClone.getVelden());
 		gekozenSpel.voegNieuwSpelbordToe(bord);
 	}
 	
