@@ -218,4 +218,8 @@ public class DomeinController {
 	public void creeerVeld(Actie actie, int x, int y) {
 		huidigSpelbord.creeerVeld(actie, x, y);
 	}
+	
+	public Spelbord getHuidigSpelbord() {
+		return this.huidigSpelbord;
+	}
 }

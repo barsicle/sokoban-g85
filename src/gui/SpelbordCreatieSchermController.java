@@ -3,20 +3,28 @@ package gui;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import domein.Actie;
 import domein.BeweegRichting;
 import domein.BordDimensies;
 import domein.DomeinController;
 import domein.VeldInterface;
 import domein.Moveable;
 import domein.Veld;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -27,6 +35,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import vertalingen.Taal;
+import vertalingen.Talen;
 
 public class SpelbordCreatieSchermController {
 	private GuiController gc;
@@ -50,6 +59,9 @@ public class SpelbordCreatieSchermController {
 	private Button btnCreateBoard;
 	
 	@FXML
+	private Button addBord;
+	
+	@FXML
 	private Label lblBordNaam;
 	
 	@FXML
@@ -60,15 +72,36 @@ public class SpelbordCreatieSchermController {
 	
 	@FXML
 	private Label lblMessage;
+	
+	@FXML
+	private ComboBox<Integer> cboX;
+	private ObservableList<Integer> xList;
+	
+	@FXML
+	private ComboBox<Integer> cboY;
+	private ObservableList<Integer> yList;
+	
+	@FXML
+	private ComboBox<Actie> cboActie;
+	private ObservableList<Actie> acties;
 
 	public SpelbordCreatieSchermController(GuiController guiController) {
 		gc = guiController;
 	}
 	
+	@FXML
 	private void creeerLeegBord() {
 		gc.dc.creeerSpelbord(txfBordNaam.getText());
+		cboX.setDisable(false);
+		cboY.setDisable(false);
+		cboActie.setDisable(false);
 	}
-
+	
+	@FXML
+	private void addBord() {
+		gc.dc.voegSpelbordToe(gc.dc.getHuidigSpelbord());
+	}
+	
 	private void bouwScherm() {
 		VeldInterface[][] velden = gc.dc.geefVelden();
 		// i = kolom, j = rij
@@ -132,6 +165,42 @@ public class SpelbordCreatieSchermController {
 	@FXML
 	public void initialize() {
 		btnBack.setText(Taal.vertaal("back"));
+		
+		xList = FXCollections.observableArrayList(0,1,2,3,4,5,6,7,8,9);
+		cboX.setItems(xList);
+		cboX.setPromptText("x");
+		cboX.setDisable(true);
+		
+		yList = FXCollections.observableArrayList(0,1,2,3,4,5,6,7,8,9);
+		cboY.setItems(yList);
+		cboY.setPromptText("y");
+		cboY.setDisable(true);
+		
+		acties = FXCollections.observableArrayList(Arrays.asList(Actie.values()));
+		cboActie.setItems(acties);
+		cboActie.setDisable(true);
+		
+		cboActie.setPromptText("Choose your action");
+			cboActie.valueProperty()
+			.addListener(new ChangeListener<Actie>() {
+				@Override
+				public void changed(ObservableValue<? extends Actie> observable, Actie oldValue, Actie newValue) {
+					switch(newValue) {
+						case PLAATSMUUR: gc.dc.creeerVeld(Actie.PLAATSMUUR, cboX.getValue(), cboY.getValue());
+            			break;
+						case PLAATSVELD: gc.dc.creeerVeld(Actie.PLAATSVELD, cboX.getValue(), cboY.getValue());
+            			break;
+            			case PLAATSMANNETJE: gc.dc.creeerVeld(Actie.PLAATSMANNETJE, cboX.getValue(), cboY.getValue());
+            			break;
+            			case PLAATSKIST: gc.dc.creeerVeld(Actie.PLAATSKIST, cboX.getValue(), cboY.getValue());
+            			break;
+            			case PLAATSDOEL: gc.dc.creeerVeld(Actie.PLAATSDOEL, cboX.getValue(), cboY.getValue());
+            			break;
+            			case CLEAR: gc.dc.creeerVeld(Actie.CLEAR, cboX.getValue(), cboY.getValue());
+            			break;
+            			}
+				}
+			});
 	}
 
 }
