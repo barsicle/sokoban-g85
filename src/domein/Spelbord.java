@@ -17,7 +17,7 @@ public class Spelbord {
 	private boolean hasMannetje;
 
 	/**
-	 * Creëert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
+	 * CreÃ«ert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
 	 * 
 	 * @param spelbordNaam De naam van het spelbord.
 	 * @param volgorde De volgorde waarin het spelbord in het spel verschijnt.
@@ -191,7 +191,6 @@ public class Spelbord {
 			break;
 		}
 	}
-
 	
 	private void plaatsMuur(Veld muur, int x, int y) {
 		if (!Objects.equals(getVeld(x,y), null))
@@ -249,5 +248,8 @@ public class Spelbord {
 			}
 		}
 		return aantal;
+  }
+	public VeldInterface getVeld(int x, int y) {
+		return this.velden[x][y];
 	}
 }
