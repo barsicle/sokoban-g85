@@ -133,6 +133,9 @@ public class DomeinController {
 		if(gekozenSpel.getBordnamen().contains(spelbordNaam) || spelbordRepository.bordExists(spelbordNaam)) {
 			throw new RuntimeException(Taal.vertaal("exception_board_exists"));
 		}
+		if (spelbordNaam.equals(null) || spelbordNaam.equals("")) {
+			throw new RuntimeException("Name cannot be blank.");
+		}
 		
 		int volgorde = gekozenSpel.getBordenTotaal();
 		huidigSpelbord = new Spelbord(spelbordNaam, volgorde);

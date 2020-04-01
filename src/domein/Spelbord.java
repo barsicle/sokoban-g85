@@ -173,23 +173,52 @@ public class Spelbord {
 		Veld doel = new Veld(VeldType.VELD, true, x, y);
 		
 		switch(actie) { 
-			case PLAATSMUUR: setVeld(muur, x, y);
+			case PLAATSMUUR: plaatsMuur(muur, x, y);
 			break;
-			case PLAATSVELD: setVeld(nieuwVeld, x, y);
+			case PLAATSVELD: plaatsVeld(nieuwVeld, x, y);
 			break;
-			case PLAATSMANNETJE: {
-				setVeld(nieuwVeld, x, y);
-				nieuwVeld.setMoveable(new Mannetje(nieuwVeld));
-			}
+			case PLAATSMANNETJE: plaatsMannetje(x, y);
 			break;
-			case PLAATSKIST: {
-				setVeld(nieuwVeld, x, y);
-				nieuwVeld.setMoveable(new Kist(nieuwVeld));
-			}
-			case PLAATSDOEL: setVeld(doel, x, y);
+			case PLAATSKIST: plaatsKist(x, y);
+			break;
+			case PLAATSDOEL: plaatsDoel(doel, x, y);
 			break;
 			case CLEAR: setVeld(null, x, y);
 			break;
 		}
+	}
+	
+	private void plaatsMuur(Veld muur, int x, int y) {
+		if (!this.velden[x][y].equals(null))
+			throw new RuntimeException("Geen leeg veld.");
+			setVeld(muur, x, y);
+	}
+	
+	private void plaatsVeld(Veld veld, int x, int y) {
+		if (!this.velden[x][y].equals(null))
+			throw new RuntimeException("Geen leeg veld.");
+		setVeld(veld, x, y);
+	}
+	
+	private void plaatsDoel(Veld doel, int x, int y) {
+		if (!this.velden[x][y].equals(null))
+			throw new RuntimeException("Geen leeg veld.");
+		setVeld(doel, x, y);
+	}
+	
+	private void plaatsMannetje(int x, int y) {
+		if (!this.velden[x][y].equals(null) || this.velden[x][y].getVeldType() == VeldType.MUUR )
+			throw new RuntimeException("Mannetje kan niet op muur of leeg veld geplaatst worden.");
+		if(!hasNoMoveable(this.velden[x][y]))
+			throw new RuntimeException("Veld heeft al moveable");
+			this.velden[x][y].setMoveable(new Mannetje(this.velden[x][y]));
+	}
+	
+	private void plaatsKist(int x, int y) {
+		if (!this.velden[x][y].equals(null) || this.velden[x][y].getVeldType() == VeldType.MUUR )
+			throw new RuntimeException("Kist kan niet op muur of leeg veld geplaatst worden.");
+		if(!hasNoMoveable(this.velden[x][y]))
+			throw new RuntimeException("Veld heeft al moveable");
+			this.velden[x][y].setMoveable(new Kist(this.velden[x][y]));
 	}
 }
