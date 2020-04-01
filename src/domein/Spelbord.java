@@ -187,6 +187,7 @@ public class Spelbord {
 			break;
 		}
 	}
+
 	
 	private void plaatsMuur(Veld muur, int x, int y) {
 		if (!this.velden[x][y].equals(null))
@@ -220,5 +221,10 @@ public class Spelbord {
 		if(!hasNoMoveable(this.velden[x][y]))
 			throw new RuntimeException("Veld heeft al moveable");
 			this.velden[x][y].setMoveable(new Kist(this.velden[x][y]));
+	}
+
+	public VeldInterface getVeld(int x, int y) {
+		return this.velden[x][y];
+
 	}
 }

@@ -218,6 +218,10 @@ public class DomeinController {
 		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(huidigSpelbord.getSpelbordNaam(), BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen());
 	}
 	
+	public void resetBordCreatie() {
+		creeerSpelbord(huidigSpelbord.getSpelbordNaam());
+	}
+	
 	public int getAantalBewegingen() {
 		return huidigSpelbord.getAantalBewegingen();
 	}
@@ -228,5 +232,9 @@ public class DomeinController {
 	
 	public Spelbord getHuidigSpelbord() {
 		return this.huidigSpelbord;
+	}
+	
+	public VeldInterface getVeld(int x, int y) {
+		return this.huidigSpelbord.getVeld(x, y);
 	}
 }
