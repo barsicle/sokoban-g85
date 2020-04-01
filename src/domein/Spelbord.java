@@ -190,25 +190,25 @@ public class Spelbord {
 
 	
 	private void plaatsMuur(Veld muur, int x, int y) {
-		if (!this.velden[x][y].equals(null))
+		if (!Objects.equals(getVeld(x,y), null))
 			throw new RuntimeException("Geen leeg veld.");
 			setVeld(muur, x, y);
 	}
 	
 	private void plaatsVeld(Veld veld, int x, int y) {
-		if (!this.velden[x][y].equals(null))
+		if (!Objects.equals(getVeld(x,y), null))
 			throw new RuntimeException("Geen leeg veld.");
 		setVeld(veld, x, y);
 	}
 	
 	private void plaatsDoel(Veld doel, int x, int y) {
-		if (!this.velden[x][y].equals(null))
+		if (!Objects.equals(getVeld(x,y), null))
 			throw new RuntimeException("Geen leeg veld.");
 		setVeld(doel, x, y);
 	}
 	
 	private void plaatsMannetje(int x, int y) {
-		if (!this.velden[x][y].equals(null) || this.velden[x][y].getVeldType() == VeldType.MUUR )
+		if (!Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
 			throw new RuntimeException("Mannetje kan niet op muur of leeg veld geplaatst worden.");
 		if(!hasNoMoveable(this.velden[x][y]))
 			throw new RuntimeException("Veld heeft al moveable");
@@ -216,7 +216,7 @@ public class Spelbord {
 	}
 	
 	private void plaatsKist(int x, int y) {
-		if (!this.velden[x][y].equals(null) || this.velden[x][y].getVeldType() == VeldType.MUUR )
+		if (!Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
 			throw new RuntimeException("Kist kan niet op muur of leeg veld geplaatst worden.");
 		if(!hasNoMoveable(this.velden[x][y]))
 			throw new RuntimeException("Veld heeft al moveable");
