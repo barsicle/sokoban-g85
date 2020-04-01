@@ -2,21 +2,14 @@ package gui;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import domein.Actie;
-import domein.BeweegRichting;
 import domein.BordDimensies;
-import domein.DomeinController;
 import domein.Kist;
 import domein.Mannetje;
 import domein.VeldInterface;
-import domein.Moveable;
-import domein.Veld;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,22 +17,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import vertalingen.Taal;
-import vertalingen.Talen;
 
 public class SpelbordCreatieSchermController {
 	private GuiController gc;
@@ -60,7 +45,7 @@ public class SpelbordCreatieSchermController {
 	private Button btnCreateBoard;
 	
 	@FXML
-	private Button btnAddBord;
+	private Button btnRegistreerBord;
 	
 	@FXML
 	private Label lblBordNaam;
@@ -73,9 +58,6 @@ public class SpelbordCreatieSchermController {
 	
 	@FXML
 	private Label lblMessage;
-	
-	@FXML
-	private ComboBox<Actie> cboActie;
 	
 	@FXML
 	private ListView<Actie> listViewActions;
@@ -91,16 +73,19 @@ public class SpelbordCreatieSchermController {
 		gc.dc.creeerSpelbord(txfBordNaam.getText());
 		listViewActions.setDisable(false);
 		speelVeld.setDisable(false);
+		btnRegistreerBord.setDisable(false);
+		btnReset.setDisable(false);
 		bouwLeegSpelbord();
 	}
 	
 	@FXML
-	private void addBord() {
+	private void registreerBord() {
 		try {
 			gc.dc.voegSpelbordToe(gc.dc.getHuidigSpelbord());
 			listViewActions.setDisable(true);
 			speelVeld.setDisable(true);
-			btnAddBord.setDisable(true);
+			btnRegistreerBord.setDisable(true);
+			back();
 		} catch (Exception e) {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Ongeldige bewerking");
@@ -179,8 +164,7 @@ public class SpelbordCreatieSchermController {
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);
 			box.getChildren().add(imageView);
-			speelVeld.add(box, veld.getX(), veld.getY());
-			System.out.println("Added: ");
+			speelVeld.add(box, x, y);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -189,7 +173,7 @@ public class SpelbordCreatieSchermController {
 
 	@FXML
 	private void resetBord() {
-		gc.dc.resetBord();
+		gc.dc.resetBordCreatie();
 		bouwLeegSpelbord();
 	}
 
@@ -215,7 +199,8 @@ public class SpelbordCreatieSchermController {
 		//Onzichtbaar tot leeg bord aangemaakt is!
 		listViewActions.setDisable(true);
 		speelVeld.setDisable(true);
-		//btnAddBord.setDisable(true);
+		btnRegistreerBord.setDisable(true);
+		btnReset.setDisable(true);
 		
 	}
 	
