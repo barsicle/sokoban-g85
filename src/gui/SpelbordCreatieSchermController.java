@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -63,6 +64,14 @@ public class SpelbordCreatieSchermController {
 	private ListView<Actie> listViewActions;
 	
 	private Actie geselecteerdeActie = null;
+	
+	private Image IMAGE_WALL;
+	private Image IMAGE_VELD;
+	private Image IMAGE_DOEL;
+	private Image IMAGE_KIST;
+	private Image IMAGE_MANNETJE;
+	private Image IMAGE_LEEG;
+	private Image IMAGE_ERASER;
 
 	public SpelbordCreatieSchermController(GuiController guiController) {
 		gc = guiController;
@@ -126,36 +135,35 @@ public class SpelbordCreatieSchermController {
 		VeldInterface veld = gc.dc.getVeld(x, y);
 		Tile box = new Tile(x, y);
 		Image image = null;
-		try {
 			if (Objects.equals(veld, null)) {
-				image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
+				image = IMAGE_LEEG;
 			} else {
 				switch (veld.getVeldType()) {
 				case MUUR:
-					image = new Image(new FileInputStream("bin/gui/assets/images/wall.jpg"));
+					image = IMAGE_WALL;
 					break;
 				case VELD:
 					boolean doel = veld.isDoel();
 					if (doel) {
-						image = new Image(new FileInputStream("bin/gui/assets/images/floor-goal.jpg"));
+						image = IMAGE_DOEL;
 					} else {
 						if(!Objects.equals(veld.getMoveable(), null)) {
 							if(veld.getMoveable() instanceof Kist) {
-								image = new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
+								image = IMAGE_KIST;
 								break;
 							} else if(veld.getMoveable() instanceof Mannetje) {
-								image = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
+								image = IMAGE_MANNETJE;
 								break;
 							}
 						} else {
-							image = new Image(new FileInputStream("bin/gui/assets/images/floor.jpg"));
+							image = IMAGE_VELD;
 							break;
 						}
 					}
 
 					break;
 				default:
-					image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
+					image = IMAGE_LEEG;
 					break;
 				}
 			}
@@ -165,10 +173,6 @@ public class SpelbordCreatieSchermController {
 			imageView.setFitWidth(50);
 			box.getChildren().add(imageView);
 			speelVeld.add(box, x, y);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@FXML
@@ -188,6 +192,45 @@ public class SpelbordCreatieSchermController {
 		ObservableList<Actie> actionItems = FXCollections.observableArrayList(Arrays.asList(Actie.values()));
 		//listViewActions = new ListView<Action>;
 		listViewActions.setItems(actionItems);
+		loadImages();
+		listViewActions.setCellFactory(param -> new ListCell<Actie>() {
+            private ImageView imageView = new ImageView();
+            @Override
+            public void updateItem(Actie actie, boolean empty) {
+                super.updateItem(actie, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                	Image image = null;
+            		switch(actie) { 
+        			case PLAATSMUUR:
+        				image = IMAGE_WALL;
+        			break;
+        			case PLAATSVELD: 
+        				image = IMAGE_VELD;
+        			break;
+        			case PLAATSMANNETJE:
+        				image = IMAGE_MANNETJE;
+            			break;
+        			case PLAATSKIST:
+        				image = IMAGE_KIST;
+            			break;
+        			case PLAATSDOEL:
+        				image = IMAGE_DOEL;
+            			break;
+        			case CLEAR: 
+        				image = IMAGE_ERASER;
+            			break;
+        		}
+            		imageView.setImage(image);
+                    imageView.setFitHeight(50);
+                    imageView.setFitWidth(50);
+                    setText(actie.toString());
+                    setGraphic(imageView);
+                }
+            }
+        });
 		
 		listViewActions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Actie>() {
 				@Override
@@ -236,5 +279,20 @@ public class SpelbordCreatieSchermController {
 	    		});
 	        }
 	    }
+	   
+	   private void loadImages() {
+		   try {
+			IMAGE_WALL = new Image(new FileInputStream("bin/gui/assets/images/wall.jpg"));
+			IMAGE_VELD = new Image(new FileInputStream("bin/gui/assets/images/floor.jpg"));
+			IMAGE_KIST = new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
+			IMAGE_DOEL = new Image(new FileInputStream("bin/gui/assets/images/floor-goal.jpg"));
+			IMAGE_MANNETJE = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
+			IMAGE_LEEG = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
+			IMAGE_ERASER = new Image(new FileInputStream("bin/gui/assets/images/eraser.jpg")); 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	   }
 
 }
