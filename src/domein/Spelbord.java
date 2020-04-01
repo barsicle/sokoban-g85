@@ -14,6 +14,7 @@ public class Spelbord {
 	private List<Moveable> kisten;
 	private boolean voltooid;
 	private int aantalBewegingen;
+	private boolean hasMannetje;
 
 	/**
 	 * Creëert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
@@ -177,7 +178,10 @@ public class Spelbord {
 			break;
 			case PLAATSVELD: plaatsVeld(nieuwVeld, x, y);
 			break;
-			case PLAATSMANNETJE: plaatsMannetje(x, y);
+			case PLAATSMANNETJE: {
+				plaatsMannetje(x, y);
+				hasMannetje = true;
+			}
 			break;
 			case PLAATSKIST: plaatsKist(x, y);
 			break;
@@ -208,23 +212,42 @@ public class Spelbord {
 	}
 	
 	private void plaatsMannetje(int x, int y) {
-		if (!Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
+		if (Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
 			throw new RuntimeException("Mannetje kan niet op muur of leeg veld geplaatst worden.");
 		if(!hasNoMoveable(this.velden[x][y]))
 			throw new RuntimeException("Veld heeft al moveable");
+		if(getVeld(x,y).isDoel())
+			throw new RuntimeException("Mannetje mag niet starten op doel.");
+		if(hasMannetje)
+			throw new RuntimeException("There can be only one.");
 			this.velden[x][y].setMoveable(new Mannetje(this.velden[x][y]));
+			setVeld(this.velden[x][y], x, y);
 	}
 	
 	private void plaatsKist(int x, int y) {
-		if (!Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
+		if (Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
 			throw new RuntimeException("Kist kan niet op muur of leeg veld geplaatst worden.");
 		if(!hasNoMoveable(this.velden[x][y]))
 			throw new RuntimeException("Veld heeft al moveable");
+		if(getVeld(x,y).isDoel())
+			throw new RuntimeException("Kist mag niet starten op doel.");
 			this.velden[x][y].setMoveable(new Kist(this.velden[x][y]));
+			setVeld(this.velden[x][y], x, y);
 	}
 
 	public VeldInterface getVeld(int x, int y) {
 		return this.velden[x][y];
 
+	}
+	
+	public int getAantalDoelen() {
+		int aantal = 0;
+		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
+			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
+				if (getVeld(i, j).isDoel())
+					aantal++;
+			}
+		}
+		return aantal;
 	}
 }

@@ -1,6 +1,8 @@
 package domein;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -131,10 +133,10 @@ public class DomeinController {
 	public void creeerSpelbord(String spelbordNaam) {
 		//Check dat het niet in de huidige selectie zit om toe te voegen of al in de DB
 		if(gekozenSpel.getBordnamen().contains(spelbordNaam) || spelbordRepository.bordExists(spelbordNaam)) {
-			throw new RuntimeException(Taal.vertaal("exception_board_exists"));
+			throw new IllegalArgumentException(Taal.vertaal("exception_board_exists"));
 		}
 		if (spelbordNaam.equals(null) || spelbordNaam.equals("")) {
-			throw new RuntimeException("Name cannot be blank.");
+			throw new IllegalArgumentException("Name cannot be blank.");
 		}
 		
 		int volgorde = gekozenSpel.getBordenTotaal();
@@ -142,6 +144,8 @@ public class DomeinController {
 	}
 	
 	public void voegSpelbordToe(Spelbord bord) {
+		if(!(bord.getKisten().size() == bord.getAantalDoelen()))
+			throw new RuntimeException("Er moeten evenveel doelen als kisten op het bord zijn.");
 		gekozenSpel.voegNieuwSpelbordToe(bord);
 	}
 	
