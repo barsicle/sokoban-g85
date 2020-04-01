@@ -104,6 +104,15 @@ public class GuiController extends Application {
 				e.printStackTrace();
 			}
 			break;
+		case SpelbordCreatieScherm:
+			fxmlLoader = new FXMLLoader(getClass().getResource("SpelbordCreatieScherm.fxml"));
+			fxmlLoader.setController(new SpelbordCreatieSchermController(this));
+			try {
+				scene.setRoot(fxmlLoader.load());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 		default:
 			
 		}

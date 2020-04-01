@@ -31,8 +31,8 @@ public class SpelMenuSchermController extends GridPane{
 		
 		btnPlay.setText(Taal.vertaal("play"));
 		btnExit.setText(Taal.vertaal("quit"));
-		btnCreate.setText(Taal.vertaal("create"));
-		btnModify.setText(Taal.vertaal("modify"));
+		btnCreate.setText(Taal.vertaal("create_game"));
+		btnModify.setText(Taal.vertaal("modify_game"));
 		lblWelkom.setText(Taal.vertaal("sign_in_welcome") + " " + gc.dc.getGebruikersnaam());
 		
 		if (!gc.dc.isAdmin()) {

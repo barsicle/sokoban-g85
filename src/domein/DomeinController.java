@@ -152,6 +152,10 @@ public class DomeinController {
 		return gekozenSpel;
 	}
 	
+	public SpelInterface getSpel() {
+		return this.gekozenSpel;
+	}
+	
 	/*
 	public void resetGekozenSpel() {
 		gekozenSpel = null;
@@ -211,11 +215,23 @@ public class DomeinController {
 		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(huidigSpelbord.getSpelbordNaam(), BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen());
 	}
 	
+	public void resetBordCreatie() {
+		creeerSpelbord(huidigSpelbord.getSpelbordNaam());
+	}
+	
 	public int getAantalBewegingen() {
 		return huidigSpelbord.getAantalBewegingen();
 	}
 	
 	public void creeerVeld(Actie actie, int x, int y) {
 		huidigSpelbord.creeerVeld(actie, x, y);
+	}
+	
+	public Spelbord getHuidigSpelbord() {
+		return this.huidigSpelbord;
+	}
+	
+	public VeldInterface getVeld(int x, int y) {
+		return this.huidigSpelbord.getVeld(x, y);
 	}
 }
