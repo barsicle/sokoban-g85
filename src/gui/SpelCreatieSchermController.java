@@ -72,7 +72,7 @@ public class SpelCreatieSchermController extends GridPane {
     		btnCreateGame.setDisable(true);
     		alert.showAndWait();
     		
-    		btnAddBoard.setVisible(true);		
+    		btnAddBoard.setDisable(false);
     	
     	} catch (Exception e) {
     		lblMessage.setText(e.getMessage());
@@ -103,10 +103,22 @@ public class SpelCreatieSchermController extends GridPane {
 		btnBack.setText(Taal.vertaal("back"));
 		btnCreateGame.setText(Taal.vertaal("create_game"));
 		btnSaveGame.setText(Taal.vertaal("save_game"));
+		btnSaveGame.setDisable(true);
 		btnAddBoard.setText(Taal.vertaal("add_board"));
+		btnAddBoard.setDisable(true);
 		lblGameName.setText(Taal.vertaal("enter_game_name"));
 		
-		//btnAddBoard.setVisible(false);
+		
+		//Haal saved state op en enable de features op basis hier van
+		SpelInterface spel = gc.dc.getSpel();
+		if(spel != null) {
+			btnAddBoard.setDisable(false);
+    		gameNameField.setDisable(true);
+    		btnCreateGame.setDisable(true);
+    		if(spel.getBordenTotaal() > 0) {
+    			btnSaveGame.setDisable(false);
+    		}
+		}
 
 	}
 

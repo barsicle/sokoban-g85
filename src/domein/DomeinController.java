@@ -152,6 +152,10 @@ public class DomeinController {
 		return gekozenSpel;
 	}
 	
+	public SpelInterface getSpel() {
+		return this.gekozenSpel;
+	}
+	
 	/*
 	public void resetGekozenSpel() {
 		gekozenSpel = null;

@@ -35,6 +35,7 @@ public class Spelbord {
 	public Spelbord(String spelbordNaam, int volgorde) {
 		this.spelbordNaam = spelbordNaam;
 		this.volgorde = volgorde;
+		this.velden = new Veld[10][10];
 	}
 
 	public String getSpelbordNaam() {
