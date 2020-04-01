@@ -91,7 +91,7 @@ public class SpelbordCreatieSchermController {
 		gc.dc.creeerSpelbord(txfBordNaam.getText());
 		listViewActions.setDisable(false);
 		speelVeld.setDisable(false);
-		bouwScherm();
+		bouwLeegSpelbord();
 	}
 	
 	@FXML
@@ -112,7 +112,7 @@ public class SpelbordCreatieSchermController {
 		
 	}
 	
-	private void bouwScherm() {
+	private void bouwLeegSpelbord() {
 		VeldInterface[][] velden = gc.dc.geefVelden();
 		// i = kolom, j = rij
 		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
@@ -120,28 +120,7 @@ public class SpelbordCreatieSchermController {
 				Tile box = new Tile(i, j);
 				Image image;
 				try {
-					VeldInterface veld = velden[i][j];
-					if (Objects.equals(veld, null)) {
-						image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
-					} else {
-						switch (veld.getVeldType()) {
-						case MUUR:
-							image = new Image(new FileInputStream("bin/gui/assets/images/wall.jpg"));
-							break;
-						case VELD:
-							boolean doel = veld.isDoel();
-							if (doel) {
-								image = new Image(new FileInputStream("bin/gui/assets/images/floor-goal.jpg"));
-							} else {
-								image = new Image(new FileInputStream("bin/gui/assets/images/floor.jpg"));
-							}
-
-							break;
-						default:
-							image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
-							break;
-						}
-					}
+					image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
 
 					ImageView imageView = new ImageView(image);
 					imageView.setFitHeight(50);
@@ -155,14 +134,12 @@ public class SpelbordCreatieSchermController {
 
 			}
 		}
-		//setClickable();
-		//updateScherm();
 	}
 
 	//TO DO REFACTOR - te groot, imagefactory method?
 	private void updateTile(int x, int y) {
-		VeldInterface veld = gc.dc.geefVelden()[x][y];
-		Tile box = new Tile(veld.getX(), veld.getY());
+		VeldInterface veld = gc.dc.getVeld(x, y);
+		Tile box = new Tile(x, y);
 		Image image = null;
 		try {
 			if (Objects.equals(veld, null)) {
@@ -179,12 +156,15 @@ public class SpelbordCreatieSchermController {
 					} else {
 						if(!Objects.equals(veld.getMoveable(), null)) {
 							if(veld.getMoveable() instanceof Kist) {
-								new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
+								image = new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
+								break;
 							} else if(veld.getMoveable() instanceof Mannetje) {
-								new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
+								image = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
+								break;
 							}
 						} else {
 							image = new Image(new FileInputStream("bin/gui/assets/images/floor.jpg"));
+							break;
 						}
 					}
 
@@ -200,6 +180,7 @@ public class SpelbordCreatieSchermController {
 			imageView.setFitWidth(50);
 			box.getChildren().add(imageView);
 			speelVeld.add(box, veld.getX(), veld.getY());
+			System.out.println("Added: ");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -209,7 +190,7 @@ public class SpelbordCreatieSchermController {
 	@FXML
 	private void resetBord() {
 		gc.dc.resetBord();
-		bouwScherm();
+		bouwLeegSpelbord();
 	}
 
 	@FXML

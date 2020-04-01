@@ -178,18 +178,23 @@ public class Spelbord {
 			case PLAATSVELD: setVeld(nieuwVeld, x, y);
 			break;
 			case PLAATSMANNETJE: {
-				setVeld(nieuwVeld, x, y);
 				nieuwVeld.setMoveable(new Mannetje(nieuwVeld));
+				setVeld(nieuwVeld, x, y);
 			}
 			break;
 			case PLAATSKIST: {
-				setVeld(nieuwVeld, x, y);
 				nieuwVeld.setMoveable(new Kist(nieuwVeld));
+				setVeld(nieuwVeld, x, y);
 			}
+			break;
 			case PLAATSDOEL: setVeld(doel, x, y);
 			break;
 			case CLEAR: setVeld(null, x, y);
 			break;
 		}
+	}
+
+	public VeldInterface getVeld(int x, int y) {
+		return this.velden[x][y];
 	}
 }
