@@ -12,6 +12,8 @@ import domein.Actie;
 import domein.BeweegRichting;
 import domein.BordDimensies;
 import domein.DomeinController;
+import domein.Kist;
+import domein.Mannetje;
 import domein.VeldInterface;
 import domein.Moveable;
 import domein.Veld;
@@ -71,14 +73,6 @@ public class SpelbordCreatieSchermController {
 	
 	@FXML
 	private Label lblMessage;
-	
-	@FXML
-	private ComboBox<Integer> cboX;
-	private ObservableList<Integer> xList;
-	
-	@FXML
-	private ComboBox<Integer> cboY;
-	private ObservableList<Integer> yList;
 	
 	@FXML
 	private ComboBox<Actie> cboActie;
@@ -165,53 +159,52 @@ public class SpelbordCreatieSchermController {
 		//updateScherm();
 	}
 
-	private void updateScherm() {
+	//TO DO REFACTOR - te groot, imagefactory method?
+	private void updateTile(int x, int y) {
+		VeldInterface veld = gc.dc.geefVelden()[x][y];
+		Tile box = new Tile(veld.getX(), veld.getY());
+		Image image = null;
 		try {
-			// Mannetje
-			HBox box = new HBox();
-			Image image = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
-			Moveable mannetje = gc.dc.getMannetje();
+			if (Objects.equals(veld, null)) {
+				image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
+			} else {
+				switch (veld.getVeldType()) {
+				case MUUR:
+					image = new Image(new FileInputStream("bin/gui/assets/images/wall.jpg"));
+					break;
+				case VELD:
+					boolean doel = veld.isDoel();
+					if (doel) {
+						image = new Image(new FileInputStream("bin/gui/assets/images/floor-goal.jpg"));
+					} else {
+						if(!Objects.equals(veld.getMoveable(), null)) {
+							if(veld.getMoveable() instanceof Kist) {
+								new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
+							} else if(veld.getMoveable() instanceof Mannetje) {
+								new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
+							}
+						} else {
+							image = new Image(new FileInputStream("bin/gui/assets/images/floor.jpg"));
+						}
+					}
+
+					break;
+				default:
+					image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
+					break;
+				}
+			}
+
 			ImageView imageView = new ImageView(image);
-			VeldInterface mannetjePositie = mannetje.getPositie();
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);
 			box.getChildren().add(imageView);
-			speelVeld.add(box, mannetjePositie.getX(), mannetjePositie.getY());
-
-			List<Moveable> kisten = gc.dc.getKisten();
-			for (Moveable kist : kisten) {
-				HBox kistBox = new HBox();
-				Image kistImage = new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
-				imageView = new ImageView(kistImage);
-				imageView.setFitHeight(50);
-				imageView.setFitWidth(50);
-				kistBox.getChildren().add(imageView);
-				speelVeld.add(kistBox, kist.getPositie().getX(), kist.getPositie().getY());
-			}
-
+			speelVeld.add(box, veld.getX(), veld.getY());
 		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//setClickable();
 	}
-	
-	/*
-	private void setClickable() {
-		speelVeld.getChildren().stream().forEach(tile -> tile.setOnMouseClicked(e -> {
-			if (geselecteerdeActie == null) {
-				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("Ongeldige bewerking");
-				alert.setHeaderText(null);
-				alert.setContentText("Gelieve eerst een actie te selecteren in de toolbox");
-
-				alert.showAndWait();
-			} else {
-				gc.dc.creeerVeld(geselecteerdeActie, x, y);
-			}
-		}));
-	}
-	*/
 
 	@FXML
 	private void resetBord() {
@@ -227,17 +220,6 @@ public class SpelbordCreatieSchermController {
 	@FXML
 	public void initialize() {
 		btnBack.setText(Taal.vertaal("back"));
-		/*
-		xList = FXCollections.observableArrayList(0,1,2,3,4,5,6,7,8,9);
-		cboX.setItems(xList);
-		cboX.setPromptText("x");
-		cboX.setDisable(true);
-		
-		yList = FXCollections.observableArrayList(0,1,2,3,4,5,6,7,8,9);
-		cboY.setItems(yList);
-		cboY.setPromptText("y");
-		cboY.setDisable(true);
-		*/
 		ObservableList<Actie> actionItems = FXCollections.observableArrayList(Arrays.asList(Actie.values()));
 		//listViewActions = new ListView<Action>;
 		listViewActions.setItems(actionItems);
@@ -272,27 +254,21 @@ public class SpelbordCreatieSchermController {
 
 	    				alert.showAndWait();
 	    			} else {
-	    				gc.dc.creeerVeld(geselecteerdeActie, x, y);
-	    				bouwScherm();
+	    				try {
+							gc.dc.creeerVeld(geselecteerdeActie, x, y);
+							updateTile(x, y);
+						} catch (Exception e1) {
+		    				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		    				alert.setTitle("Ongeldige bewerking");
+		    				alert.setHeaderText(null);
+		    				alert.setContentText(e1.getMessage());
+
+		    				alert.showAndWait();
+						}
+	    				
 	    			}
 	    		});
 	        }
 	    }
-	/*
-	 * 					switch(newValue) {
-						case PLAATSMUUR: gc.dc.creeerVeld(Actie.PLAATSMUUR, cboX.getValue(), cboY.getValue());
-            			break;
-						case PLAATSVELD: gc.dc.creeerVeld(Actie.PLAATSVELD, cboX.getValue(), cboY.getValue());
-            			break;
-            			case PLAATSMANNETJE: gc.dc.creeerVeld(Actie.PLAATSMANNETJE, cboX.getValue(), cboY.getValue());
-            			break;
-            			case PLAATSKIST: gc.dc.creeerVeld(Actie.PLAATSKIST, cboX.getValue(), cboY.getValue());
-            			break;
-            			case PLAATSDOEL: gc.dc.creeerVeld(Actie.PLAATSDOEL, cboX.getValue(), cboY.getValue());
-            			break;
-            			case CLEAR: gc.dc.creeerVeld(Actie.CLEAR, cboX.getValue(), cboY.getValue());
-            			break;
-            			}
-	 */
 
 }
