@@ -14,9 +14,10 @@ public class Spelbord {
 	private List<Moveable> kisten;
 	private boolean voltooid;
 	private int aantalBewegingen;
+	private boolean hasMannetje;
 
 	/**
-	 * Creëert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
+	 * CreÃ«ert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
 	 * 
 	 * @param spelbordNaam De naam van het spelbord.
 	 * @param volgorde De volgorde waarin het spelbord in het spel verschijnt.
@@ -173,28 +174,82 @@ public class Spelbord {
 		Veld doel = new Veld(VeldType.VELD, true, x, y);
 		
 		switch(actie) { 
-			case PLAATSMUUR: setVeld(muur, x, y);
+			case PLAATSMUUR: plaatsMuur(muur, x, y);
 			break;
-			case PLAATSVELD: setVeld(nieuwVeld, x, y);
+			case PLAATSVELD: plaatsVeld(nieuwVeld, x, y);
 			break;
-			case PLAATSMANNETJE: {
-				nieuwVeld.setMoveable(new Mannetje(nieuwVeld));
-				setVeld(nieuwVeld, x, y);
+			case PLAATSMANNETJE: plaatsMannetje(x, y);
+			break;
+			case PLAATSKIST: plaatsKist(x, y);
+			break;
+			case PLAATSDOEL: plaatsDoel(doel, x, y);
+			break;
+			case CLEAR: {
+				setVeld(null, x, y);
+				if (hasMannetje)
+					hasMannetje = false;
 			}
-			break;
-			case PLAATSKIST: {
-				nieuwVeld.setMoveable(new Kist(nieuwVeld));
-				setVeld(nieuwVeld, x, y);
-			}
-			break;
-			case PLAATSDOEL: setVeld(doel, x, y);
-			break;
-			case CLEAR: setVeld(null, x, y);
 			break;
 		}
+	}
+	
+	private void plaatsMuur(Veld muur, int x, int y) {
+			setVeld(muur, x, y);
+			if(hasMannetje)
+				hasMannetje = false;
+	}
+	
+	private void plaatsVeld(Veld veld, int x, int y) {
+		setVeld(veld, x, y);
+		if(hasMannetje)
+			hasMannetje = false;
+	}
+	
+	private void plaatsDoel(Veld doel, int x, int y) {
+		setVeld(doel, x, y);
+		if(hasMannetje)
+			hasMannetje = false;
+	}
+	
+	private void plaatsMannetje(int x, int y) {
+		if (Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
+			throw new RuntimeException("Mannetje kan niet op muur of leeg veld geplaatst worden.");
+		if(!hasNoMoveable(this.velden[x][y]))
+			throw new RuntimeException("Veld heeft al moveable");
+		if(getVeld(x,y).isDoel())
+			throw new RuntimeException("Mannetje mag niet starten op doel.");
+		if(hasMannetje)
+			throw new RuntimeException("There can be only one.");
+		
+		this.velden[x][y].setMoveable(new Mannetje(this.velden[x][y]));
+		setVeld(this.velden[x][y], x, y);
+		hasMannetje = true;	
+	}
+	
+	private void plaatsKist(int x, int y) {
+		if (Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
+			throw new RuntimeException("Kist kan niet op muur of leeg veld geplaatst worden.");
+		if(!hasNoMoveable(this.velden[x][y]))
+			throw new RuntimeException("Veld heeft al moveable");
+		if(getVeld(x,y).isDoel())
+			throw new RuntimeException("Kist mag niet starten op doel.");
+		
+		this.velden[x][y].setMoveable(new Kist(this.velden[x][y]));
+		setVeld(this.velden[x][y], x, y);
 	}
 
 	public VeldInterface getVeld(int x, int y) {
 		return this.velden[x][y];
 	}
+	
+	public int getAantalDoelen() {
+		int aantal = 0;
+		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
+			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
+				if (getVeld(i, j).isDoel())
+					aantal++;
+			}
+		}
+		return aantal;
+  }
 }
