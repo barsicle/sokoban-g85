@@ -248,7 +248,4 @@ public class Spelbord {
 		}
 		return aantal;
   }
-	public VeldInterface getVeld(int x, int y) {
-		return this.velden[x][y];
-	}
 }
