@@ -178,10 +178,7 @@ public class Spelbord {
 			break;
 			case PLAATSVELD: plaatsVeld(nieuwVeld, x, y);
 			break;
-			case PLAATSMANNETJE: {
-				plaatsMannetje(x, y);
-				hasMannetje = true;
-			}
+			case PLAATSMANNETJE: plaatsMannetje(x, y);
 			break;
 			case PLAATSKIST: plaatsKist(x, y);
 			break;
@@ -194,21 +191,21 @@ public class Spelbord {
 
 	
 	private void plaatsMuur(Veld muur, int x, int y) {
-		if (!Objects.equals(getVeld(x,y), null))
-			throw new RuntimeException("Geen leeg veld.");
 			setVeld(muur, x, y);
+			if(hasMannetje)
+				hasMannetje = false;
 	}
 	
 	private void plaatsVeld(Veld veld, int x, int y) {
-		if (!Objects.equals(getVeld(x,y), null))
-			throw new RuntimeException("Geen leeg veld.");
 		setVeld(veld, x, y);
+		if(hasMannetje)
+			hasMannetje = false;
 	}
 	
 	private void plaatsDoel(Veld doel, int x, int y) {
-		if (!Objects.equals(getVeld(x,y), null))
-			throw new RuntimeException("Geen leeg veld.");
 		setVeld(doel, x, y);
+		if(hasMannetje)
+			hasMannetje = false;
 	}
 	
 	private void plaatsMannetje(int x, int y) {
@@ -220,8 +217,10 @@ public class Spelbord {
 			throw new RuntimeException("Mannetje mag niet starten op doel.");
 		if(hasMannetje)
 			throw new RuntimeException("There can be only one.");
-			this.velden[x][y].setMoveable(new Mannetje(this.velden[x][y]));
-			setVeld(this.velden[x][y], x, y);
+		
+		this.velden[x][y].setMoveable(new Mannetje(this.velden[x][y]));
+		setVeld(this.velden[x][y], x, y);
+		hasMannetje = true;	
 	}
 	
 	private void plaatsKist(int x, int y) {
@@ -231,13 +230,13 @@ public class Spelbord {
 			throw new RuntimeException("Veld heeft al moveable");
 		if(getVeld(x,y).isDoel())
 			throw new RuntimeException("Kist mag niet starten op doel.");
-			this.velden[x][y].setMoveable(new Kist(this.velden[x][y]));
-			setVeld(this.velden[x][y], x, y);
+		
+		this.velden[x][y].setMoveable(new Kist(this.velden[x][y]));
+		setVeld(this.velden[x][y], x, y);
 	}
 
 	public VeldInterface getVeld(int x, int y) {
 		return this.velden[x][y];
-
 	}
 	
 	public int getAantalDoelen() {
