@@ -2,24 +2,20 @@ package gui;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import domein.BeweegRichting;
 import domein.BordDimensies;
-import domein.DomeinController;
-import domein.VeldInterface;
 import domein.Moveable;
-import domein.Veld;
+import domein.VeldInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -151,7 +147,7 @@ public class SpelSchermController {
 				alert.setContentText(Taal.vertaal("game_complete"));
 
 				alert.showAndWait();
-				gc.switchScherm(Scherm.Hoofdscherm);
+				gc.switchScherm(Scherm.SpelMenuScherm);
 			} else {
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 				ButtonType buttonVolgendLevel = new ButtonType(Taal.vertaal("next_board"));
