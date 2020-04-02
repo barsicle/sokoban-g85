@@ -163,11 +163,11 @@ public class DomeinController {
 		return this.gekozenSpel;
 	}
 	
-	/*
+	
 	public void resetGekozenSpel() {
 		gekozenSpel = null;
 	}
-	*/
+	
 	
 	//Haal spel op uit de repo en zet zijn borden erna
 	public void kiesSpel(String spelNaam) {

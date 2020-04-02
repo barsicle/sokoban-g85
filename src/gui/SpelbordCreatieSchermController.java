@@ -7,8 +7,7 @@ import java.util.Objects;
 
 import domein.Actie;
 import domein.BordDimensies;
-import domein.Kist;
-import domein.Mannetje;
+import domein.MoveableType;
 import domein.VeldInterface;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -148,10 +147,10 @@ public class SpelbordCreatieSchermController {
 						image = IMAGE_DOEL;
 					} else {
 						if(!Objects.equals(veld.getMoveable(), null)) {
-							if(veld.getMoveable() instanceof Kist) {
+							if(veld.getMoveable().getType().equals(MoveableType.KIST)) {
 								image = IMAGE_KIST;
 								break;
-							} else if(veld.getMoveable() instanceof Mannetje) {
+							} else if(veld.getMoveable().getType().equals(MoveableType.MANNETJE)) {
 								image = IMAGE_MANNETJE;
 								break;
 							}
@@ -188,6 +187,7 @@ public class SpelbordCreatieSchermController {
 
 	@FXML
 	public void initialize() {
+		gc.dc.resetGekozenSpel();
 		btnBack.setText(Taal.vertaal("back"));
 		ObservableList<Actie> actionItems = FXCollections.observableArrayList(Arrays.asList(Actie.values()));
 		//listViewActions = new ListView<Action>;

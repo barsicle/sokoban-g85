@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import domein.Kist;
-import domein.Mannetje;
 import domein.Moveable;
+import domein.MoveableType;
 import domein.Spelbord;
 import domein.Veld;
 import domein.VeldType;
@@ -52,10 +51,10 @@ public class SpelbordMapper {
 			int moveableType = rs.getInt("moveable");
 			if (moveableType != 0) {
 				if(moveableType == 1) {
-					moveable = new Kist(veld);
+					moveable = new Moveable(veld, MoveableType.KIST);
 					kisten.add(moveable);
 				} else if (moveableType == 2) {
-					moveable = new Mannetje(veld);
+					moveable = new Moveable(veld, MoveableType.MANNETJE);
 					mannetje = moveable;
 				}
 			}
@@ -142,9 +141,9 @@ public class SpelbordMapper {
 	private int convertMoveableToInt(Moveable moveable) {
 		int type = 0;
 		if(!Objects.equals(moveable, null)) {
-			if(moveable instanceof Kist){
+			if(moveable.getType().equals(MoveableType.KIST)){
 				type = 1;
-			} else if (moveable instanceof Mannetje) {
+			} else if (moveable.getType().equals(MoveableType.MANNETJE)) {
 				type = 2;
 			}
 		}
