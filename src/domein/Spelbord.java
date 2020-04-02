@@ -184,7 +184,11 @@ public class Spelbord {
 			break;
 			case PLAATSDOEL: plaatsDoel(doel, x, y);
 			break;
-			case CLEAR: setVeld(null, x, y);
+			case CLEAR: {
+				setVeld(null, x, y);
+				if (hasMannetje)
+					hasMannetje = false;
+			}
 			break;
 		}
 	}
