@@ -221,7 +221,7 @@ public class Spelbord {
 		if(hasMannetje)
 			throw new RuntimeException(Taal.vertaal("exception_only_one"));
 		
-		this.velden[x][y].setMoveable(new Mannetje(this.velden[x][y]));
+		this.velden[x][y].setMoveable(new Moveable(this.velden[x][y], MoveableType.MANNETJE));
 		setVeld(this.velden[x][y], x, y);
 		hasMannetje = true;	
 	}
@@ -234,7 +234,7 @@ public class Spelbord {
 		if(getVeld(x,y).isDoel())
 			throw new RuntimeException(Taal.vertaal("box") + Taal.vertaal("exception_start_goal"));
 		
-		this.velden[x][y].setMoveable(new Kist(this.velden[x][y]));
+		this.velden[x][y].setMoveable(new Moveable(this.velden[x][y], MoveableType.KIST));
 		setVeld(this.velden[x][y], x, y);
 	}
 
