@@ -136,7 +136,7 @@ public class DomeinController {
 			throw new IllegalArgumentException(Taal.vertaal("exception_board_exists"));
 		}
 		if (spelbordNaam.equals(null) || spelbordNaam.equals("")) {
-			throw new IllegalArgumentException("Name cannot be blank.");
+			throw new IllegalArgumentException(Taal.vertaal("game_board_name" + Taal.vertaal("exception_not_blank")));
 		}
 		
 		int volgorde = gekozenSpel.getBordenTotaal();
@@ -145,7 +145,7 @@ public class DomeinController {
 	
 	public void voegSpelbordToe(Spelbord bord) {
 		if(!(bord.getKisten().size() == bord.getAantalDoelen()))
-			throw new RuntimeException("Er moeten evenveel doelen als kisten op het bord zijn.");
+			throw new RuntimeException(Taal.vertaal("exception_goals_boxes"));
 		gekozenSpel.voegNieuwSpelbordToe(bord);
 	}
 	

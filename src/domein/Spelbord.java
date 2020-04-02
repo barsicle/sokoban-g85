@@ -213,13 +213,13 @@ public class Spelbord {
 	
 	private void plaatsMannetje(int x, int y) {
 		if (Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
-			throw new RuntimeException("Mannetje kan niet op muur of leeg veld geplaatst worden.");
+			throw new RuntimeException(Taal.vertaal("worker") + Taal.vertaal("exception_empty_field"));
 		if(!hasNoMoveable(this.velden[x][y]))
-			throw new RuntimeException("Veld heeft al moveable");
+			throw new RuntimeException(Taal.vertaal("field") + Taal.vertaal("exception_moveable"));
 		if(getVeld(x,y).isDoel())
-			throw new RuntimeException("Mannetje mag niet starten op doel.");
+			throw new RuntimeException(Taal.vertaal("worker") + Taal.vertaal("exception_start_goal"));
 		if(hasMannetje)
-			throw new RuntimeException("There can be only one.");
+			throw new RuntimeException(Taal.vertaal("exception_only_one"));
 		
 		this.velden[x][y].setMoveable(new Mannetje(this.velden[x][y]));
 		setVeld(this.velden[x][y], x, y);
@@ -228,11 +228,11 @@ public class Spelbord {
 	
 	private void plaatsKist(int x, int y) {
 		if (Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
-			throw new RuntimeException("Kist kan niet op muur of leeg veld geplaatst worden.");
+			throw new RuntimeException(Taal.vertaal("box") + Taal.vertaal("exception_empty_field"));
 		if(!hasNoMoveable(this.velden[x][y]))
-			throw new RuntimeException("Veld heeft al moveable");
+			throw new RuntimeException(Taal.vertaal("field") + Taal.vertaal("exception_moveable"));
 		if(getVeld(x,y).isDoel())
-			throw new RuntimeException("Kist mag niet starten op doel.");
+			throw new RuntimeException(Taal.vertaal("box") + Taal.vertaal("exception_start_goal"));
 		
 		this.velden[x][y].setMoveable(new Kist(this.velden[x][y]));
 		setVeld(this.velden[x][y], x, y);
