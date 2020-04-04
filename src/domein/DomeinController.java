@@ -110,18 +110,14 @@ public class DomeinController {
 		return spelRepository.getSpelNamen();
 	}
 	
-	public void geefOp() {
-		
-	}
-	
-	public void creeerSpel(String spelNaam) throws RuntimeException {
+	public void creeerSpel(String spelNaam) throws IllegalArgumentException {
 		//Check dat er geen spaties zijn
 		if (spelNaam.contains(" ")) {
-			throw new RuntimeException(Taal.vertaal("exception_name_no_spaces"));
+			throw new IllegalArgumentException(Taal.vertaal("exception_name_no_spaces"));
 		}
 		//Check of spel al bestaat
 		if (spelRepository.geefSpel(spelNaam) != null) {
-			throw new RuntimeException(Taal.vertaal("exception_game_exists"));
+			throw new IllegalArgumentException(Taal.vertaal("exception_game_exists"));
 		}
 		
 		Spel spel = new Spel(spelNaam, new ArrayList<Spelbord>());
@@ -130,33 +126,35 @@ public class DomeinController {
 		gekozenSpel = spel;
 	}
 	
-	public void creeerSpelbord(String spelbordNaam) {
+	public void creeerSpelbord(String spelbordNaam) throws IllegalArgumentException {
 		//Check dat het niet in de huidige selectie zit om toe te voegen of al in de DB
+		if (spelbordNaam.equals(null) || spelbordNaam.equals("")) {
+			throw new IllegalArgumentException(Taal.vertaal("game_board_name") + Taal.vertaal("exception_not_blank"));
+		}
 		if(gekozenSpel.getBordnamen().contains(spelbordNaam) || spelbordRepository.bordExists(spelbordNaam)) {
 			throw new IllegalArgumentException(Taal.vertaal("exception_board_exists"));
-		}
-		if (spelbordNaam.equals(null) || spelbordNaam.equals("")) {
-			throw new IllegalArgumentException(Taal.vertaal("game_board_name" + Taal.vertaal("exception_not_blank")));
 		}
 		
 		int volgorde = gekozenSpel.getBordenTotaal();
 		huidigSpelbord = new Spelbord(spelbordNaam, volgorde);
 	}
 	
-	public void voegSpelbordToe(Spelbord bord) {
-		if(!(bord.getKisten().size() == bord.getAantalDoelen()))
+	public void voegSpelbordToe() {
+		if(huidigSpelbord.getKisten().size() != huidigSpelbord.getAantalDoelen())
 			throw new RuntimeException(Taal.vertaal("exception_goals_boxes"));
-		gekozenSpel.voegNieuwSpelbordToe(bord);
+		if(huidigSpelbord.getKisten().size() == 0 || huidigSpelbord.getAantalDoelen() == 0) {
+			throw new RuntimeException("Minstens 1 doel en 1 kist!");
+		}
+		if(Objects.equals(huidigSpelbord.getMannetje(), null)){
+			throw new RuntimeException("Mannetje is verplicht!");
+		}
+		gekozenSpel.voegNieuwSpelbordToe(huidigSpelbord);
 	}
 	
-	//TO DO : misschien dit void maken en een get zetten op SpelInterface? Dan kunnen er een shitload methods weg uit de DC zoals bordenvoltooid, totaal, ...
-	public SpelInterface registreerSpel() {
+	
+	public void registreerSpel() {
 		spelRepository.insertSpel(gekozenSpel);
-		
 		gekozenSpel.getSpelborden().stream().forEach(b -> spelbordRepository.insertBord(b, gekozenSpel.getSpelNaam()));
-		//resetGekozenSpel();
-		
-		return gekozenSpel;
 	}
 	
 	public SpelInterface getSpel() {
@@ -233,11 +231,7 @@ public class DomeinController {
 	public void creeerVeld(Actie actie, int x, int y) {
 		huidigSpelbord.creeerVeld(actie, x, y);
 	}
-	
-	public Spelbord getHuidigSpelbord() {
-		return this.huidigSpelbord;
-	}
-	
+
 	public VeldInterface getVeld(int x, int y) {
 		return this.huidigSpelbord.getVeld(x, y);
 	}
