@@ -17,7 +17,7 @@ public class Moveable {
     	return positie;
     }
 
-    public void setPositie(Veld positie) throws IllegalArgumentException {
+    protected void setPositie(Veld positie) throws IllegalArgumentException {
 		if (Objects.equals(positie, null))
 			throw new IllegalArgumentException(Taal.vertaal("field") + Taal.vertaal("exception_not_null"));
     	this.positie = positie;

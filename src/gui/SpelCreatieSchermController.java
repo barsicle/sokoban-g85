@@ -82,7 +82,8 @@ public class SpelCreatieSchermController extends GridPane {
     @FXML
     private void saveGame() {
     	try {
-    	SpelInterface spel = gc.dc.registreerSpel();
+    	gc.dc.registreerSpel();
+    	SpelInterface spel = gc.dc.getSpel();
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle(Taal.vertaal("done"));
 		alert.setHeaderText(null);

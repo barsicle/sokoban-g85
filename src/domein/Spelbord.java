@@ -14,7 +14,6 @@ public class Spelbord {
 	private List<Moveable> kisten;
 	private boolean voltooid;
 	private int aantalBewegingen;
-	private boolean hasMannetje;
 
 	/**
 	 * Creëert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
@@ -36,7 +35,8 @@ public class Spelbord {
 	public Spelbord(String spelbordNaam, int volgorde) {
 		this.spelbordNaam = spelbordNaam;
 		this.volgorde = volgorde;
-		this.velden = new Veld[10][10];
+		this.velden = new Veld[BordDimensies.getAantalRijen()][BordDimensies.getAantalKolommen()];
+		this.kisten = new ArrayList<>();
 	}
 
 	public String getSpelbordNaam() {
@@ -174,41 +174,45 @@ public class Spelbord {
 		Veld doel = new Veld(VeldType.VELD, true, x, y);
 		
 		switch(actie) { 
-			case PLAATSMUUR: plaatsMuur(muur, x, y);
+			case PLAATSMUUR:
+				if(!Objects.equals(getVeld(x,y), null)) {
+					creeerVeld(Actie.CLEAR, x, y);
+				}
+				setVeld(muur, x, y);
 			break;
-			case PLAATSVELD: plaatsVeld(nieuwVeld, x, y);
+			case PLAATSVELD: 
+				if(!Objects.equals(getVeld(x,y), null)) {
+					creeerVeld(Actie.CLEAR, x, y);
+				}
+				setVeld(nieuwVeld, x, y);
 			break;
 			case PLAATSMANNETJE: plaatsMannetje(x, y);
 			break;
 			case PLAATSKIST: plaatsKist(x, y);
 			break;
-			case PLAATSDOEL: plaatsDoel(doel, x, y);
+			case PLAATSDOEL:
+				if(!Objects.equals(getVeld(x,y), null)) {
+					creeerVeld(Actie.CLEAR, x, y);
+				}
+				setVeld(doel, x, y);
 			break;
 			case CLEAR: {
+				if(!Objects.equals(getVeld(x,y).getMoveable(), null)) {
+					Moveable moveable = getVeld(x,y).getMoveable();
+					if(moveable.getType().equals(MoveableType.KIST)) {
+						Moveable kistToRemove = kisten.stream()
+													.filter(k -> k.getPositie().getX() == x && k.getPositie().getY() == y)
+													.collect(Collectors.toList()).get(0);
+						kisten.remove(kistToRemove);
+					} else if (moveable.getType().equals(MoveableType.MANNETJE)) {
+						this.mannetje = null;
+					}
+					getVeld(x,y).setMoveable(null);
+				}
 				setVeld(null, x, y);
-				if (hasMannetje)
-					hasMannetje = false;
 			}
 			break;
 		}
-	}
-	
-	private void plaatsMuur(Veld muur, int x, int y) {
-			setVeld(muur, x, y);
-			if(hasMannetje)
-				hasMannetje = false;
-	}
-	
-	private void plaatsVeld(Veld veld, int x, int y) {
-		setVeld(veld, x, y);
-		if(hasMannetje)
-			hasMannetje = false;
-	}
-	
-	private void plaatsDoel(Veld doel, int x, int y) {
-		setVeld(doel, x, y);
-		if(hasMannetje)
-			hasMannetje = false;
 	}
 	
 	private void plaatsMannetje(int x, int y) {
@@ -218,12 +222,14 @@ public class Spelbord {
 			throw new RuntimeException(Taal.vertaal("field") + Taal.vertaal("exception_moveable"));
 		if(getVeld(x,y).isDoel())
 			throw new RuntimeException(Taal.vertaal("worker") + Taal.vertaal("exception_start_goal"));
-		if(hasMannetje)
+
+		if(!Objects.equals(this.mannetje, null))
 			throw new RuntimeException(Taal.vertaal("exception_only_one"));
-		
-		this.velden[x][y].setMoveable(new Moveable(this.velden[x][y], MoveableType.MANNETJE));
+	
+		Moveable mannetje = new Moveable(this.velden[x][y], MoveableType.MANNETJE);
+		this.mannetje = mannetje;
+		this.velden[x][y].setMoveable(mannetje);
 		setVeld(this.velden[x][y], x, y);
-		hasMannetje = true;	
 	}
 	
 	private void plaatsKist(int x, int y) {
@@ -234,11 +240,13 @@ public class Spelbord {
 		if(getVeld(x,y).isDoel())
 			throw new RuntimeException(Taal.vertaal("box") + Taal.vertaal("exception_start_goal"));
 		
-		this.velden[x][y].setMoveable(new Moveable(this.velden[x][y], MoveableType.KIST));
+		Moveable kist = new Moveable(this.velden[x][y], MoveableType.KIST);
+		kisten.add(kist);
+		this.velden[x][y].setMoveable(kist);
 		setVeld(this.velden[x][y], x, y);
 	}
 
-	public VeldInterface getVeld(int x, int y) {
+	public Veld getVeld(int x, int y) {
 		return this.velden[x][y];
 	}
 	
@@ -246,8 +254,9 @@ public class Spelbord {
 		int aantal = 0;
 		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
 			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
-				if (getVeld(i, j).isDoel())
+				if (!Objects.equals(getVeld(i, j), null) && getVeld(i, j).isDoel()) {
 					aantal++;
+				}
 			}
 		}
 		return aantal;
