@@ -14,13 +14,23 @@ import domein.MoveableType;
 import domein.Spelbord;
 import domein.Veld;
 import domein.VeldType;
-
+/**
+ * Stelt de mapper voor die met de database communiceert.
+ * @author g85
+ */
 public class SpelbordMapper {
 	private static final String GET_SPELBORDEN = "SELECT * FROM ID222177_g85.spelbord WHERE spelNaam = ?";
 	private static final String GET_SPELBORD = "SELECT * FROM ID222177_g85.spelbord INNER JOIN ID222177_g85.veld ON spelbord.spelbordNaam = veld.spelbordNaam WHERE spelbord.spelbordNaam = ?";
 	private static final String INSERT_SPELBORD = "INSERT INTO ID222177_g85.spelbord(spelbordNaam,volgorde,spelNaam) VALUES(?, ?, ?)";
 	private static final String INSERT_VELDEN = "INSERT INTO ID222177_g85.veld(x,y,doel,veldType,moveable,spelbordNaam) VALUES(?, ?, ?, ?, ?, ?)";
-	
+	/**
+	 * Geeft het spelbord met de gegeven naam en de gegeven dimensies terug uit de database. Werpt een RuntimeException indien er een probleem is met de database.
+	 * @param spelbordNaam De naam van het op te halen spelbord.
+	 * @param x Het aantal rijen van het spelbord.
+	 * @param y Het aantal kolommen van het spelbord.
+	 * @return het spelbord met de gegeven spelbordnaam en dimensies.
+	 * @throws RuntimeException
+	 */		
 	public Spelbord geefBordMetVelden(String spelbordNaam, int aantalRijen, int aantalKolommen) throws RuntimeException {
 		Veld[][] velden = new Veld[aantalRijen][aantalKolommen];
 		
@@ -73,7 +83,12 @@ public class SpelbordMapper {
 		
 		return bord;
 	}
-
+	/**
+	 * Geeft een lijst van de spelborden van het spel met gegeven spelnaam terug uit de database. 
+	 * Werpt een RuntimeException indien er een probleem is met de database.
+	 * @param spelNaam De naam van het spel waarvan de spelborden worden opgehaald.
+	 * @return een lijst van spelborden van het spel met de gegeven spelnaam.
+	 */		
 	public List<Spelbord> geefBorden(String spelNaam) throws RuntimeException {
 		List<Spelbord> borden = new ArrayList<>();
 		try {
@@ -95,7 +110,12 @@ public class SpelbordMapper {
 		
 		return borden;
 	}
-	
+	/**
+	 * Insert het gegeven spelbord van het gegeven spel in de database. Werpt een RuntimeException indien er een probleem is met de database.
+	 * @param spelBord Het te inserten spelBord.
+	 * @param spelNaam De naam van het spel van het te inserteren spelbord.
+	 * @throws RuntimeException
+	 */	
 	public void insertBord(Spelbord spelbord, String spelNaam) throws RuntimeException {
 		try {
 			Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);

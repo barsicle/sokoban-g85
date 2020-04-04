@@ -33,6 +33,7 @@ public class Speler{
 	 * @param wachtwoord Het wachtwoord van de speler.
 	 * @param adminrechten Of de speler adminrechten bezit.
 	 * @param spelerRepository Testing van de klasse.
+	 * @throws IllegalArgumentException
 	 */
 	public Speler(String naam, String voornaam, String gebruikersnaam, String wachtwoord, boolean adminrechten)
 			throws IllegalArgumentException {
@@ -91,6 +92,7 @@ public class Speler{
 	 * de gebruikersnaam leeg is of kleiner dan 8 karakters.
 	 * 
 	 * @param gebruikersnaam De gewenste gebruikersnaam van de speler.
+	 * @throws IllegalArgumentException
 	 */
 	public void setGebruikersnaam(String gebruikersnaam) throws IllegalArgumentException {
 

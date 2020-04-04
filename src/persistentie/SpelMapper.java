@@ -10,13 +10,21 @@ import java.util.List;
 
 import domein.Spel;
 import domein.Spelbord;
-
+/**
+ * Stelt de mapper voor die met de database communiceert.
+ * @author g85
+ */
 public class SpelMapper {
 
 	private static final String GET_SPEL = "SELECT * FROM ID222177_g85.spel WHERE spel.spelNaam = ?";
 	private static final String GET_SPELLEN = "SELECT * FROM ID222177_g85.spel";
 	private static final String INSERT_SPEL = "INSERT INTO ID222177_g85.spel(spelNaam, speler) VALUES (?, ?)";
-			
+	/**
+	 * Geeft het spel met de gegeven naam terug uit de database. Werpt een RuntimeException indien er een probleem is met de database.
+	 * @param spelNaam De naam van het op te halen spel.
+	 * @return het spel met de gegeven spelnaam.
+	 * @throws RuntimeException
+	 */		
 	public Spel geefSpel(String spelNaam) throws RuntimeException {
 		Spel spel = null;
 
@@ -38,7 +46,10 @@ public class SpelMapper {
 		
 		return spel;
 	}
-
+	/**
+	 * Geeft een lijst van de namen van de spelen terug uit de database. 
+	 * @return het spel met de gegeven spelnaam.
+	 */		
 	public List<String> getSpelNamen() {
 		List<String> spellen = new ArrayList<>();
 
@@ -58,7 +69,11 @@ public class SpelMapper {
 		
 		return spellen;
 	}
-	
+	/**
+	 * Insert het gegeven spel in de database. Werpt een RuntimeException indien er een probleem is met de database.
+	 * @param spel Het te inserten spel.
+	 * @throws RuntimeException
+	 */		
 	public void insertSpel(Spel spel) throws RuntimeException {
 		try {
 		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);

@@ -24,7 +24,7 @@ public class DomeinController {
 	
 	//UC1
 	/**
-	 * Creï¿½ert een instantie van de domeincontroller.
+	 * Creëert een instantie van de domeincontroller.
 	 */
 	public DomeinController() {
 		this.spelerRepository = new SpelerRepository();
@@ -44,6 +44,7 @@ public class DomeinController {
 	 * @param  gebruikersnaam De gebruikersnaam van de gebruiker.
 	 * @param  wachtwoord Het wachtwoord van de gebruiker.
 	 * @param  wachtwoordBevestiging De bevestiging van het wachtwoord van de gebruiker. Moet overeenkomen met het wachtwoord.
+	 * @throws IllegalArgumentException
 	 */
 	public void registreer(String naam, String voornaam, String gebruikersnaam, String wachtwoord, String wachtwoordBevestiging) throws IllegalArgumentException {
 		if (!wachtwoord.equals(wachtwoordBevestiging)) {
@@ -65,6 +66,7 @@ public class DomeinController {
 	 *
 	 * @param  gebruikersnaam De gebruikersnaam van de speler.
 	 * @param  wachtwoord Het wachtwoord van de speler.
+	 * @throws RuntimeException
 	 */
 	public void meldAan(String gebruikersnaam, String wachtwoord) throws RuntimeException {
 		if(!spelerRepository.bestaatSpeler(gebruikersnaam)) {
@@ -106,10 +108,20 @@ public class DomeinController {
         this.speler = speler;
     }
 	
+	/**
+	 * Geeft een lijst van de namen van alle spelen terug.
+	 * @return een lijst van de de namen van de spelen.
+	 */
 	public List<String> getSpelNamen(){
 		return spelRepository.getSpelNamen();
 	}
 	
+	/**
+	 * Creëert een spel met opgegeven naam. Werpt een IllegalArgumentException indien de spelnaam spaties bevat of
+	 * indien het spel met de opgegeven naam al bestaat.
+	 * @param spelNaam De naam van het spel.
+	 * @throws IllegalArgumentException
+	 */
 	public void creeerSpel(String spelNaam) throws IllegalArgumentException {
 		//Check dat er geen spaties zijn
 		if (spelNaam.contains(" ")) {
@@ -126,6 +138,12 @@ public class DomeinController {
 		gekozenSpel = spel;
 	}
 	
+	/**
+	 * Creëert een spelbord met opgegeven naam. Werpt een IllegalArgumentException indien de spelbordnaam null is of een lege string of
+	 * indien het spelbord met de opgegeven naam al bestaat. Het gemaakte spelbord wordt het huidige spelbord.
+	 * @param spelbordNaam De naam van het spelbord.
+	 * @throws IllegalArgumentException
+	 */
 	public void creeerSpelbord(String spelbordNaam) throws IllegalArgumentException {
 		//Check dat het niet in de huidige selectie zit om toe te voegen of al in de DB
 		if (spelbordNaam.equals(null) || spelbordNaam.equals("")) {
@@ -139,36 +157,52 @@ public class DomeinController {
 		huidigSpelbord = new Spelbord(spelbordNaam, volgorde);
 	}
 
-	public void voegSpelbordToe() {
+	/**
+	 * Voegt een spelbord toe aan het gekozen spel.
+	 * @param spelbordNaam De naam van het spelbord. Werpt een RuntimeException indien het aantal kisten niet gelijk is
+	 * aan het aantal doelen, indien er niet genoeg doelen of kisten op het bord staan of indien er geen mannetje op het bord staat.
+	 * @throws RuntimeException
+	 */
+	public void voegSpelbordToe() throws RuntimeException{
 		if(huidigSpelbord.getKisten().size() != huidigSpelbord.getAantalDoelen())
 			throw new RuntimeException(Taal.vertaal("exception_goals_boxes"));
 		if(huidigSpelbord.getKisten().size() == 0 || huidigSpelbord.getAantalDoelen() == 0) {
-			throw new RuntimeException("Minstens 1 doel en 1 kist!");
+			throw new RuntimeException(Taal.vertaal("exception_minimum"));
 		}
 		if(Objects.equals(huidigSpelbord.getMannetje(), null)){
-			throw new RuntimeException("Mannetje is verplicht!");
+			throw new RuntimeException(Taal.vertaal("exception_worker_required"));
 		}
 		gekozenSpel.voegNieuwSpelbordToe(huidigSpelbord);
 
 	}
 	
-	
+	/**
+	 * Registreert het gekozen spel en zijn spelborden in de repositories.
+	 */
 	public void registreerSpel() {
 		spelRepository.insertSpel(gekozenSpel);
 		gekozenSpel.getSpelborden().stream().forEach(b -> spelbordRepository.insertBord(b, gekozenSpel.getSpelNaam()));
 	}
 	
+	/**
+	 * Geeft het huidige spel terug.
+	 * @return gebruikersnaam
+	 */
 	public SpelInterface getSpel() {
 		return this.gekozenSpel;
 	}
 	
-	
+	/**
+	 * Stelt het gekozen spel in op null.
+	 */
 	public void resetGekozenSpel() {
 		gekozenSpel = null;
 	}
 	
-	
-	//Haal spel op uit de repo en zet zijn borden erna
+	/**
+	 * Haalt het spel met opgegeven naam op uit de repository, haalt zijn overeenkomstige spelborden
+	 * op en stelt het spel in als gekozen spel. 
+	 */
 	public void kiesSpel(String spelNaam) {
 		gekozenSpel = spelRepository.geefSpel(spelNaam);
 		List<Spelbord> borden = spelbordRepository.geefSpelborden(spelNaam);
@@ -176,24 +210,45 @@ public class DomeinController {
 		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(gekozenSpel.getBordNaam(), BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen());
 		
 	}
-
+	/**
+	 * Geeft de velden van het huidige spelbord terug.
+	 * @return de velden van het spelbord.
+	 */
 	public VeldInterface[][] geefVelden() {
 		return huidigSpelbord.getVelden();
 	}
 
+	/**
+	 * Beweegt het mannetje in de gekozen richting.
+	 * @param richting de gekozen richting.
+	 * @throws RuntimeException
+	 */
 	public void beweeg(BeweegRichting richting) throws RuntimeException {
 		huidigSpelbord.beweeg(richting);
 	}
 
-
+	/**
+	 * Geeft het mannetje van het hudige spelbord terug.
+	 * @return het mannetje van het huidige spelbord.
+	 */
     public Moveable getMannetje() {
 		return huidigSpelbord.getMannetje();
     }
 
+	/**
+	 * Geeft een lijst van de kisten van het huidige spelbord terug. 
+	 * @return een lijst van de kisten.
+	 */
 	public List<Moveable> getKisten() {
 		return huidigSpelbord.getKisten();
 	}
 
+	/**
+	 * Controleert of het spelbord voltooid is. Als het spelbord voltooid is maar het spel nog niet
+	 * zet de methode het volgende bord klaar.
+	 * 
+	 * @return true indien het spelbord voltooid is, anders false.
+	 */
 	public boolean checkBordVoltooid() {
 		boolean voltooid = huidigSpelbord.isVoltooid();
 		if (voltooid && !(checkSpelVoltooid())) {
@@ -204,35 +259,60 @@ public class DomeinController {
 		}
 		return voltooid;
 	}
-	
+	/**
+	 * Controleert of het spel voltooid is.
+	 * @return true als het spel voltooid is, anders false.
+	 */
 	public boolean checkSpelVoltooid() {
 		return gekozenSpel.checkSpelvoltooid();
 	}
-	
+	/**
+	 * Geeft het aantal voltooide spelborden van het spel terug.
+	 * @return het aantal voltooide spelborden.
+	 */
 	public int getBordenVoltooid() {
 		return gekozenSpel.getBordenVoltooid();
 	}
-	
+	/**
+	 * Geeft het totaal aantal spelborden van het spel terug.
+	 * @return het totaal aantal spelborden van het spel.
+	 */
 	public int getBordenTotaal() {
 		return gekozenSpel.getBordenTotaal();
 	}
-	
+	/**
+	 * Reset het spelbord op het moment van spelen.
+	 */
 	public void resetBord() {
 		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(huidigSpelbord.getSpelbordNaam(), BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen());
 	}
-	
+	/**
+	 * Reset het spelbord op het moment van creatie.
+	 */
 	public void resetBordCreatie() {
 		creeerSpelbord(huidigSpelbord.getSpelbordNaam());
 	}
-	
+	/**
+	 * Geeft het aantal bewegingen van het mannetje op het spelbord terug.
+	 * @return het aantal bewegingen van het mannetje op het spelbord.
+	 */
 	public int getAantalBewegingen() {
 		return huidigSpelbord.getAantalBewegingen();
 	}
-	
+	/**
+	 * Maakt een gegeven veld aan op de gespecifieerde locatie.
+	 * @param actie Het soort veld dat gecreëerd wordt of een clear van het veld.
+	 * @param x De rij waarop het veld komt.
+	 * @param y De kolom waarop het veld komt.
+	 */
 	public void creeerVeld(Actie actie, int x, int y) {
 		huidigSpelbord.creeerVeld(actie, x, y);
 	}
-
+	/**
+	 * Geeft het veld op de gegeven locatie terug.
+	 * @param De gegevn rij.
+	 * @param De gegeven kolom.
+	 */
 	public VeldInterface getVeld(int x, int y) {
 		return this.huidigSpelbord.getVeld(x, y);
 	}
