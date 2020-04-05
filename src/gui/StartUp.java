@@ -16,6 +16,7 @@ public class StartUp {
 	 * @param args De command line argumenten.
 	 */
 	public static void main(String[] args){
+
 		if (args.length > 0 && args[0].toUpperCase().equals("CLI")) {
 			DomeinController dc = new DomeinController();
 			CliController controller = new CliController(dc);
@@ -23,9 +24,6 @@ public class StartUp {
 		} else {
 			Application.launch(GuiController.class);
 		}
-		
-		
-
 	}
 
 }

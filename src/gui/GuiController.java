@@ -1,5 +1,7 @@
 package gui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import domein.DomeinController;
@@ -7,14 +9,23 @@ import domein.VeldInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class GuiController extends Application {
 	private static Scene scene;
 	protected DomeinController dc;
+	protected Image IMAGE_WALL;
+	protected Image IMAGE_VELD;
+	protected Image IMAGE_DOEL;
+	protected Image IMAGE_KIST;
+	protected Image IMAGE_MANNETJE;
+	protected Image IMAGE_LEEG;
+	protected Image IMAGE_ERASER;
 	
 	public GuiController() {
 		dc = new DomeinController();
+		loadImages();
 		
 	}
 	
@@ -104,8 +115,32 @@ public class GuiController extends Application {
 				e.printStackTrace();
 			}
 			break;
+		case SpelbordCreatieScherm:
+			fxmlLoader = new FXMLLoader(getClass().getResource("SpelbordCreatieScherm.fxml"));
+			fxmlLoader.setController(new SpelbordCreatieSchermController(this));
+			try {
+				scene.setRoot(fxmlLoader.load());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
 		default:
 			
+		}
+	}
+	
+	private void loadImages() {
+		try {
+			IMAGE_WALL = new Image(new FileInputStream("bin/gui/assets/images/wall.jpg"));
+			IMAGE_VELD = new Image(new FileInputStream("bin/gui/assets/images/floor.jpg"));
+			IMAGE_KIST = new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
+			IMAGE_DOEL = new Image(new FileInputStream("bin/gui/assets/images/floor-goal.jpg"));
+			IMAGE_MANNETJE = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
+			IMAGE_LEEG = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
+			IMAGE_ERASER = new Image(new FileInputStream("bin/gui/assets/images/eraser.jpg"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

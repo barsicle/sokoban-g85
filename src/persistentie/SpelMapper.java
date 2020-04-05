@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domein.Spel;
-import domein.SpelbordRepository;
+import domein.Spelbord;
 
 public class SpelMapper {
 
@@ -28,7 +28,7 @@ public class SpelMapper {
 		ResultSet rs = query.executeQuery();
 		
 		if (rs.next()) {
-			spel = new Spel(spelNaam, new SpelbordRepository());
+			spel = new Spel(spelNaam, new ArrayList<Spelbord>());
 		}
 		} catch (SQLException | IllegalArgumentException e) {
 			throw new RuntimeException(e);

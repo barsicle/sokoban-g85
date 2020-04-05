@@ -1,6 +1,7 @@
 package domein;
 
 import java.util.List;
+import java.util.Objects;
 
 import persistentie.SpelbordMapper;
 
@@ -19,7 +20,11 @@ public class SpelbordRepository {
 		return spelbordMapper.geefBorden(spelNaam);
 	}
 	
-	public void insertBord(Spelbord spelbord) {
-		spelbordMapper.insertBord(spelbord);
+	public void insertBord(Spelbord spelbord, String spelNaam) {
+		spelbordMapper.insertBord(spelbord, spelNaam);
+	}
+	
+	public boolean bordExists(String spelbordNaam) {
+		return !Objects.equals(spelbordMapper.geefBordMetVelden(spelbordNaam, BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen()), null); 
 	}
 }

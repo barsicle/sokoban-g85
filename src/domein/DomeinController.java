@@ -1,5 +1,8 @@
 package domein;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,8 +17,10 @@ public class DomeinController {
 	// Properties
 	private final SpelerRepository spelerRepository;
 	private final SpelRepository spelRepository;
+	private final SpelbordRepository spelbordRepository;
 	private Speler speler;
 	private Spel gekozenSpel;
+	private Spelbord huidigSpelbord;
 	
 	//UC1
 	/**
@@ -24,7 +29,9 @@ public class DomeinController {
 	public DomeinController() {
 		this.spelerRepository = new SpelerRepository();
 		this.spelRepository = new SpelRepository();
+		this.spelbordRepository = new SpelbordRepository();
 	}
+	
 	
 	
 	//UC2
@@ -50,7 +57,6 @@ public class DomeinController {
 		nieuweSpeler.resetWachtwoord();
 		setSpeler(nieuweSpeler);
 
-				
 	}
 	//UC1
 	/**
@@ -104,73 +110,98 @@ public class DomeinController {
 		return spelRepository.getSpelNamen();
 	}
 	
-	public void geefOp() {
-		
-	}
-	
-	public void creeerSpel(String spelNaam) throws RuntimeException {
+	public void creeerSpel(String spelNaam) throws IllegalArgumentException {
 		//Check dat er geen spaties zijn
 		if (spelNaam.contains(" ")) {
-			throw new RuntimeException(Taal.vertaal("exception_name_no_spaces"));
+			throw new IllegalArgumentException(Taal.vertaal("exception_name_no_spaces"));
 		}
 		//Check of spel al bestaat
 		if (spelRepository.geefSpel(spelNaam) != null) {
-			throw new RuntimeException(Taal.vertaal("exception_game_exists"));
+			throw new IllegalArgumentException(Taal.vertaal("exception_game_exists"));
 		}
 		
-		Spel spel = new Spel(spelNaam, new SpelbordRepository());
+		Spel spel = new Spel(spelNaam, new ArrayList<Spelbord>());
 		spel.setAanmaker(speler);
 		
 		gekozenSpel = spel;
 	}
 	
-	public void creeerSpelbord(String spelbordNaam) {
-		if(gekozenSpel.getBordnamen().contains(spelbordNaam)) {
-			throw new RuntimeException(Taal.vertaal("exception_board_exists"));
+	public void creeerSpelbord(String spelbordNaam) throws IllegalArgumentException {
+		//Check dat het niet in de huidige selectie zit om toe te voegen of al in de DB
+		if (spelbordNaam.equals(null) || spelbordNaam.equals("")) {
+			throw new IllegalArgumentException(Taal.vertaal("game_board_name") + Taal.vertaal("exception_not_blank"));
+		}
+		if(gekozenSpel.getBordnamen().contains(spelbordNaam) || spelbordRepository.bordExists(spelbordNaam)) {
+			throw new IllegalArgumentException(Taal.vertaal("exception_board_exists"));
 		}
 		
-		gekozenSpel.voegNieuwSpelbordToe(spelbordNaam);
+		int volgorde = gekozenSpel.getBordenTotaal();
+		huidigSpelbord = new Spelbord(spelbordNaam, volgorde);
 	}
 	
-	public SpelInterface registreerSpel() {
+	public void voegSpelbordToe() {
+		if(huidigSpelbord.getKisten().size() != huidigSpelbord.getAantalDoelen())
+			throw new RuntimeException(Taal.vertaal("exception_goals_boxes"));
+		if(huidigSpelbord.getKisten().size() == 0 || huidigSpelbord.getAantalDoelen() == 0) {
+			throw new RuntimeException("Minstens 1 doel en 1 kist!");
+		}
+		if(Objects.equals(huidigSpelbord.getMannetje(), null)){
+			throw new RuntimeException("Mannetje is verplicht!");
+		}
+		gekozenSpel.voegNieuwSpelbordToe(huidigSpelbord);
+	}
+	
+	
+	public void registreerSpel() {
 		spelRepository.insertSpel(gekozenSpel);
-		
-		gekozenSpel.registreerBorden();
-		//resetGekozenSpel();
-		
-		return gekozenSpel;
+		gekozenSpel.getSpelborden().stream().forEach(b -> spelbordRepository.insertBord(b, gekozenSpel.getSpelNaam()));
 	}
 	
-	/*
+	public SpelInterface getSpel() {
+		return this.gekozenSpel;
+	}
+	
+	
 	public void resetGekozenSpel() {
 		gekozenSpel = null;
 	}
-	*/
 	
+	
+	//Haal spel op uit de repo en zet zijn borden erna
 	public void kiesSpel(String spelNaam) {
 		gekozenSpel = spelRepository.geefSpel(spelNaam);
+		List<Spelbord> borden = spelbordRepository.geefSpelborden(spelNaam);
+		gekozenSpel.setSpelborden(borden);
+		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(gekozenSpel.getBordNaam(), BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen());
 		
 	}
 
 	public VeldInterface[][] geefVelden() {
-		return gekozenSpel.geefVelden();
+		return huidigSpelbord.getVelden();
 	}
 
 	public void beweeg(BeweegRichting richting) throws RuntimeException {
-		gekozenSpel.beweeg(richting);
+		huidigSpelbord.beweeg(richting);
 	}
 
 
     public Moveable getMannetje() {
-		return gekozenSpel.geefMannetje();
+		return huidigSpelbord.getMannetje();
     }
 
 	public List<Moveable> getKisten() {
-		return gekozenSpel.geefKisten();
+		return huidigSpelbord.getKisten();
 	}
 
 	public boolean checkBordVoltooid() {
-		return gekozenSpel.checkBordVoltooid();
+		boolean voltooid = huidigSpelbord.isVoltooid();
+		if (voltooid && !(checkSpelVoltooid())) {
+			gekozenSpel.volgendBord();
+			if (!gekozenSpel.checkSpelvoltooid()) {
+				huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(gekozenSpel.getBordNaam(), BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen());
+			}
+		}
+		return voltooid;
 	}
 	
 	public boolean checkSpelVoltooid() {
@@ -186,12 +217,22 @@ public class DomeinController {
 	}
 	
 	public void resetBord() {
-		gekozenSpel.resetBord();
+		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(huidigSpelbord.getSpelbordNaam(), BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen());
+	}
+	
+	public void resetBordCreatie() {
+		creeerSpelbord(huidigSpelbord.getSpelbordNaam());
 	}
 	
 	public int getAantalBewegingen() {
-		return gekozenSpel.getAantalBewegingen();
+		return huidigSpelbord.getAantalBewegingen();
 	}
 	
+	public void creeerVeld(Actie actie, int x, int y) {
+		huidigSpelbord.creeerVeld(actie, x, y);
+	}
 
+	public VeldInterface getVeld(int x, int y) {
+		return this.huidigSpelbord.getVeld(x, y);
+	}
 }

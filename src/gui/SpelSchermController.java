@@ -2,23 +2,20 @@ package gui;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import domein.BeweegRichting;
-import domein.DomeinController;
-import domein.VeldInterface;
+import domein.BordDimensies;
 import domein.Moveable;
-import domein.Veld;
+import domein.VeldInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -43,13 +40,13 @@ public class SpelSchermController {
 
 	@FXML
 	private Button btnBack;
-	
+
 	@FXML
 	private Button btnReset;
-	
+
 	@FXML
 	private Label lblNumberMoves;
-	
+
 	@FXML
 	private Label lblMessage;
 
@@ -60,43 +57,38 @@ public class SpelSchermController {
 	private void bouwScherm() {
 		VeldInterface[][] velden = gc.dc.geefVelden();
 		// i = kolom, j = rij
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
+			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
 				HBox box = new HBox();
 				Image image;
-				try {
-					VeldInterface veld = velden[i][j];
-					if (Objects.equals(veld, null)) {
-						image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
-					} else {
-						switch (veld.getVeldType()) {
-						case MUUR:
-							image = new Image(new FileInputStream("bin/gui/assets/images/wall.jpg"));
-							break;
-						case VELD:
-							boolean doel = veld.isDoel();
-							if (doel) {
-								image = new Image(new FileInputStream("bin/gui/assets/images/floor-goal.jpg"));
-							} else {
-								image = new Image(new FileInputStream("bin/gui/assets/images/floor.jpg"));
-							}
-
-							break;
-						default:
-							image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
-							break;
+				VeldInterface veld = velden[i][j];
+				if (Objects.equals(veld, null)) {
+					image = gc.IMAGE_LEEG;
+				} else {
+					switch (veld.getVeldType()) {
+					case MUUR:
+						image = gc.IMAGE_WALL;
+						break;
+					case VELD:
+						boolean doel = veld.isDoel();
+						if (doel) {
+							image = gc.IMAGE_DOEL;
+						} else {
+							image = gc.IMAGE_VELD;
 						}
-					}
 
-					ImageView imageView = new ImageView(image);
-					imageView.setFitHeight(50);
-					imageView.setFitWidth(50);
-					box.getChildren().add(imageView);
-					speelVeld.add(box, i, j);
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						break;
+					default:
+						image = gc.IMAGE_LEEG;
+						break;
+					}
 				}
+
+				ImageView imageView = new ImageView(image);
+				imageView.setFitHeight(50);
+				imageView.setFitWidth(50);
+				box.getChildren().add(imageView);
+				speelVeld.add(box, i, j);
 
 			}
 		}
@@ -104,37 +96,32 @@ public class SpelSchermController {
 	}
 
 	private void updateScherm() {
-		//Zet aantal moves
-		lblNumberMoves.setText(Taal.vertaal("number_of_moves")+gc.dc.getAantalBewegingen());
-		//Label wissen
+		// Zet aantal moves
+		lblNumberMoves.setText(Taal.vertaal("number_of_moves") + gc.dc.getAantalBewegingen());
+		// Label wissen
 		lblMessage.setText("");
 		// Eerst wissen, daarna opnieuw opbouwen
 		beweegVeld.getChildren().clear();
-		try {
-			// Mannetje
-			HBox box = new HBox();
-			Image image = new Image(new FileInputStream("bin/gui/assets/images/mario.jpg"));
-			Moveable mannetje = gc.dc.getMannetje();
-			ImageView imageView = new ImageView(image);
-			VeldInterface mannetjePositie = mannetje.getPositie();
+		// Mannetje
+		HBox box = new HBox();
+		Image image = gc.IMAGE_MANNETJE;
+		Moveable mannetje = gc.dc.getMannetje();
+		ImageView imageView = new ImageView(image);
+		VeldInterface mannetjePositie = mannetje.getPositie();
+		imageView.setFitHeight(50);
+		imageView.setFitWidth(50);
+		box.getChildren().add(imageView);
+		beweegVeld.add(box, mannetjePositie.getX(), mannetjePositie.getY());
+
+		List<Moveable> kisten = gc.dc.getKisten();
+		for (Moveable kist : kisten) {
+			HBox kistBox = new HBox();
+			Image kistImage = gc.IMAGE_KIST;
+			imageView = new ImageView(kistImage);
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);
-			box.getChildren().add(imageView);
-			beweegVeld.add(box, mannetjePositie.getX(), mannetjePositie.getY());
-
-			List<Moveable> kisten = gc.dc.getKisten();
-			for (Moveable kist : kisten) {
-				HBox kistBox = new HBox();
-				Image kistImage = new Image(new FileInputStream("bin/gui/assets/images/chest.jpg"));
-				imageView = new ImageView(kistImage);
-				imageView.setFitHeight(50);
-				imageView.setFitWidth(50);
-				kistBox.getChildren().add(imageView);
-				beweegVeld.add(kistBox, kist.getPositie().getX(), kist.getPositie().getY());
-			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			kistBox.getChildren().add(imageView);
+			beweegVeld.add(kistBox, kist.getPositie().getX(), kist.getPositie().getY());
 		}
 
 		// Check of spel voltooid is
@@ -150,7 +137,8 @@ public class SpelSchermController {
 				alert.setContentText(Taal.vertaal("game_complete"));
 
 				alert.showAndWait();
-				gc.switchScherm(Scherm.Hoofdscherm);
+				gc.dc.resetGekozenSpel();
+				gc.switchScherm(Scherm.SpelMenuScherm);
 			} else {
 				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 				ButtonType buttonVolgendLevel = new ButtonType(Taal.vertaal("next_board"));
@@ -184,7 +172,7 @@ public class SpelSchermController {
 		gc.dc.resetBord();
 		bouwScherm();
 	}
-	
+
 	@FXML
 	private void beweeg(KeyEvent event) {
 		try {

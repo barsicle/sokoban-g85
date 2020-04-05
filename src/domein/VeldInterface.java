@@ -10,4 +10,6 @@ public interface VeldInterface {
 	
 	public boolean isDoel();
 	
+	public Moveable getMoveable();
+	
 }

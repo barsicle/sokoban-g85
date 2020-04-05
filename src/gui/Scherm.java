@@ -8,6 +8,7 @@ public enum Scherm {
 	SpelScherm,
 	SpelSelectScherm,
 	TaalSelectScherm,
-	SpelCreatieScherm
+	SpelCreatieScherm,
+	SpelbordCreatieScherm
 
 }

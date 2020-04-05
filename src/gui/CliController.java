@@ -1,10 +1,12 @@
 package gui;
 
+import java.io.Console;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
+import domein.BeweegRichting;
 import domein.DomeinController;
 import domein.Moveable;
 import domein.Veld;
@@ -20,14 +22,10 @@ import vertalingen.Talen;
 public class CliController {
 	private DomeinController dc;
 	private Scanner scan;
-	private static final String SOKOBAN_ASCII_ART = "   _____       _         _                 \r\n"
-			+ "  / ____|     | |       | |                \r\n" + " | (___   ___ | | _____ | |__   __ _ _ __  \r\n"
-			+ "  \\___ \\ / _ \\| |/ / _ \\| '_ \\ / _` | '_ \\ \r\n"
-			+ "  ____) | (_) |   < (_) | |_) | (_| | | | |\r\n" + " |_____/ \\___/|_|\\_\\___/|_.__/ \\__,_|_| |_|\r\n"
-			+ "                                           \r\n" + "                                           ";
-	private static final String LIJN_SEPARATOR_STER = "******************************************************************";
 	Character[][] fields = new Character[10][10];
 	Character[][] moveables = new Character[10][10];
+	
+	Console view = System.console();
 
 	// UC1
 	/**
@@ -46,10 +44,6 @@ public class CliController {
 	 * Start de applicatie.
 	 */
 	public void startApplicatie() {
-		System.out.println(LIJN_SEPARATOR_STER);
-		System.out.println(SOKOBAN_ASCII_ART);
-		System.out.println("Gebouwd door g85!");
-		System.out.println(LIJN_SEPARATOR_STER);
 		taalSelect();
 		loginMenu();
 	}
@@ -57,15 +51,17 @@ public class CliController {
 	// UC2
 	private void taalSelect() {
 		// Blijf gaan zolang er geen taal geselecteerd is
-		System.out.println("Gelieve uw taal te selecteren (cijfer ingeven)");
-		System.out.println("Veuillez choisir votre langue (entrez le numï¿½ro)");
-		System.out.println("Please choose your language (enter number)");
+		String taalSelectie = "\nNL: Gelieve uw taal te selecteren (cijfer ingeven)\n" +
+		"FR: Veuillez choisir votre langue (entrez le numéro)\n" +
+		"EN: Please choose your language (enter number)\n";
+		System.out.print(taalSelectie);
+		
+		do {
 
-		while (Taal.taalIngesteld() == false) {
 			System.out.println("1. Nederlands");
-			System.out.println("2. Franï¿½ais");
+			System.out.println("2. Français");
 			System.out.println("3. English");
-			System.out.println(LIJN_SEPARATOR_STER);
+			System.out.print(">>> ");
 
 			int keuze = 0;
 			try {
@@ -76,7 +72,6 @@ public class CliController {
 				System.out.println("Gelieve een cijfer in te voeren");
 				System.out.println("Veuillez saisir un nombre");
 				System.out.println("Please enter a number");
-				System.out.println(LIJN_SEPARATOR_STER);
 				scan.nextLine();
 				continue;
 			}
@@ -98,20 +93,62 @@ public class CliController {
 				System.out.println("Geen geldige keuze");
 				System.out.println("Choix invalide");
 				System.out.println("Invalid choice");
-				System.out.println(LIJN_SEPARATOR_STER);
 				continue;
 			}
-
+			
 		}
 
+		while (Taal.taalIngesteld() == false);
+		
+		System.out.print("\n");
+		showHeader();
+		loginMenu();
+
+	}
+	
+	private void showHeader() {
+		
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.println(Taal.vertaal("sokoban_ascii_art"));
+		System.out.println(Taal.vertaal("build"));
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.println(Taal.vertaal("line_star"));
 	}
 
 	// UC1
 	private void loginMenu() {
+		
 		// Reï¿½nitialiseren scanner
 		scan = new Scanner(System.in);
 		int keuze = 0;
-		System.out.println(Taal.vertaal("login_choose_option"));
+		
+		int lineStarLength = Taal.vertaal("line_star").length();
+		int loginTitleLength = Taal.vertaal("login_title").length();
+		
+		System.out.print("\n");
+		for(int i = 0; i <= lineStarLength; i++) {
+			
+			if(i <= lineStarLength/2 - loginTitleLength/2 || i >= lineStarLength/2 + loginTitleLength/2) {
+				
+				System.out.print("_");
+				
+			}
+			
+			else {
+				
+				System.out.print(Taal.vertaal("login_title"));
+				i += loginTitleLength;
+				
+			}
+			
+		}
+		System.out.print("\n");
+		
+		System.out.print(Taal.vertaal("login_choose_option"));
+		System.out.print(Taal.vertaal("scanner_input"));
 		while (keuze <= 0 || keuze > 3) {
 
 			try {
@@ -122,17 +159,22 @@ public class CliController {
 				case 1:
 					startAanmelden();
 					break;
-
+					
 				case 2:
+					taalSelect();
+
+
+				case 3:
 					startRegistreer();
 					break;
 
-				case 3:
+				case 4:
 					afsluiten();
 					break;
 
 				default:
-					System.out.println(Taal.vertaal("exception_invalid_login_choose_option"));
+					System.out.print(Taal.vertaal("exception_invalid_login_choose_option"));
+					System.out.print(Taal.vertaal("scanner_input"));
 					break;
 
 				}
@@ -141,85 +183,8 @@ public class CliController {
 
 			catch (InputMismatchException e) {
 				System.out.println(Taal.vertaal("exception_invalid_login_choose_option"));
+				System.out.print(Taal.vertaal("scanner_input"));
 				scan.nextLine();
-			}
-
-		}
-
-	}
-
-	// UC1
-	private void hoofdMenu() {
-		// Reï¿½nitialiseren scanner
-		scan = new Scanner(System.in);
-		while (true) {
-			if (dc.isAdmin() == false) {
-				speelSpel();
-			} else {
-				System.out.println(Taal.vertaal("menu_choose_option_admin"));
-			}
-
-			int keuze = 0;
-
-			try {
-				keuze = scan.nextInt();
-			}
-
-			catch (InputMismatchException e) {
-				System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-				scan.nextLine();
-				continue;
-			}
-
-			// TO DO
-			switch (keuze) {
-			case 1:
-				System.out.println("Nog niet geï¿½mplementeerd");
-				break;
-
-			case 2:
-				if (dc.isAdmin()) {
-					System.out.println("Nog niet geï¿½mplementeerd");
-				}
-
-				else {
-					afsluiten();
-
-				}
-				break;
-
-			case 3:
-				if (dc.isAdmin()) {
-
-					// TO DO: wijzig een spel optie
-					System.out.println("Nog niet geï¿½mplementeerd");
-
-				}
-
-				else {
-
-					System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-
-				}
-				break;
-
-			case 4:
-				if (dc.isAdmin()) {
-					afsluiten();
-
-				}
-
-				else {
-
-					System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-
-				}
-				break;
-
-			default:
-				System.out.println(Taal.vertaal("exception_invalid_menu_choose_option"));
-				continue;
-
 			}
 
 		}
@@ -231,13 +196,74 @@ public class CliController {
 
 		// Reï¿½nitialiseren scanner
 		scan = new Scanner(System.in);
+		System.out.print("\n");
+		int lineStarLength = Taal.vertaal("line_star").length();
+		int signInTitleLength = Taal.vertaal("sign_in_title").length();
+		
+		for(int i = 0; i <= lineStarLength; i++) {
+			
+			if(i <= lineStarLength/2 - signInTitleLength/2 || i >= lineStarLength/2 + signInTitleLength/2) {
+				
+				System.out.print("_");
+				
+			}
+			
+			else {
+				
+				System.out.print(Taal.vertaal("sign_in_title"));
+				i += signInTitleLength;
+				
+			}
+			
+		}
+		System.out.print("\n\n");
+		
+		int keuze = 0;
+		System.out.print(Taal.vertaal("sign_in_menu"));
+		while (keuze <= 0 || keuze > 2) {
+			
+			
+			try {
+				
+				System.out.print(Taal.vertaal("scanner_input"));
+				keuze = scan.nextInt();
+				
+				switch(keuze) {
+				
+					case 1:
+						System.out.print("\n");
+						System.out.print(Taal.vertaal("sign_in_subtitle"));
+						break;
+					case 2:
+						loginMenu();
+						break;
+					default:
+						System.out.print(Taal.vertaal("exception_invalid_sign_in_menu_option"));
+						break;
 
+				}
+
+			}
+			
+			catch(InputMismatchException e) {
+				
+				System.out.println(Taal.vertaal("exception_invalid_sign_in_menu_option"));
+				System.out.print(Taal.vertaal("scanner_input"));
+				
+			}
+			
+		}
+		
+		scan = new Scanner(System.in);
+		
 		while (true) {
 
-			System.out.println(Taal.vertaal("sign_in_username"));
+			System.out.print(Taal.vertaal("sign_in_username"));
+			System.out.print(Taal.vertaal("scanner_input"));
 			String gebruikersnaam = scan.nextLine();
 
-			System.out.println(Taal.vertaal("sign_in_password"));
+			System.out.print(Taal.vertaal("sign_in_password"));
+			System.out.print(Taal.vertaal("scanner_input"));
 			String wachtwoord = scan.nextLine();
 
 			try {
@@ -248,15 +274,18 @@ public class CliController {
 
 			catch (Exception e) {
 
-				System.out.println(Taal.vertaal("exception_invalid_sign_in"));
+				System.out.print(Taal.vertaal("exception_invalid_sign_in"));
 				continue;
 
 			}
-
-			System.out.println(LIJN_SEPARATOR_STER);
-			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s %n", dc.getGebruikersnaam());
-			System.out.println(LIJN_SEPARATOR_STER);
-
+			
+			System.out.print("\n");
+			System.out.print(Taal.vertaal("line_star"));
+			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s!%n", dc.getGebruikersnaam());
+			System.out.print(Taal.vertaal("line_star"));
+			System.out.print("\n");
+			
+			System.out.print("\n");
 			hoofdMenu();
 			break;
 
@@ -270,18 +299,82 @@ public class CliController {
 		// Reï¿½nitialiseren scanner
 		scan = new Scanner(System.in);
 
+		System.out.print("\n");
+		int lineStarLength = Taal.vertaal("line_star").length();
+		int registerTitleLength = Taal.vertaal("register_title").length();
+		
+		for(int i = 0; i <= lineStarLength; i++) {
+			
+			if(i <= lineStarLength/2 - registerTitleLength/2 || i >= lineStarLength/2 + registerTitleLength/2) {
+				
+				System.out.print("_");
+				
+			}
+			
+			else {
+				
+				System.out.print(Taal.vertaal("register_title"));
+				i += registerTitleLength;
+				
+			}
+			
+		}
+		System.out.print("\n\n");
+		
+		int keuze = 0;
+		System.out.print(Taal.vertaal("register_menu"));
+		while (keuze <= 0 || keuze > 2) {
+			
+			
+			try {
+				
+				System.out.print(Taal.vertaal("scanner_input"));
+				keuze = scan.nextInt();
+				
+				switch(keuze) {
+				
+					case 1:
+						System.out.print("\n");
+						System.out.print(Taal.vertaal("register_subtitle"));
+						break;
+					case 2:
+						loginMenu();
+						break;
+					default:
+						System.out.print(Taal.vertaal("exception_invalid_register_menu_option"));
+						break;
+
+				}
+
+			}
+			
+			catch(InputMismatchException e) {
+				
+				System.out.println(Taal.vertaal("exception_invalid_register_menu_option"));
+				System.out.print(Taal.vertaal("scanner_input"));
+				
+			}
+			
+		}
+		
+		scan = new Scanner(System.in);		
+		System.out.print("\n");
 		while (true) {
 
-			System.out.println(Taal.vertaal("register_choose_user_name"));
+			System.out.print(Taal.vertaal("register_choose_user_name"));
+			System.out.print(Taal.vertaal("scanner_input"));
 			String gebruikersnaam = scan.nextLine().toLowerCase();
 
-			System.out.println(Taal.vertaal("register_choose_password"));
+			System.out.print(Taal.vertaal("register_choose_password"));
+			System.out.print(Taal.vertaal("scanner_input"));
 			String wachtwoord = scan.nextLine();
 
-			System.out.println(Taal.vertaal("register_confirm_password"));
+			System.out.print(Taal.vertaal("register_confirm_password"));
+			System.out.print(Taal.vertaal("scanner_input"));
 			String wachtwoordBevestiging = scan.nextLine();
 
-			System.out.println(Taal.vertaal("register_choose_lastname"));
+			System.out.print(Taal.vertaal("register_choose_lastname"));
+			System.out.print(Taal.vertaal("scanner_input"));
 			String naam = scan.nextLine().trim();
 
 			if (naam.equals("")) {
@@ -290,7 +383,8 @@ public class CliController {
 
 			}
 
-			System.out.println(Taal.vertaal("register_choose_firstname"));
+			System.out.print(Taal.vertaal("register_choose_firstname"));
+			System.out.print(Taal.vertaal("scanner_input"));
 			String voornaam = scan.nextLine().trim();
 
 			if (voornaam.equals("")) {
@@ -312,24 +406,134 @@ public class CliController {
 
 			}
 
-			System.out.println(LIJN_SEPARATOR_STER);
+			System.out.print("\n");
+			System.out.print(Taal.vertaal("line_star"));
 			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s %n", dc.getGebruikersnaam());
-			System.out.println(LIJN_SEPARATOR_STER);
-
+			System.out.print(Taal.vertaal("line_star"));
+			System.out.print("\n");
+			
+			System.out.print("\n");
 			hoofdMenu();
 			break;
 
 		}
 
 	}
+	
+	// UC1
+	private void hoofdMenu() {
+		// Reï¿½nitialiseren scanner
+		scan = new Scanner(System.in);
+
+		int lineStarLength = Taal.vertaal("line_star").length();
+		int gameTitleLength = Taal.vertaal("game_title").length();
+			
+		for(int i = 0; i <= lineStarLength; i++) {
+				
+			if(i <= lineStarLength/2 - gameTitleLength/2 || i >= lineStarLength/2 + gameTitleLength/2) {
+					
+				System.out.print("_");
+					
+			}
+				
+			else {
+					
+				System.out.print(Taal.vertaal("game_title"));
+				i += gameTitleLength;
+					
+			}
+				
+		}
+		System.out.print("\n");
+		
+		System.out.print(Taal.vertaal("game_subtitle"));
+			
+		while (true) {
+			if (dc.isAdmin() == false) {
+				System.out.print(Taal.vertaal("menu_choose_option_no_admin"));
+			} else {
+				System.out.print(Taal.vertaal("menu_choose_option_admin"));
+			}
+
+			int keuze = 0;
+
+			try {
+				System.out.print(Taal.vertaal("scanner_input"));
+				keuze = scan.nextInt();
+			}
+
+			catch (InputMismatchException e) {
+				System.out.print(Taal.vertaal("exception_invalid_menu_choose_option"));
+				scan.nextLine();
+				continue;
+			}
+
+			// TO DO
+			switch (keuze) {
+			case 1:
+				speelSpel();
+				break;
+
+			case 2:
+				if (dc.isAdmin()) {
+					System.out.print("Nog niet geï¿½mplementeerd");
+				}
+
+				else {
+					afsluiten();
+
+				}
+				break;
+
+			case 3:
+				if (dc.isAdmin()) {
+
+					// TO DO: wijzig een spel optie
+					System.out.print("Nog niet geï¿½mplementeerd");
+
+				}
+
+				else {
+
+					System.out.print(Taal.vertaal("exception_invalid_menu_choose_option"));
+
+				}
+				break;
+
+			case 4:
+				if (dc.isAdmin()) {
+					afsluiten();
+
+				}
+
+				else {
+
+					System.out.print(Taal.vertaal("exception_invalid_menu_choose_option"));
+
+				}
+				break;
+
+			default:
+				System.out.print(Taal.vertaal("exception_invalid_menu_choose_option"));
+				continue;
+
+			}
+
+		}
+
+	}	
+
 
 	// UC3
 	private void speelSpel() {
 
-		System.out.println("Nog niet geï¿½mplementeerd. Hier komt je functie.");
 		startKiesSpel();
 		bouwScherm();
-		clearScreen();
+		while(!dc.checkBordVoltooid()) {
+			beweeg();
+		}
+		//clearScreen();
+		
 		afsluiten();
 
 	}
@@ -340,26 +544,30 @@ public class CliController {
 		List<String> spelNamen = dc.getSpelNamen();
 		int i = 1;
 		int keuze = 0;
+		
+		System.out.printf(Taal.vertaal("title_spel_select"));
 
 		do {
-
-			System.out.printf("Kies een geldig spelnummer.");
+			
+			System.out.print("\n");
+			System.out.print(Taal.vertaal("text_spel_select"));
 
 			for (String spel : spelNamen) {
-
+				
 				System.out.printf("\n" + i + ". " + spel);
 				i++;
 
 			}
-			System.out.printf("\n");
+			System.out.print(Taal.vertaal("scanner_input"));
 			keuze = scan.nextInt();
 			i = 1;
 
 		} while (keuze <= 0 || keuze > spelNamen.size());
 
-		System.out.printf("Keuze gemaakt!\n");
+		System.out.print(Taal.vertaal("pleasure_message"));
+		System.out.print("\n\n");
 
-		dc.kiesSpel(spelNamen.get(keuze));
+		dc.kiesSpel(spelNamen.get(keuze-1));
 
 	}
 
@@ -400,12 +608,15 @@ public class CliController {
 			}
 
 		}
-
+		
+		System.out.print(Taal.vertaal("game_title_no_space"));
 		updateScherm();
 
 	}
 
 	private void updateScherm() {
+		
+		System.out.print(Taal.vertaal("total_displacements") + dc.getAantalBewegingen() + "\n");
 
 		// Eerst wissen, daarna opnieuw opbouwen
 		for (int i = 0; i < /* fields.length */ 10; i++) {
@@ -433,13 +644,16 @@ public class CliController {
 		}
 
 		tekenScherm();
-
+		
 		// Check of spel voltooid is
-		// checkVoltooid();
+		checkVoltooid();
+
 
 	}
 
 	private void tekenScherm() {
+		
+		System.out.print("\n");
 
 		Character[][] statusBord = new Character[10][10];
 
@@ -472,16 +686,127 @@ public class CliController {
 			System.out.print(rijResult + '\n');
 
 		}
+		
+		System.out.print("\n");
 
 	}
+	
 
-	public void clearScreen() {
+	private void checkVoltooid() {
+		scan = new Scanner(System.in);
+		if (dc.checkBordVoltooid()) {
+			if (dc.checkSpelVoltooid()) {
+				System.out.print("\n");
+				System.out.println(Taal.vertaal("line_star"));
+				System.out.println(Taal.vertaal("line_star"));
+				System.out.println(Taal.vertaal("line_star"));
+				System.out.print(Taal.vertaal("game_complete_title"));
+				System.out.print("\n");
+				System.out.println(Taal.vertaal("game_complete"));
+				System.out.println(Taal.vertaal("line_star"));
+				System.out.println(Taal.vertaal("line_star"));
+				System.out.println(Taal.vertaal("line_star"));
+				System.out.print("\n");
+				hoofdMenu();
+			} else {
+				System.out.print("");	
+				System.out.print("\n");
+				System.out.print(Taal.vertaal("board_complete_title"));
+				System.out.print("\n");
+				int voltooideBorden = dc.getBordenVoltooid();
+				int totaalBorden = dc.getBordenTotaal();
+				int totaalVerplaatsingen = dc.getAantalBewegingen();
+				String bordVoltooidContent = Taal.vertaal("board_complete") + Taal.vertaal("completed_boards") + voltooideBorden + "\r\n" + 
+						Taal.vertaal("total_boards") + totaalBorden + "\n";		
+				System.out.print(bordVoltooidContent);
+				int keuze = 0;
+				do {
+					System.out.print("\n");
+					System.out.print(Taal.vertaal("board_complete_menu"));
+					System.out.print(Taal.vertaal("scanner_input"));
+					keuze = scan.nextInt();
+				} while (keuze <= 0 || keuze > 2);
+				System.out.print("\n");
+				if (keuze == 1) {
+					// Bouw volgend bord
+					bouwScherm();
+				} else {
+					back();
+					// Voor de cancellation
+				}
+			}
+		}
+	}
+	
+	private void beweeg() {
+		
+		int keuze = 0;
 
-		System.out.flush();
+		do {
+			System.out.print("\n");
+			System.out.print(Taal.vertaal("displacements_menu"));
+			System.out.print(Taal.vertaal("scanner_input"));
+			keuze = scan.nextInt();
+			//System.out.print("\n");
 
+		} while (keuze <= 0 || keuze > 6);
+		
+		try {			
+			switch (keuze) {
+			case 1:
+				dc.beweeg(BeweegRichting.BOVEN);
+				break;
+			case 2:
+				dc.beweeg(BeweegRichting.ONDER);
+				break;
+			case 3:
+				dc.beweeg(BeweegRichting.LINKS);
+				break;
+			case 4:
+				dc.beweeg(BeweegRichting.RECHTS);
+				break;
+			case 5:
+				System.out.print("\n");
+				back();
+				break;
+			case 6:
+				System.out.print("\n");
+				resetSpelbord();
+				break;
+			default:
+				break;
+			}
+			if(keuze != 6)
+				updateScherm();
+		} catch (RuntimeException e) {
+			System.out.print("\n");
+			System.out.print(e.getMessage());
+		}
+	}
+
+	private void back() {
+		hoofdMenu();
+	}
+	
+	private void resetSpelbord() {
+		
+		dc.resetBord();
+		bouwScherm();
+		
 	}
 
 	protected void afsluiten() {
+		System.out.print("\n");
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.print("\n");
+		System.out.print(Taal.vertaal("exit_message"));
+		System.out.print("\n");
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.println(Taal.vertaal("line_star"));
+		System.out.print("\n");
 		System.exit(0);
 	}
 
