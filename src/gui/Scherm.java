@@ -1,5 +1,8 @@
 package gui;
-
+/**
+ * Een opsomming van de soorten schermen.
+ * @author g85
+ */
 public enum Scherm {
 	Hoofdscherm,
 	SpelMenuScherm,

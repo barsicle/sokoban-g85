@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import vertalingen.Taal;
 
 /**
- * Stelt het spel voor.
+ * Stelt een spel voor.
  * 
  * @author g85
  */
@@ -19,12 +19,11 @@ public class Spel implements SpelInterface {
 	private int huidigBordIndex;
 
 	/**
-	 * Creëert een spel met opgegeven naam.
+	 * Creëert een spel met opgegeven naam en lijst van spelborden.
 	 * 
 	 * @param spelNaam           De naam van het spel.
 	 * @param spelborden         Een lijst met spelborden waaruit het spel is
 	 *                           samengesteld.
-	 * @param spelbordRepository Repository om spelborden op te halen.
 	 */
 	public Spel(String spelNaam, List<Spelbord> spelborden) {
 		setSpelNaam(spelNaam);
@@ -39,29 +38,53 @@ public class Spel implements SpelInterface {
 		}
 
 	}
-
+	/**
+	 * Geeft de naam van het spel terug.
+	 * @return de naam van het spel.
+	 */
 	public String getSpelNaam() {
 		return spelNaam;
 	}
-
+	/**
+	 * Stelt de naam van het spel in. Werpt een IllegalArgumentException indien er een lege string of null
+	 * wordt meegegeven.
+	 * @param spelNaam De naam van het spel.
+	 * @throws IllegalArgumentException
+	 */
 	public void setSpelNaam(String spelNaam) throws IllegalArgumentException {
 		if (Objects.equals(spelNaam, null) || spelNaam.isEmpty())
 			throw new IllegalArgumentException(Taal.vertaal("game_name") + Taal.vertaal("exception_not_null"));
 		this.spelNaam = spelNaam;
 	}
-
+	
+	/**
+	 * Controleert of het spel voltooid is.
+	 * @return true indien het spel voltooid is, false indien het spel nog niet voltooid is.
+	 */
 	public boolean checkSpelvoltooid() {
 		return getBordenVoltooid() == getBordenTotaal();
 	}
 
+	/**
+	 * Geeft het aantal voltooide spelborden van het spel terug.
+	 * @return het aantal voltooide spelborden.
+	 */
 	public int getBordenVoltooid() {
 		return huidigBordIndex;
 	}
 
+	/**
+	 * Geeft het totaal aantal spelborden van het spel terug.
+	 * @return het aantal spelborden.
+	 */
 	public int getBordenTotaal() {
 		return spelborden.size();
 	}
 
+	/**
+	 * Geeft de maker van het spel terug.
+	 * @return de speler die het spel heeft gemaakt.
+	 */
 	public Speler getAanmaker() {
 		return aanmaker;
 	}
@@ -74,6 +97,10 @@ public class Spel implements SpelInterface {
 		spelborden.add(spelbord);
 	}
 
+	/**
+	 * Geeft de namen van de spelborden van het spel terug.
+	 * @return een lijst van de namen van de spelborden van het spel.
+	 */
 	public List<String> getBordnamen() {
 		return spelborden.stream().map(b -> b.getSpelbordNaam()).collect(Collectors.toList());
 	}
@@ -82,15 +109,27 @@ public class Spel implements SpelInterface {
 		//Haal bord op, zet de index klaar voor de volgende op te halen. Begint op 0 in constructor
 		huidigBordIndex++;
 	}
+	/**
+	 * Geeft de naam van het huidige spelbord terug.
+	 * @return de naam van het huidige spelbord.
+	 */
 	
 	public String getBordNaam() {
 		return spelborden.get(huidigBordIndex).getSpelbordNaam();
 	}
 
+	/**
+	 * Geeft een lijst van de spelborden terug.
+	 * @return een lijst van de spelborden van het spel.
+	 */
 	public List<Spelbord> getSpelborden() {
 		return spelborden;
 	}
 
+	/**
+	 * Stelt de spelborden van het spel in aan de hand van de meegegeven lijst.
+	 * @param de lijst van de spelborden.
+	 */
 	public void setSpelborden(List<Spelbord> spelborden) {
 		this.spelborden = spelborden;
 	}

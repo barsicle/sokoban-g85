@@ -11,7 +11,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
+/**
+ * De controller-klasse van de GUI. Start de applicatie en wisselt tussen de verschillende schermen.
+ * Laad ook de nodige images.
+ * 
+ * @author g85
+ */
 public class GuiController extends Application {
 	private static Scene scene;
 	protected DomeinController dc;
@@ -28,7 +33,11 @@ public class GuiController extends Application {
 		loadImages();
 		
 	}
-	
+	/**
+	 * Start de GUI.
+	 * @param stage De stage waarop de scenes geladen worden.
+	 * @throws IOException
+	 */
 	@Override
 	public void start(Stage stage) throws IOException {
 		stage.setHeight(600);

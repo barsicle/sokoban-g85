@@ -4,7 +4,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import vertalingen.Taal;
-
+/**
+ * Stelt een spelbord voor.
+ * @author g85
+ */
 public class Spelbord {
 
 	private String spelbordNaam;
@@ -16,7 +19,7 @@ public class Spelbord {
 	private int aantalBewegingen;
 
 	/**
-	 * CreÃ«ert een spelbord met opgegeven naam, volgordenummer, mannetje, lijst van kisten en een array van velden.
+	 * Creëert een spelbord met opgegeven naam, volgorde, mannetje, lijst van kisten en een array van velden.
 	 * 
 	 * @param spelbordNaam De naam van het spelbord.
 	 * @param volgorde De volgorde waarin het spelbord in het spel verschijnt.
@@ -31,41 +34,74 @@ public class Spelbord {
 			setSpelbordNaam(spelbordNaam);
 			setVolgorde(volgorde);
 	}
-	
+	/**
+	 * Creëert een spelbord met opgegeven naam en volgorde.
+	 * @param spelbordNaam De naam van het spelbord.
+	 * @param De volgorde van het spelbord in het spel.
+	 */
 	public Spelbord(String spelbordNaam, int volgorde) {
 		this.spelbordNaam = spelbordNaam;
 		this.volgorde = volgorde;
 		this.velden = new Veld[BordDimensies.getAantalRijen()][BordDimensies.getAantalKolommen()];
 		this.kisten = new ArrayList<>();
 	}
-
+	/**
+	 * Geeft de naam van het spelbord terug.
+	 * @return de naam van het spelbord.
+	 */
 	public String getSpelbordNaam() {
 		return spelbordNaam;
 	}
+	/**
+	 * Stelt de naam van het spelbord in. Werpt een IllegalArgumentException indien de naam null is of leeg.
+	 * @param De naam van het spelbord.
+	 * @throws IllegalArgumentException
+	 */
 	public void setSpelbordNaam(String spelbordNaam) throws IllegalArgumentException {
 		if (Objects.equals(spelbordNaam, null) || spelbordNaam.isBlank())
 			throw new IllegalArgumentException(Taal.vertaal("game_board_name") + Taal.vertaal("exception_not_null"));
 		this.spelbordNaam = spelbordNaam;
 	}
+	/**
+	 * Geeft de velden van het spelbord terug.
+	 * @return een array van velden.
+	 */
 	public Veld[][] getVelden() {
 		return velden;
 	}
+	/**
+	 * Stelt de velden van het spelbord in. Werpt een IllegalArgumentException indien de array null is.
+	 * @param velden De gegeven array van velden.
+	 * @throws IllegalArgumentException
+	 */
 	public void setVelden(Veld[][] velden) throws IllegalArgumentException {
 		if (Objects.equals(velden, null))
 			throw new IllegalArgumentException(Taal.vertaal("field") + Taal.vertaal("exception_not_null"));
 		this.velden = velden;
 	}
-	
+	/**
+	 * Geeft de volgorde van het spelbord in het spel terug.
+	 * @return de volgorde van het spelbord.
+	 */
 	public int getVolgorde() {
 		return volgorde;
 	}
+	/**
+	 * Stelt de volgorde van het spelbord in. Werpt een IllegalArgumentException indien de volgorde null is.
+	 * @param volgorde De gegeven volgorde van het spelbord in het spel
+	 * @throws IllegalArgumentException
+	 */
 	public void setVolgorde(int volgorde) throws IllegalArgumentException {
 		if (Objects.equals(volgorde, null))
 			throw new IllegalArgumentException(Taal.vertaal("order") + Taal.vertaal("exception_not_null"));
 		this.volgorde = volgorde;
 	}
 
-
+	/**
+	 * Beweegt het mannetje naar de gekozen beweegrichting op het spelbord.
+	 * @param richting de gekozen beweegrichting.
+	 * @throws RuntimeException
+	 */
 	public void beweeg(BeweegRichting richting) throws RuntimeException {
 		Veld huidigePositie = mannetje.getPositie();
 		int xHuidig = huidigePositie.getX();
@@ -97,15 +133,24 @@ public class Spelbord {
 		checkVoltooid();
 		aantalBewegingen++;
 	}
-
+	/**
+	 * Geeft terug of het spelbord voltooid is.
+	 * @return true indien het spelbord voltooid is.
+	 */
 	public boolean isVoltooid() {
 		return voltooid;
 	}
-
+	/**
+	 * Geeft het mannetje van het spelbord terug.
+	 * @return het mannetje van het spelbord.
+	 */
 	public Moveable getMannetje() {
 		return mannetje;
 	}
-
+	/**
+	 * Geeft het een lijst van de kisten van het spelbord terug.
+	 * @return een lijst van de kisten van het spelbord.
+	 */
 	public List<Moveable> getKisten() {
 		return kisten;
 	}
@@ -116,7 +161,10 @@ public class Spelbord {
 			voltooid = true;
 		}
 	}
-
+	/**
+	 * Geeft het aantal bewegingen van het mannetje terug.
+	 * @return het aantal bewegingen van het mannetje.
+	 */
 	public int getAantalBewegingen() {
 		return aantalBewegingen;
 	}
@@ -222,10 +270,10 @@ public class Spelbord {
 			throw new RuntimeException(Taal.vertaal("field") + Taal.vertaal("exception_moveable"));
 		if(getVeld(x,y).isDoel())
 			throw new RuntimeException(Taal.vertaal("worker") + Taal.vertaal("exception_start_goal"));
+
 		if(!Objects.equals(this.mannetje, null))
 			throw new RuntimeException(Taal.vertaal("exception_only_one"));
-			
-		
+	
 		Moveable mannetje = new Moveable(this.velden[x][y], MoveableType.MANNETJE);
 		this.mannetje = mannetje;
 		this.velden[x][y].setMoveable(mannetje);
@@ -245,11 +293,19 @@ public class Spelbord {
 		this.velden[x][y].setMoveable(kist);
 		setVeld(this.velden[x][y], x, y);
 	}
-
+	/**
+	 * Geeft het veld op de gegeven locatie terug.
+	 * @param x De gegeven rij.
+	 * @param x De gegeven kolom.
+	 * @return het veld op de gegevn rij en kolom.
+	 */
 	public Veld getVeld(int x, int y) {
 		return this.velden[x][y];
 	}
-	
+	/**
+	 * Geeft het aantal doelen van het spelbord terug.
+	 * @return het aantal doelen van het spelbord.
+	 */
 	public int getAantalDoelen() {
 		int aantal = 0;
 		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {

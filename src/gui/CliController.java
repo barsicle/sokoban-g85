@@ -29,7 +29,7 @@ public class CliController {
 
 	// UC1
 	/**
-	 * Creï¿½ert een instantie van de command line controller met een
+	 * CreËert een instantie van de command line controller met een
 	 * domeincontroller object.
 	 * 
 	 * @param dc Het meegegeven domeincontroller object.

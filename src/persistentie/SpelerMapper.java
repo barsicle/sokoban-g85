@@ -23,9 +23,10 @@ public class SpelerMapper {
 	// Methods
 	//UC2
 	/**
-	 * Voegt de meegegeven speler toe aan de database.
+	 * Voegt de meegegeven speler toe aan de database. 
 	 * 
 	 * @param speler De speler die toegevoegd wordt aan de database.
+	 * @throws RuntimeException
 	 */
 	public void voegSpelerToe(Speler speler) throws RuntimeException {
 
@@ -55,6 +56,7 @@ public class SpelerMapper {
 	 * 
 	 * @param gebruikersnaam De gebruikersnaam die wordt gebruikt om de speler op te zoeken.
 	 * @return De speler met gegeven gebruikersnaam.
+	 * @throws RuntimeException
 	 */
 	public Speler geefSpeler(String gebruikersnaam) throws RuntimeException {
 		
