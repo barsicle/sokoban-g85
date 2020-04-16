@@ -204,6 +204,7 @@ public class SpelSchermController {
 
 	@FXML
 	public void initialize() {
+		btnReset.setText(Taal.vertaal("reset"));
 		btnBack.setText(Taal.vertaal("back"));
 		bouwScherm();
 	}
