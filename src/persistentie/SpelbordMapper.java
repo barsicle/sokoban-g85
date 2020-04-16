@@ -26,10 +26,10 @@ public class SpelbordMapper {
 	/**
 	 * Geeft het spelbord met de gegeven naam en de gegeven dimensies terug uit de database. Werpt een RuntimeException indien er een probleem is met de database.
 	 * @param spelbordNaam De naam van het op te halen spelbord.
-	 * @param x Het aantal rijen van het spelbord.
-	 * @param y Het aantal kolommen van het spelbord.
+	 * @param aantalRijen Het aantal rijen van het spelbord.
+	 * @param aantalKolommen Het aantal kolommen van het spelbord.
 	 * @return het spelbord met de gegeven spelbordnaam en dimensies.
-	 * @throws RuntimeException
+	 * @throws RuntimeException indien er een probleem is met de database.
 	 */		
 	public Spelbord geefBordMetVelden(String spelbordNaam, int aantalRijen, int aantalKolommen) throws RuntimeException {
 		Veld[][] velden = new Veld[aantalRijen][aantalKolommen];
@@ -112,9 +112,9 @@ public class SpelbordMapper {
 	}
 	/**
 	 * Insert het gegeven spelbord van het gegeven spel in de database. Werpt een RuntimeException indien er een probleem is met de database.
-	 * @param spelBord Het te inserten spelBord.
+	 * @param spelbord Het te inserten spelBord.
 	 * @param spelNaam De naam van het spel van het te inserteren spelbord.
-	 * @throws RuntimeException
+	 * @throws RuntimeException indien er een probleem is met de database.
 	 */	
 	public void insertBord(Spelbord spelbord, String spelNaam) throws RuntimeException {
 		try {

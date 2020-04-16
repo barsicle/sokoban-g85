@@ -1,16 +1,17 @@
 package gui;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import vertalingen.Taal;
 
-public class RegistreerSchermController extends GridPane{
+public class RegistreerSchermController{
 	@FXML
 	private Label lblNaam;
 	@FXML
@@ -37,6 +38,8 @@ public class RegistreerSchermController extends GridPane{
 	private Button btnBack;
 	@FXML
 	private Label lblMessage;
+    @FXML
+    private BorderPane rootPane;
 	
 	private GuiController gc;
 	
@@ -61,6 +64,18 @@ public class RegistreerSchermController extends GridPane{
 		
 		btnBack.setText(Taal.vertaal("cancel"));
 		btnRegistreer.setText(Taal.vertaal("register"));
+		
+		rootPane.setOnKeyReleased(new EventHandler<KeyEvent>()
+	    {
+	        @Override
+	        public void handle(KeyEvent ke)
+	        {
+	            if (ke.getCode().equals(KeyCode.ENTER))
+	            {
+	            	registreerButtonPushed();
+	            }
+	        }
+	    });
 	}
 	
 	@FXML

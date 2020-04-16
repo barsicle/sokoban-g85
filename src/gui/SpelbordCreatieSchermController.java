@@ -58,6 +58,9 @@ public class SpelbordCreatieSchermController {
 
 	@FXML
 	private Label lblMessage;
+	
+	@FXML
+	private Label lblToolkit;
 
 	@FXML
 	private ListView<Actie> listViewActions;
@@ -76,10 +79,11 @@ public class SpelbordCreatieSchermController {
 			speelVeld.setDisable(false);
 			btnRegistreerBord.setDisable(false);
 			btnReset.setDisable(false);
+			btnCreateBoard.setDisable(true);
 			bouwLeegSpelbord();
 		} catch (Exception e) {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Ongeldige bewerking");
+			alert.setTitle(Taal.vertaal("exception_invalid_operation"));
 			alert.setHeaderText(null);
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();
@@ -97,12 +101,12 @@ public class SpelbordCreatieSchermController {
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			alert.setTitle(Taal.vertaal("done"));
 			alert.setHeaderText(null);
-			alert.setContentText("Spelbord opgeslagen");
+			alert.setContentText(Taal.vertaal("board_saved"));
 			alert.showAndWait();
 			back();
 		} catch (Exception e) {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Ongeldige bewerking");
+			alert.setTitle(Taal.vertaal("exception_invalid_operation"));
 			alert.setHeaderText(null);
 			alert.setContentText(e.getMessage());
 
@@ -112,14 +116,12 @@ public class SpelbordCreatieSchermController {
 	}
 
 	private void bouwLeegSpelbord() {
-		VeldInterface[][] velden = gc.dc.geefVelden();
-		// i = kolom, j = rij
 		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
 			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
 				Tile box = new Tile(i, j);
 				Image image;
 				try {
-					image = new Image(new FileInputStream("bin/gui/assets/images/black.jpg"));
+					image = new Image(new FileInputStream("resources/images/surface.png"));
 
 					ImageView imageView = new ImageView(image);
 					imageView.setFitHeight(50);
@@ -127,7 +129,6 @@ public class SpelbordCreatieSchermController {
 					box.getChildren().add(imageView);
 					speelVeld.add(box, i, j);
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -135,7 +136,6 @@ public class SpelbordCreatieSchermController {
 		}
 	}
 
-	// TO DO REFACTOR - te groot, imagefactory method?
 	private void updateTile(int x, int y) {
 		VeldInterface veld = gc.dc.getVeld(x, y);
 		Tile box = new Tile(x, y);
@@ -194,8 +194,14 @@ public class SpelbordCreatieSchermController {
 	@FXML
 	public void initialize() {
 		btnBack.setText(Taal.vertaal("back"));
+		lblToolkit.setText(Taal.vertaal("toolkit"));
+		lblTitle.setText(Taal.vertaal("create_title"));
+		lblBordNaam.setText(Taal.vertaal("enter_board_name"));
+		btnCreateBoard.setText(Taal.vertaal("create_empty_board"));
+		btnReset.setText(Taal.vertaal("reset"));
+		btnRegistreerBord.setText(Taal.vertaal("register_board"));
+		
 		ObservableList<Actie> actionItems = FXCollections.observableArrayList(Arrays.asList(Actie.values()));
-		// listViewActions = new ListView<Action>;
 		listViewActions.setItems(actionItems);
 		listViewActions.setCellFactory(param -> new ListCell<Actie>() {
 			private ImageView imageView = new ImageView();
@@ -210,28 +216,33 @@ public class SpelbordCreatieSchermController {
 					Image image = null;
 					switch (actie) {
 					case PLAATSMUUR:
+						setText(" " + Taal.vertaal("place_wall"));
 						image = gc.IMAGE_WALL;
 						break;
 					case PLAATSVELD:
+						setText(" " + Taal.vertaal("place_field"));
 						image = gc.IMAGE_VELD;
 						break;
 					case PLAATSMANNETJE:
+						setText(" " + Taal.vertaal("place_worker"));
 						image = gc.IMAGE_MANNETJE;
 						break;
 					case PLAATSKIST:
+						setText(" " + Taal.vertaal("place_box"));
 						image = gc.IMAGE_KIST;
 						break;
 					case PLAATSDOEL:
+						setText(" " + Taal.vertaal("place_goal"));
 						image = gc.IMAGE_DOEL;
 						break;
 					case CLEAR:
+						setText(" " + Taal.vertaal("clear"));
 						image = gc.IMAGE_ERASER;
 						break;
 					}
 					imageView.setImage(image);
 					imageView.setFitHeight(50);
 					imageView.setFitWidth(50);
-					setText(actie.toString());
 					setGraphic(imageView);
 				}
 			}
@@ -262,9 +273,9 @@ public class SpelbordCreatieSchermController {
 			setOnMouseClicked(e -> {
 				if (geselecteerdeActie == null) {
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle("Ongeldige bewerking");
+					alert.setTitle(Taal.vertaal("exception_invalid_operation"));
 					alert.setHeaderText(null);
-					alert.setContentText("Gelieve eerst een actie te selecteren in de toolbox");
+					alert.setContentText(Taal.vertaal("exception_select_operation"));
 
 					alert.showAndWait();
 				} else {
@@ -273,7 +284,7 @@ public class SpelbordCreatieSchermController {
 						updateTile(x, y);
 					} catch (Exception e1) {
 						Alert alert = new Alert(Alert.AlertType.INFORMATION);
-						alert.setTitle("Ongeldige bewerking");
+						alert.setTitle(Taal.vertaal("exception_invalid_operation"));
 						alert.setHeaderText(null);
 						alert.setContentText(e1.getMessage());
 

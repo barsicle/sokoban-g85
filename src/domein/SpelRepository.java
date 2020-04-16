@@ -26,6 +26,7 @@ public class SpelRepository {
 	}
 	/**
 	 * Haalt het spel met opgegeven spelnaam op van de database.
+	 * @param spelNaam De naam van het gewenste spel.
 	 * @return het spel met de opgegeven naam.
 	 */
 	public Spel geefSpel(String spelNaam) {
@@ -33,7 +34,7 @@ public class SpelRepository {
 	}
 	/**
 	 * Insert het gegeven spel in de database.
-	 * @param het spel om in database te inserten.
+	 * @param spel het spel om in database te inserten.
 	 */
 	public void insertSpel(Spel spel) {
 		spelMapper.insertSpel(spel);

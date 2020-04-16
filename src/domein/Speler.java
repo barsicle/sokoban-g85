@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import vertalingen.Taal;
 
-//UC1
 /**
  * Stelt een speler voor.
  * @author g85
@@ -21,8 +20,6 @@ public class Speler{
 	private boolean adminrechten;
 
 	// Constructors
-	
-	//UC2
 	/**
 	 * Creëert een speler met opgegeven naam, voornaam, gebruikersnaam, wachtwoord en
 	 * adminrechten.
@@ -32,8 +29,7 @@ public class Speler{
 	 * @param gebruikersnaam De gebruikersnaam van de speler.
 	 * @param wachtwoord Het wachtwoord van de speler.
 	 * @param adminrechten Of de speler adminrechten bezit.
-	 * @param spelerRepository Testing van de klasse.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException indien de gegevens incorrect zijn ingevuld.
 	 */
 	public Speler(String naam, String voornaam, String gebruikersnaam, String wachtwoord, boolean adminrechten)
 			throws IllegalArgumentException {
@@ -47,8 +43,6 @@ public class Speler{
 	}
 
 	// Methods
-	
-	//UC1
 	/**
 	 * Geeft de naam van de speler terug.
 	 * @return de naam van de speler.
@@ -57,12 +51,10 @@ public class Speler{
 		return this.naam;
 	}
 	
-	//UC1
 	private void setNaam(String naam) {
 		this.naam = naam;
 	}
 	
-	//UC1
 	/**
 	 * Geeft de voornaam van de speler terug.
 	 * @return de voornaam van de speler.
@@ -70,13 +62,11 @@ public class Speler{
 	public String getVoornaam() {
 		return this.voornaam;
 	}
-	
-	//UC1
+
 	private void setVoornaam(String voornaam){
 		this.voornaam = voornaam;
 	}
 	
-	//UC1
 	/**
 	 * Geeft de gebruikersnaam van de speler terug.
 	 * @return de gebruikersnaam van de speler.
@@ -86,13 +76,13 @@ public class Speler{
 		return this.gebruikersnaam;
 
 	}
-	//UC1
+
 	/**
 	 * Stelt de gebruikersnaam van de speler in. Werpt een IllegalArgumentException indien
 	 * de gebruikersnaam leeg is of kleiner dan 8 karakters.
 	 * 
 	 * @param gebruikersnaam De gewenste gebruikersnaam van de speler.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException indien de gebruikersnaam leeg is of kleiner dan 8 karakters.
 	 */
 	public void setGebruikersnaam(String gebruikersnaam) throws IllegalArgumentException {
 
@@ -108,7 +98,7 @@ public class Speler{
 		this.gebruikersnaam = gebruikersnaam.toLowerCase();
 
 	}
-	//UC1
+
 	/**
 	 * Geeft het wachtwoord van de speler terug.
 	 * @return het wachtwoord van de speler.
@@ -119,7 +109,6 @@ public class Speler{
 
 	}
 	
-	//UC1
 	private void setWachtwoord(String wachtwoord) throws IllegalArgumentException {
 
 		if (wachtwoord == null || wachtwoord.length() == 0) {
@@ -137,7 +126,6 @@ public class Speler{
 		this.wachtwoord = wachtwoord;
 
 	}
-	//UC1
 	/**
 	 * Geeft terug of de speler adminrechten heeft of niet.
 	 * 
@@ -148,14 +136,14 @@ public class Speler{
 		return this.adminrechten;
 
 	}
-	//UC1
+
 	private void setAdminrechten(boolean adminrechten) throws IllegalArgumentException{
 		if (Objects.equals(adminrechten, null))
 			throw new IllegalArgumentException(Taal.vertaal("exception_not_null"));
 		this.adminrechten = adminrechten;
 
 	}
-	//UC2
+
 	/**
 	 * Stelt het wachtwoord van de speler terug in op null.
 	 */

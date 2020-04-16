@@ -22,6 +22,7 @@ public class SpelbordRepository {
 	 * @param spelbordNaam De naam van het spelbord.
 	 * @param aantalRijen Het aantal rijen van het spelbord.
 	 * @param aantalKolommen Het aantal kolommen van het spelbord.
+	 * @return het spelbord met de gegeven naam en de gegeven dimensies.
 	 */
 	public Spelbord geefSpelbordMetVelden(String spelbordNaam, int aantalRijen, int aantalKolommen) {
 		return spelbordMapper.geefBordMetVelden(spelbordNaam, aantalRijen, aantalKolommen);
@@ -29,13 +30,14 @@ public class SpelbordRepository {
 	/**
 	 * Haalt een lijst van de spelborden met de gegeven spelnaam uit de database.
 	 * @param spelNaam De naam van het spel.
+	 * @return de lijst van de spelborden met de gegeven spelnaam.
 	 */
 	public List<Spelbord> geefSpelborden(String spelNaam){
 		return spelbordMapper.geefBorden(spelNaam);
 	}
 	/**
 	 * Insert het gegeven spelbord van het gegeven spel in de database.
-	 * @param spelbord Het gegevn spelbord.
+	 * @param spelbord Het gegeven spelbord.
 	 * @param spelNaam De gegeven spelnaam.
 	 */
 	public void insertBord(Spelbord spelbord, String spelNaam) {

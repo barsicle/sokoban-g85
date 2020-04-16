@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-//UC2
 /**
  * Stelt de gebruikte taal van de applicatie voor.
  * 

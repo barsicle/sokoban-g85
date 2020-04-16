@@ -23,7 +23,7 @@ public class SpelMapper {
 	 * Geeft het spel met de gegeven naam terug uit de database. Werpt een RuntimeException indien er een probleem is met de database.
 	 * @param spelNaam De naam van het op te halen spel.
 	 * @return het spel met de gegeven spelnaam.
-	 * @throws RuntimeException
+	 * @throws RuntimeException indien er een probleem is met de database.
 	 */		
 	public Spel geefSpel(String spelNaam) throws RuntimeException {
 		Spel spel = null;
@@ -72,7 +72,7 @@ public class SpelMapper {
 	/**
 	 * Insert het gegeven spel in de database. Werpt een RuntimeException indien er een probleem is met de database.
 	 * @param spel Het te inserten spel.
-	 * @throws RuntimeException
+	 * @throws RuntimeException indien er een probleem is met de database.
 	 */		
 	public void insertSpel(Spel spel) throws RuntimeException {
 		try {

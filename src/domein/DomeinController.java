@@ -1,8 +1,5 @@
 package domein;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +11,6 @@ import vertalingen.Taal;
  */
 public class DomeinController {
 	
-	// Properties
 	private final SpelerRepository spelerRepository;
 	private final SpelRepository spelRepository;
 	private final SpelbordRepository spelbordRepository;
@@ -22,7 +18,6 @@ public class DomeinController {
 	private Spel gekozenSpel;
 	private Spelbord huidigSpelbord;
 	
-	//UC1
 	/**
 	 * Creëert een instantie van de domeincontroller.
 	 */
@@ -32,9 +27,6 @@ public class DomeinController {
 		this.spelbordRepository = new SpelbordRepository();
 	}
 	
-	
-	
-	//UC2
 	/**
 	 * Registreert de gebruiker als speler. Werpt een IllegalArgumentException indien
 	 *  het wachtwoord en de wachtwoordbevestiging niet overeenkomen.
@@ -44,7 +36,7 @@ public class DomeinController {
 	 * @param  gebruikersnaam De gebruikersnaam van de gebruiker.
 	 * @param  wachtwoord Het wachtwoord van de gebruiker.
 	 * @param  wachtwoordBevestiging De bevestiging van het wachtwoord van de gebruiker. Moet overeenkomen met het wachtwoord.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException indien het wachtwoord en de wachtwoordbevestiging niet overeenkomen.
 	 */
 	public void registreer(String naam, String voornaam, String gebruikersnaam, String wachtwoord, String wachtwoordBevestiging) throws IllegalArgumentException {
 		if (!wachtwoord.equals(wachtwoordBevestiging)) {
@@ -59,14 +51,13 @@ public class DomeinController {
 		setSpeler(nieuweSpeler);
 
 	}
-	//UC1
 	/**
 	 * Meldt de speler aan. Werpt een RuntimeException indien
 	 *  de speler niet bestaat.
 	 *
 	 * @param  gebruikersnaam De gebruikersnaam van de speler.
 	 * @param  wachtwoord Het wachtwoord van de speler.
-	 * @throws RuntimeException
+	 * @throws RuntimeException indien de speler niet bestaat.
 	 */
 	public void meldAan(String gebruikersnaam, String wachtwoord) throws RuntimeException {
 		if(!spelerRepository.bestaatSpeler(gebruikersnaam)) {
@@ -83,7 +74,6 @@ public class DomeinController {
 		
 	}
 
-	//UC1
 	/**
 	 * Geeft de speler zijn gebruikersnaam terug.
 	 * @return gebruikersnaam
@@ -92,7 +82,6 @@ public class DomeinController {
 		return speler.getGebruikersnaam();
 	}	
 	
-	//UC1
 	/**
 	 * Geeft de speler zijn adminrechten terug.
 	 * @return adminrechten
@@ -101,7 +90,6 @@ public class DomeinController {
 		return speler.hasAdminrechten();
 	}
 	
-	//UC1
 	private void setSpeler(Speler speler) {
 		if (Objects.equals(speler, null))
 			throw new IllegalArgumentException(Taal.vertaal("player") + Taal.vertaal("exception_not_null"));
@@ -120,7 +108,8 @@ public class DomeinController {
 	 * Creëert een spel met opgegeven naam. Werpt een IllegalArgumentException indien de spelnaam spaties bevat of
 	 * indien het spel met de opgegeven naam al bestaat.
 	 * @param spelNaam De naam van het spel.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException indien de spelnaam spaties bevat of
+	 * indien het spel met de opgegeven naam al bestaat.
 	 */
 	public void creeerSpel(String spelNaam) throws IllegalArgumentException {
 		//Check dat er geen spaties zijn
@@ -132,7 +121,7 @@ public class DomeinController {
 			throw new IllegalArgumentException(Taal.vertaal("exception_game_exists"));
 		}
 		
-		Spel spel = new Spel(spelNaam, new ArrayList<Spelbord>());
+		Spel spel = new Spel(spelNaam);
 		spel.setAanmaker(speler);
 		
 		gekozenSpel = spel;
@@ -142,7 +131,8 @@ public class DomeinController {
 	 * Creëert een spelbord met opgegeven naam. Werpt een IllegalArgumentException indien de spelbordnaam null is of een lege string of
 	 * indien het spelbord met de opgegeven naam al bestaat. Het gemaakte spelbord wordt het huidige spelbord.
 	 * @param spelbordNaam De naam van het spelbord.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException indien de spelbordnaam null is of een lege string of
+	 * indien het spelbord met de opgegeven naam al bestaat.
 	 */
 	public void creeerSpelbord(String spelbordNaam) throws IllegalArgumentException {
 		//Check dat het niet in de huidige selectie zit om toe te voegen of al in de DB
@@ -158,10 +148,9 @@ public class DomeinController {
 	}
 
 	/**
-	 * Voegt een spelbord toe aan het gekozen spel.
-	 * @param spelbordNaam De naam van het spelbord. Werpt een RuntimeException indien het aantal kisten niet gelijk is
+	 * Voegt het huidige spelbord toe aan het gekozen spel.
+	 * @throws RuntimeException indien het aantal kisten niet gelijk is
 	 * aan het aantal doelen, indien er niet genoeg doelen of kisten op het bord staan of indien er geen mannetje op het bord staat.
-	 * @throws RuntimeException
 	 */
 	public void voegSpelbordToe() throws RuntimeException{
 		if(huidigSpelbord.getKisten().size() != huidigSpelbord.getAantalDoelen())
@@ -202,6 +191,7 @@ public class DomeinController {
 	/**
 	 * Haalt het spel met opgegeven naam op uit de repository, haalt zijn overeenkomstige spelborden
 	 * op en stelt het spel in als gekozen spel. 
+	 * @param spelNaam De opgegeven naam waarmee het spel opgehaald wordt.
 	 */
 	public void kiesSpel(String spelNaam) {
 		gekozenSpel = spelRepository.geefSpel(spelNaam);
@@ -221,7 +211,7 @@ public class DomeinController {
 	/**
 	 * Beweegt het mannetje in de gekozen richting.
 	 * @param richting de gekozen richting.
-	 * @throws RuntimeException
+	 * @throws RuntimeException indien het mannetje een illegale beweging doet.
 	 */
 	public void beweeg(BeweegRichting richting) throws RuntimeException {
 		huidigSpelbord.beweeg(richting);
@@ -310,8 +300,9 @@ public class DomeinController {
 	}
 	/**
 	 * Geeft het veld op de gegeven locatie terug.
-	 * @param De gegevn rij.
-	 * @param De gegeven kolom.
+	 * @param x De gegeven rij.
+	 * @param y De gegeven kolom.
+	 * @return het veld met de gegeven coördinaten;
 	 */
 	public VeldInterface getVeld(int x, int y) {
 		return this.huidigSpelbord.getVeld(x, y);

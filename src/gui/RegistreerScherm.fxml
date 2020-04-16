@@ -1,43 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-  <columnConstraints>
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="394.39996337890625" minWidth="10.0" prefWidth="79.59998168945313" />
-    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="394.39996337890625" minWidth="10.0" prefWidth="157.8" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="646.4000244140625" minWidth="10.0" prefWidth="478.6000000000001" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="646.4000244140625" minWidth="10.0" prefWidth="89.19997558593752" />
-  </columnConstraints>
-  <rowConstraints>
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="154.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="128.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <Label fx:id="lblNaam" text="Naam: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-      <Label fx:id="lblVoornaam" text="Voornaam: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-      <Label fx:id="lblGebruikersnaam" text="Gebruikersnaam: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-      <Button fx:id="btnRegistreer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registreerButtonPushed" text="Registreer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-      <TextField fx:id="txfNaam" promptText="Geef uw naam" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-      <TextField fx:id="txfVoornaam" promptText="Geef uw voornaam" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-      <TextField fx:id="txfGebruikersnaam" promptText="Geef uw gebruikersnaam" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-      <Label fx:id="lblWachtwoord" text="Wachtwoord: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-      <Label fx:id="lblWachtwoordBevestiging" text="Wachtwoordbevestiging: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
-      <PasswordField fx:id="pwfWachtwoord" promptText="Geef uw wachtwoord" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-      <PasswordField fx:id="pwfWachtwoordBevestiging" promptText="Bevestig uw wachtwoord" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-      <Button fx:id="btnBack" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#backButtonPushed" text="Annuleer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-      <Label fx:id="lblMessage" textFill="RED" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
-   </children>
-</GridPane>
+<BorderPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" styleClass="borderpane" stylesheets="@../../resources/css/gui.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+         <top>
+            <GridPane alignment="TOP_CENTER" hgap="10.0" vgap="10.0">
+              <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="0.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="0.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="0.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="0.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints percentHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <FlowPane alignment="TOP_CENTER" GridPane.columnSpan="5">
+                     <children>
+                        <ImageView fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/images/Startscherm.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </FlowPane>
+                  <Label fx:id="lblNaam" styleClass="inputguide" stylesheets="@../../resources/css/gui.css" text="Naam: " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txfNaam" promptText="Geef uw naam" styleClass="inputfieldBlue" stylesheets="@../../resources/css/gui.css" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                  <Label fx:id="lblVoornaam" styleClass="inputguide" stylesheets="@../../resources/css/gui.css" text="Voornaam: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+                  <Label fx:id="lblGebruikersnaam" styleClass="inputguide" stylesheets="@../../resources/css/gui.css" text="Gebruikersnaam: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+                  <Label fx:id="lblWachtwoord" styleClass="inputguide" stylesheets="@../../resources/css/gui.css" text="Wachtwoord: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
+                  <Label fx:id="lblWachtwoordBevestiging" styleClass="inputguide" stylesheets="@../../resources/css/gui.css" text="Wachtwoordbevestiging: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
+                  <TextField fx:id="txfVoornaam" promptText="Geef uw voornaam" styleClass="inputfieldBlue" stylesheets="@../../resources/css/gui.css" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="txfGebruikersnaam" promptText="Geef uw gebruikersnaam" styleClass="inputfieldBlue" stylesheets="@../../resources/css/gui.css" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                  <PasswordField fx:id="pwfWachtwoord" promptText="Geef uw wachtwoord" styleClass="inputfieldBlue" stylesheets="@../../resources/css/gui.css" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                  <PasswordField fx:id="pwfWachtwoordBevestiging" promptText="Bevestig uw wachtwoord" styleClass="inputfieldBlue" stylesheets="@../../resources/css/gui.css" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+                  <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="50.0" styleClass="submissionwindow" stylesheets="@../../resources/css/gui.css" vgap="10.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6">
+                     <children>
+                        <Button fx:id="btnRegistreer" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#registreerButtonPushed" prefHeight="100.0" styleClass="blueButton" stylesheets="@../../resources/css/gui.css" text="Registreer">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/images/toad-mario-png-5-transparent.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="btnBack" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#backButtonPushed" prefHeight="100.0" styleClass="redButton" stylesheets="@../../resources/css/gui.css" text="Annuleer">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/images/back.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+                  </FlowPane>
+                  <FlowPane alignment="TOP_CENTER" GridPane.columnSpan="5" GridPane.rowIndex="7">
+                     <children>
+                        <Label fx:id="lblMessage" alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="invalidMessage" stylesheets="@../../resources/css/gui.css">
+                           <FlowPane.margin>
+                              <Insets />
+                           </FlowPane.margin>
+                  </Label>
+                     </children>
+                  </FlowPane>
+               </children>
+            </GridPane>
+         </top>
+   <padding>
+      <Insets bottom="25.0" />
+   </padding>
+      </BorderPane>

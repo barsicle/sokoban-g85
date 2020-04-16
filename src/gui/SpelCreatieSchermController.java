@@ -1,29 +1,17 @@
 package gui;
 
-import java.util.Date;
-import java.util.Optional;
-
-import domein.Spel;
 import domein.SpelInterface;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.GridPane;
 import vertalingen.Taal;
 
-public class SpelCreatieSchermController extends GridPane {
+public class SpelCreatieSchermController{
 	
 	private GuiController gc;
 	
-
-    @FXML
-    private TextArea title;
-
     @FXML
     private Button btnBack;
     
@@ -55,6 +43,7 @@ public class SpelCreatieSchermController extends GridPane {
 
     @FXML
     private void back() {
+    	gc.dc.resetGekozenSpel();
     	gc.switchScherm(Scherm.SpelMenuScherm);
     }
 
@@ -64,15 +53,9 @@ public class SpelCreatieSchermController extends GridPane {
     	try {
     		gc.dc.creeerSpel(gameNameField.getText());
     		
-    		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-    		alert.setTitle(Taal.vertaal("done"));
-    		alert.setHeaderText(null);
-    		alert.setContentText(Taal.vertaal("game_created"));
-    		gameNameField.setDisable(true);
-    		btnCreateGame.setDisable(true);
-    		alert.showAndWait();
-    		
     		btnAddBoard.setDisable(false);
+    		btnCreateGame.setDisable(true);
+    		gameNameField.setDisable(true);
     	
     	} catch (Exception e) {
     		lblMessage.setText(e.getMessage());
@@ -109,21 +92,17 @@ public class SpelCreatieSchermController extends GridPane {
 		btnAddBoard.setDisable(true);
 		lblGameName.setText(Taal.vertaal("enter_game_name"));
 		
-		
 		//Haal saved state op en enable de features op basis hier van
 		SpelInterface spel = gc.dc.getSpel();
 		if(spel != null) {
 			btnAddBoard.setDisable(false);
     		gameNameField.setDisable(true);
     		btnCreateGame.setDisable(true);
+    		gameNameField.setText(spel.getSpelNaam());
     		if(spel.getBordenTotaal() > 0) {
     			btnSaveGame.setDisable(false);
     		}
 		}
 
 	}
-
-	/*private void resetMessageLabel() {
-		lblMessage.setText("");
-	}*/
 }

@@ -37,7 +37,7 @@ public class Spelbord {
 	/**
 	 * Creëert een spelbord met opgegeven naam en volgorde.
 	 * @param spelbordNaam De naam van het spelbord.
-	 * @param De volgorde van het spelbord in het spel.
+	 * @param volgorde De volgorde van het spelbord in het spel.
 	 */
 	public Spelbord(String spelbordNaam, int volgorde) {
 		this.spelbordNaam = spelbordNaam;
@@ -54,8 +54,8 @@ public class Spelbord {
 	}
 	/**
 	 * Stelt de naam van het spelbord in. Werpt een IllegalArgumentException indien de naam null is of leeg.
-	 * @param De naam van het spelbord.
-	 * @throws IllegalArgumentException
+	 * @param spelbordNaam De naam van het spelbord.
+	 * @throws IllegalArgumentException indien de naam null is of leeg.
 	 */
 	public void setSpelbordNaam(String spelbordNaam) throws IllegalArgumentException {
 		if (Objects.equals(spelbordNaam, null) || spelbordNaam.isBlank())
@@ -72,7 +72,7 @@ public class Spelbord {
 	/**
 	 * Stelt de velden van het spelbord in. Werpt een IllegalArgumentException indien de array null is.
 	 * @param velden De gegeven array van velden.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException indien de array null is.
 	 */
 	public void setVelden(Veld[][] velden) throws IllegalArgumentException {
 		if (Objects.equals(velden, null))
@@ -89,7 +89,7 @@ public class Spelbord {
 	/**
 	 * Stelt de volgorde van het spelbord in. Werpt een IllegalArgumentException indien de volgorde null is.
 	 * @param volgorde De gegeven volgorde van het spelbord in het spel
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException indien de volgorde null is.
 	 */
 	public void setVolgorde(int volgorde) throws IllegalArgumentException {
 		if (Objects.equals(volgorde, null))
@@ -100,7 +100,7 @@ public class Spelbord {
 	/**
 	 * Beweegt het mannetje naar de gekozen beweegrichting op het spelbord.
 	 * @param richting de gekozen beweegrichting.
-	 * @throws RuntimeException
+	 * @throws RuntimeException indien het mannetje een illegal movement maakt.
 	 */
 	public void beweeg(BeweegRichting richting) throws RuntimeException {
 		Veld huidigePositie = mannetje.getPositie();
@@ -265,11 +265,11 @@ public class Spelbord {
 	
 	private void plaatsMannetje(int x, int y) {
 		if (Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
-			throw new RuntimeException(Taal.vertaal("worker") + Taal.vertaal("exception_empty_field"));
+			throw new RuntimeException(Taal.vertaal("worker") + " " + Taal.vertaal("exception_empty_field"));
 		if(!hasNoMoveable(this.velden[x][y]))
-			throw new RuntimeException(Taal.vertaal("field") + Taal.vertaal("exception_moveable"));
+			throw new RuntimeException(Taal.vertaal("field") + " " + Taal.vertaal("exception_moveable"));
 		if(getVeld(x,y).isDoel())
-			throw new RuntimeException(Taal.vertaal("worker") + Taal.vertaal("exception_start_goal"));
+			throw new RuntimeException(Taal.vertaal("worker") + " " + Taal.vertaal("exception_start_goal"));
 
 		if(!Objects.equals(this.mannetje, null))
 			throw new RuntimeException(Taal.vertaal("exception_only_one"));
@@ -282,11 +282,11 @@ public class Spelbord {
 	
 	private void plaatsKist(int x, int y) {
 		if (Objects.equals(getVeld(x,y), null) || getVeld(x,y).getVeldType() == VeldType.MUUR )
-			throw new RuntimeException(Taal.vertaal("box") + Taal.vertaal("exception_empty_field"));
+			throw new RuntimeException(Taal.vertaal("box") + " " + Taal.vertaal("exception_empty_field"));
 		if(!hasNoMoveable(this.velden[x][y]))
-			throw new RuntimeException(Taal.vertaal("field") + Taal.vertaal("exception_moveable"));
+			throw new RuntimeException(Taal.vertaal("field") + " " + Taal.vertaal("exception_moveable"));
 		if(getVeld(x,y).isDoel())
-			throw new RuntimeException(Taal.vertaal("box") + Taal.vertaal("exception_start_goal"));
+			throw new RuntimeException(Taal.vertaal("box") + " " + Taal.vertaal("exception_start_goal"));
 		
 		Moveable kist = new Moveable(this.velden[x][y], MoveableType.KIST);
 		kisten.add(kist);
@@ -296,8 +296,8 @@ public class Spelbord {
 	/**
 	 * Geeft het veld op de gegeven locatie terug.
 	 * @param x De gegeven rij.
-	 * @param x De gegeven kolom.
-	 * @return het veld op de gegevn rij en kolom.
+	 * @param y De gegeven kolom.
+	 * @return het veld op de gegeven rij en kolom.
 	 */
 	public Veld getVeld(int x, int y) {
 		return this.velden[x][y];

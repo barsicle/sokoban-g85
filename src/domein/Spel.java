@@ -1,5 +1,6 @@
 package domein;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -38,6 +39,17 @@ public class Spel implements SpelInterface {
 		}
 
 	}
+	
+	/**
+	 * Creëert een spel met opgegeven naam zonder spelborden.
+	 * 
+	 * @param spelNaam           De naam van het spel.
+	 */
+	
+	public Spel(String spelNaam) {
+		this(spelNaam, new ArrayList<Spelbord>());
+	}
+	
 	/**
 	 * Geeft de naam van het spel terug.
 	 * @return de naam van het spel.
@@ -49,7 +61,8 @@ public class Spel implements SpelInterface {
 	 * Stelt de naam van het spel in. Werpt een IllegalArgumentException indien er een lege string of null
 	 * wordt meegegeven.
 	 * @param spelNaam De naam van het spel.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException indien er een lege string of null
+	 * wordt meegegeven.
 	 */
 	public void setSpelNaam(String spelNaam) throws IllegalArgumentException {
 		if (Objects.equals(spelNaam, null) || spelNaam.isEmpty())
@@ -128,7 +141,7 @@ public class Spel implements SpelInterface {
 
 	/**
 	 * Stelt de spelborden van het spel in aan de hand van de meegegeven lijst.
-	 * @param de lijst van de spelborden.
+	 * @param spelborden de lijst van de spelborden.
 	 */
 	public void setSpelborden(List<Spelbord> spelborden) {
 		this.spelborden = spelborden;

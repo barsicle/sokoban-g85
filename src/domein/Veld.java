@@ -58,32 +58,39 @@ public class Veld implements VeldInterface {
 
 	/**
 	 * Stelt de rij van het veld in.
-	 * @param de rij van het veld.
+	 * @param x de rij van het veld.
 	 */
 	public void setX(int x) {
 		this.x = x;
 	}
 	/**
 	 * Stelt de kolom van het veld in.
-	 * @param de kolom van het veld.
+	 * @param y de kolom van het veld.
 	 */
 	public void setY(int y) {
 		this.y = y;
 	}
 	/**
 	 * Stelt het veldtype van het veld in. Werpt een IllegalArgumentException indien het veldtype null is.
-	 * @param de kolom van het veld.
+	 * @param value het gewenste veldtype.
+	 * @throws IllegalArgumentException indien het veldtype null is.
 	 */
 	public void setVeldType(VeldType value) throws IllegalArgumentException{
 		if (Objects.equals(value, null))
 			throw new IllegalArgumentException(Taal.vertaal("fieldtype") + Taal.vertaal("exception_not_null"));
 		this.veldType = value;
 	}
-
+	/**
+	 * Geeft de moveable van het veld terug.
+	 * @return de moveable van het veld.
+	 */
 	public Moveable getMoveable() {
 		return moveable;
 	}
-
+	/**
+	 * Stelt de moveable van het veld in.
+	 * @param moveable de gewenste moveable van het veld.
+	 */
 	public void setMoveable(Moveable moveable) {
 		this.moveable = moveable;
 	}

@@ -2,17 +2,12 @@ package gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuBar;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import vertalingen.Taal;
 
 public class HoofdSchermController extends GridPane{
 	
 	private GuiController gc;
-		
-	@FXML
-	private ImageView imgSega;
 	
 	@FXML
 	private Button btnTaal;
@@ -25,9 +20,6 @@ public class HoofdSchermController extends GridPane{
 	
 	@FXML
 	private Button btnExit;
-	
-	@FXML
-	private MenuBar mnb;
 	
 	public HoofdSchermController(GuiController guiController) {
 		gc = guiController;

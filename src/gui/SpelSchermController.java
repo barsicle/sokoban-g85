@@ -1,11 +1,8 @@
 package gui;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import domein.BeweegRichting;
 import domein.BordDimensies;
 import domein.Moveable;
@@ -135,7 +132,6 @@ public class SpelSchermController {
 				alert.setTitle(Taal.vertaal("game_complete_title"));
 				alert.setHeaderText(null);
 				alert.setContentText(Taal.vertaal("game_complete"));
-
 				alert.showAndWait();
 				gc.dc.resetGekozenSpel();
 				gc.switchScherm(Scherm.SpelMenuScherm);
@@ -202,6 +198,7 @@ public class SpelSchermController {
 
 	@FXML
 	private void back() {
+		gc.dc.resetGekozenSpel();
 		gc.switchScherm(Scherm.SpelMenuScherm);
 	}
 

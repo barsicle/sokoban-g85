@@ -5,8 +5,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-
 import domein.BeweegRichting;
+import domein.BordDimensies;
 import domein.DomeinController;
 import domein.Moveable;
 import domein.Veld;
@@ -27,9 +27,8 @@ public class CliController {
 	
 	Console view = System.console();
 
-	// UC1
 	/**
-	 * CreËert een instantie van de command line controller met een
+	 * Creëert een instantie van de command line controller met een
 	 * domeincontroller object.
 	 * 
 	 * @param dc Het meegegeven domeincontroller object.
@@ -39,7 +38,6 @@ public class CliController {
 		scan = new Scanner(System.in);
 	}
 
-	// UC1
 	/**
 	 * Start de applicatie.
 	 */
@@ -48,7 +46,6 @@ public class CliController {
 		loginMenu();
 	}
 
-	// UC2
 	private void taalSelect() {
 		// Blijf gaan zolang er geen taal geselecteerd is
 		String taalSelectie = "\nNL: Gelieve uw taal te selecteren (cijfer ingeven)\n" +
@@ -118,10 +115,9 @@ public class CliController {
 		System.out.println(Taal.vertaal("line_star"));
 	}
 
-	// UC1
 	private void loginMenu() {
 		
-		// Reï¿½nitialiseren scanner
+		// Reïnitialiseren scanner
 		scan = new Scanner(System.in);
 		int keuze = 0;
 		
@@ -191,10 +187,9 @@ public class CliController {
 
 	}
 
-	// UC1
 	private void startAanmelden() {
 
-		// Reï¿½nitialiseren scanner
+		// Reïnitialiseren scanner
 		scan = new Scanner(System.in);
 		System.out.print("\n");
 		int lineStarLength = Taal.vertaal("line_star").length();
@@ -293,10 +288,9 @@ public class CliController {
 
 	}
 
-	// UC2
 	private void startRegistreer() {
 
-		// Reï¿½nitialiseren scanner
+		// Reïnitialiseren scanner
 		scan = new Scanner(System.in);
 
 		System.out.print("\n");
@@ -420,9 +414,8 @@ public class CliController {
 
 	}
 	
-	// UC1
 	private void hoofdMenu() {
-		// Reï¿½nitialiseren scanner
+		// Reïnitialiseren scanner
 		scan = new Scanner(System.in);
 
 		int lineStarLength = Taal.vertaal("line_star").length();
@@ -468,7 +461,6 @@ public class CliController {
 				continue;
 			}
 
-			// TO DO
 			switch (keuze) {
 			case 1:
 				speelSpel();
@@ -476,7 +468,7 @@ public class CliController {
 
 			case 2:
 				if (dc.isAdmin()) {
-					System.out.print("Nog niet geï¿½mplementeerd");
+					System.out.print("Nog niet geïmplementeerd");
 				}
 
 				else {
@@ -488,8 +480,7 @@ public class CliController {
 			case 3:
 				if (dc.isAdmin()) {
 
-					// TO DO: wijzig een spel optie
-					System.out.print("Nog niet geï¿½mplementeerd");
+					System.out.print("Buiten de scope van het project.");
 
 				}
 
@@ -523,17 +514,13 @@ public class CliController {
 
 	}	
 
-
-	// UC3
 	private void speelSpel() {
 
 		startKiesSpel();
 		bouwScherm();
 		while(!dc.checkBordVoltooid()) {
 			beweeg();
-		}
-		//clearScreen();
-		
+		}	
 		afsluiten();
 
 	}
@@ -570,14 +557,12 @@ public class CliController {
 		dc.kiesSpel(spelNamen.get(keuze-1));
 
 	}
-
-	// UC4
+	
 	private void bouwScherm() {
 		VeldInterface[][] velden = dc.geefVelden();
 
-		// i = kolom, j = rij
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
+			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
 
 				VeldInterface veld = velden[i][j];
 				char teken = '/';
@@ -619,9 +604,9 @@ public class CliController {
 		System.out.print(Taal.vertaal("total_displacements") + dc.getAantalBewegingen() + "\n");
 
 		// Eerst wissen, daarna opnieuw opbouwen
-		for (int i = 0; i < /* fields.length */ 10; i++) {
+		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
 
-			for (int j = 0; j < /* fields[i].length */ 10; j++) {
+			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
 				
 				moveables[i][j] = null;
 
@@ -629,7 +614,6 @@ public class CliController {
 			
 		}
 		// Mannetje
-
 		Moveable mannetje = dc.getMannetje();
 		Veld mannetjePositie = mannetje.getPositie();
 
@@ -655,11 +639,11 @@ public class CliController {
 		
 		System.out.print("\n");
 
-		Character[][] statusBord = new Character[10][10];
+		Character[][] statusBord = new Character[BordDimensies.getAantalRijen()][BordDimensies.getAantalKolommen()];
 
-		for (int i = 0; i < /* fields.length */ 10; i++) {
+		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
 
-			for (int j = 0; j < /* fields[i].length */ 10; j++) {
+			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
 
 				statusBord[i][j] = fields[i][j];
 
@@ -715,7 +699,6 @@ public class CliController {
 				System.out.print("\n");
 				int voltooideBorden = dc.getBordenVoltooid();
 				int totaalBorden = dc.getBordenTotaal();
-				int totaalVerplaatsingen = dc.getAantalBewegingen();
 				String bordVoltooidContent = Taal.vertaal("board_complete") + Taal.vertaal("completed_boards") + voltooideBorden + "\r\n" + 
 						Taal.vertaal("total_boards") + totaalBorden + "\n";		
 				System.out.print(bordVoltooidContent);
@@ -747,7 +730,6 @@ public class CliController {
 			System.out.print(Taal.vertaal("displacements_menu"));
 			System.out.print(Taal.vertaal("scanner_input"));
 			keuze = scan.nextInt();
-			//System.out.print("\n");
 
 		} while (keuze <= 0 || keuze > 6);
 		
