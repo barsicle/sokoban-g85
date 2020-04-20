@@ -10,6 +10,7 @@ import java.util.List;
 
 import domein.Spel;
 import domein.Spelbord;
+import vertalingen.Taal;
 /**
  * Stelt de mapper voor die met de database communiceert.
  * @author g85
@@ -28,8 +29,7 @@ public class SpelMapper {
 	public Spel geefSpel(String spelNaam) throws RuntimeException {
 		Spel spel = null;
 
-		try {
-		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+		try (Connection conn = DriverManager.getConnection(Connectie.JDBC_URL)) {
 		PreparedStatement query = conn.prepareStatement(GET_SPEL);
 		query.setString(1, spelNaam);
 
@@ -39,7 +39,7 @@ public class SpelMapper {
 			spel = new Spel(spelNaam, new ArrayList<Spelbord>());
 		}
 		} catch (SQLException | IllegalArgumentException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(Taal.vertaal("exception_database"));
 		}
 		
 		
@@ -53,8 +53,7 @@ public class SpelMapper {
 	public List<String> getSpelNamen() {
 		List<String> spellen = new ArrayList<>();
 
-		try {
-		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+		try (Connection conn = DriverManager.getConnection(Connectie.JDBC_URL)) {
 		PreparedStatement query = conn.prepareStatement(GET_SPELLEN);
 
 		ResultSet rs = query.executeQuery();
@@ -64,7 +63,7 @@ public class SpelMapper {
 			spellen.add(spelNaam);
 		}
 		} catch (SQLException | IllegalArgumentException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(Taal.vertaal("exception_database"));
 		}
 		
 		return spellen;
@@ -74,9 +73,12 @@ public class SpelMapper {
 	 * @param spel Het te inserten spel.
 	 * @throws RuntimeException indien er een probleem is met de database.
 	 */		
-	public void insertSpel(Spel spel) throws RuntimeException {
-		try {
-		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+	public void insertSpel(Spel spel) throws RuntimeException, IllegalArgumentException {
+		//check max 45 characters
+		if (spel.getSpelNaam().length() > 45)
+			throw new IllegalArgumentException(Taal.vertaal("game_name") + Taal.vertaal("exception_max_char"));
+		
+		try (Connection conn = DriverManager.getConnection(Connectie.JDBC_URL)) {
 		PreparedStatement query = conn.prepareStatement(INSERT_SPEL);
 
 		conn.setAutoCommit(false);
@@ -85,7 +87,7 @@ public class SpelMapper {
 		query.executeUpdate();
 		conn.commit();
 		} catch (SQLException | IllegalArgumentException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(Taal.vertaal("exception_database"));
 		}
 	}
 

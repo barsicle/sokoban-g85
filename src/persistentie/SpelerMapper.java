@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import domein.Speler;
+import vertalingen.Taal;
 
 /**
  * Stelt de mapper voor die met de database communiceert.
@@ -26,11 +27,13 @@ public class SpelerMapper {
 	 * @param speler De speler die toegevoegd wordt aan de database.
 	 * @throws RuntimeException indien er een probleem is met de database.
 	 */
-	public void voegSpelerToe(Speler speler) throws RuntimeException {
+	public void voegSpelerToe(Speler speler) throws RuntimeException, IllegalArgumentException{
 
-		try {
-			Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
-
+		//check max 45 characters
+		if (speler.getGebruikersnaam().length() > 45)
+			throw new IllegalArgumentException(Taal.vertaal("game_board_name") + Taal.vertaal("exception_max_char"));
+		
+		try (Connection conn = DriverManager.getConnection(Connectie.JDBC_URL)) {
 			PreparedStatement query = conn.prepareStatement(INSERT_SPELER);
 
 			conn.setAutoCommit(false);
@@ -42,7 +45,7 @@ public class SpelerMapper {
 			query.executeUpdate();
 			conn.commit();
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(Taal.vertaal("exception_database"));
 		}
 
 
@@ -60,8 +63,7 @@ public class SpelerMapper {
 		
 		Speler speler = null;
 
-		try {
-		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+		try (Connection conn = DriverManager.getConnection(Connectie.JDBC_URL)){
 		PreparedStatement query = conn.prepareStatement(GET_SPELER);
 
 		query.setString(1, gebruikersnaam.toLowerCase());
@@ -79,7 +81,7 @@ public class SpelerMapper {
 			return speler;
 		}
 		} catch (SQLException | IllegalArgumentException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(Taal.vertaal("exception_database"));
 		}
 		
 		return speler;

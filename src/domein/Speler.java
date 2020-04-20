@@ -72,9 +72,7 @@ public class Speler{
 	 * @return de gebruikersnaam van de speler.
 	 */
 	public String getGebruikersnaam() {
-
 		return this.gebruikersnaam;
-
 	}
 
 	/**
@@ -85,16 +83,12 @@ public class Speler{
 	 * @throws IllegalArgumentException indien de gebruikersnaam leeg is of kleiner dan 8 karakters.
 	 */
 	public void setGebruikersnaam(String gebruikersnaam) throws IllegalArgumentException {
-
 		if (gebruikersnaam == null || gebruikersnaam.length() == 0) {
-
 			throw new IllegalArgumentException(Taal.vertaal("exception_username_required"));
-
 		}
 		if (gebruikersnaam.length() < 8) {
 			throw new IllegalArgumentException(Taal.vertaal("exception_username_minimum"));
 		}
-
 		this.gebruikersnaam = gebruikersnaam.toLowerCase();
 
 	}
@@ -110,7 +104,8 @@ public class Speler{
 	}
 	
 	private void setWachtwoord(String wachtwoord) throws IllegalArgumentException {
-
+		if (wachtwoord.length() > 45)
+			throw new IllegalArgumentException(Taal.vertaal("name") + " " + Taal.vertaal("exception_max_char"));
 		if (wachtwoord == null || wachtwoord.length() == 0) {
 			throw new IllegalArgumentException(Taal.vertaal("exception_password_required"));
 		}

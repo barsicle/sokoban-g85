@@ -54,8 +54,8 @@ public class SpelSchermController {
 	private void bouwScherm() {
 		VeldInterface[][] velden = gc.dc.geefVelden();
 		// i = kolom, j = rij
-		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
-			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
+		for (int i = 0; i < BordDimensies.getAantalKolommen(); i++) {
+			for (int j = 0; j < BordDimensies.getAantalRijen(); j++) {
 				HBox box = new HBox();
 				Image image;
 				VeldInterface veld = velden[i][j];

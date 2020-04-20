@@ -14,6 +14,7 @@ import domein.MoveableType;
 import domein.Spelbord;
 import domein.Veld;
 import domein.VeldType;
+import vertalingen.Taal;
 /**
  * Stelt de mapper voor die met de database communiceert.
  * @author g85
@@ -23,6 +24,8 @@ public class SpelbordMapper {
 	private static final String GET_SPELBORD = "SELECT * FROM ID222177_g85.spelbord INNER JOIN ID222177_g85.veld ON spelbord.spelbordNaam = veld.spelbordNaam WHERE spelbord.spelbordNaam = ?";
 	private static final String INSERT_SPELBORD = "INSERT INTO ID222177_g85.spelbord(spelbordNaam,volgorde,spelNaam) VALUES(?, ?, ?)";
 	private static final String INSERT_VELDEN = "INSERT INTO ID222177_g85.veld(x,y,doel,veldType,moveable,spelbordNaam) VALUES(?, ?, ?, ?, ?, ?)";
+	private static final int KIST = 1;
+	private static final int MANNETJE = 2;
 	/**
 	 * Geeft het spelbord met de gegeven naam en de gegeven dimensies terug uit de database. Werpt een RuntimeException indien er een probleem is met de database.
 	 * @param spelbordNaam De naam van het op te halen spelbord.
@@ -38,8 +41,7 @@ public class SpelbordMapper {
 		List<Moveable> kisten = new ArrayList<>();
 		Moveable mannetje = null;
 
-		try {
-		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+		try (Connection conn = DriverManager.getConnection(Connectie.JDBC_URL)) {
 		PreparedStatement query = conn.prepareStatement(GET_SPELBORD);
 		query.setString(1, spelbordNaam);
 
@@ -59,15 +61,13 @@ public class SpelbordMapper {
 			// Indien er een moveable is, create die en maak wederzijdse link
 			Moveable moveable = null;
 			int moveableType = rs.getInt("moveable");
-			if (moveableType != 0) {
-				if(moveableType == 1) {
+				if(moveableType == KIST) {
 					moveable = new Moveable(veld, MoveableType.KIST);
 					kisten.add(moveable);
-				} else if (moveableType == 2) {
+				} else if (moveableType == MANNETJE) {
 					moveable = new Moveable(veld, MoveableType.MANNETJE);
 					mannetje = moveable;
 				}
-			}
 			veld.setMoveable(moveable);
 			
 			//Inserteer veld op juiste plaats in de array
@@ -76,7 +76,7 @@ public class SpelbordMapper {
 			bord = new Spelbord(spelbordNaam, volgorde, mannetje, kisten, velden);
 		}
 		} catch (SQLException | IllegalArgumentException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(Taal.vertaal("exception_database"));
 		}
 		
 		
@@ -91,8 +91,7 @@ public class SpelbordMapper {
 	 */		
 	public List<Spelbord> geefBorden(String spelNaam) throws RuntimeException {
 		List<Spelbord> borden = new ArrayList<>();
-		try {
-		Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+		try(Connection conn = DriverManager.getConnection(Connectie.JDBC_URL)) {
 		PreparedStatement query = conn.prepareStatement(GET_SPELBORDEN);
 		query.setString(1, spelNaam);
 
@@ -105,7 +104,7 @@ public class SpelbordMapper {
 			borden.add(bord);
 		}
 		} catch (SQLException | IllegalArgumentException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(Taal.vertaal("exception_database"));
 		}
 		
 		return borden;
@@ -116,9 +115,12 @@ public class SpelbordMapper {
 	 * @param spelNaam De naam van het spel van het te inserteren spelbord.
 	 * @throws RuntimeException indien er een probleem is met de database.
 	 */	
-	public void insertBord(Spelbord spelbord, String spelNaam) throws RuntimeException {
-		try {
-			Connection conn = DriverManager.getConnection(Connectie.JDBC_URL);
+	public void insertBord(Spelbord spelbord, String spelNaam) throws RuntimeException, IllegalArgumentException {
+		//check max 45 characters
+		if (spelbord.getSpelbordNaam().length() > 45)
+			throw new IllegalArgumentException(Taal.vertaal("game_board_name") + Taal.vertaal("exception_max_char"));
+
+		try(Connection conn = DriverManager.getConnection(Connectie.JDBC_URL)) {
 			conn.setAutoCommit(false);
 
 			//Bord zelf inserten
@@ -153,7 +155,7 @@ public class SpelbordMapper {
 			
 			conn.commit();
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(Taal.vertaal("exception_database"));
 		}
 	}
 	
@@ -162,9 +164,9 @@ public class SpelbordMapper {
 		int type = 0;
 		if(!Objects.equals(moveable, null)) {
 			if(moveable.getType().equals(MoveableType.KIST)){
-				type = 1;
+				type = KIST;
 			} else if (moveable.getType().equals(MoveableType.MANNETJE)) {
-				type = 2;
+				type = MANNETJE;
 			}
 		}
 

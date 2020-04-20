@@ -38,7 +38,7 @@ public class DomeinController {
 	 * @param  wachtwoordBevestiging De bevestiging van het wachtwoord van de gebruiker. Moet overeenkomen met het wachtwoord.
 	 * @throws IllegalArgumentException indien het wachtwoord en de wachtwoordbevestiging niet overeenkomen.
 	 */
-	public void registreer(String naam, String voornaam, String gebruikersnaam, String wachtwoord, String wachtwoordBevestiging) throws IllegalArgumentException {
+	public void registreer(String naam, String voornaam, String gebruikersnaam, String wachtwoord, String wachtwoordBevestiging) throws IllegalArgumentException, RuntimeException {
 		if (!wachtwoord.equals(wachtwoordBevestiging)) {
             throw new IllegalArgumentException(Taal.vertaal("exception_passwords"));
         }
@@ -100,7 +100,7 @@ public class DomeinController {
 	 * Geeft een lijst van de namen van alle spelen terug.
 	 * @return een lijst van de de namen van de spelen.
 	 */
-	public List<String> getSpelNamen(){
+	public List<String> getSpelNamen() throws RuntimeException{
 		return spelRepository.getSpelNamen();
 	}
 	
@@ -111,17 +111,14 @@ public class DomeinController {
 	 * @throws IllegalArgumentException indien de spelnaam spaties bevat of
 	 * indien het spel met de opgegeven naam al bestaat.
 	 */
-	public void creeerSpel(String spelNaam) throws IllegalArgumentException {
-		//Check dat er geen spaties zijn
-		if (spelNaam.contains(" ")) {
-			throw new IllegalArgumentException(Taal.vertaal("exception_name_no_spaces"));
-		}
+	public void creeerSpel(String spelNaam) throws IllegalArgumentException, RuntimeException {
+		Spel spel = new Spel(spelNaam);
+		
 		//Check of spel al bestaat
 		if (spelRepository.geefSpel(spelNaam) != null) {
 			throw new IllegalArgumentException(Taal.vertaal("exception_game_exists"));
 		}
 		
-		Spel spel = new Spel(spelNaam);
 		spel.setAanmaker(speler);
 		
 		gekozenSpel = spel;
@@ -134,17 +131,13 @@ public class DomeinController {
 	 * @throws IllegalArgumentException indien de spelbordnaam null is of een lege string of
 	 * indien het spelbord met de opgegeven naam al bestaat.
 	 */
-	public void creeerSpelbord(String spelbordNaam) throws IllegalArgumentException {
-		//Check dat het niet in de huidige selectie zit om toe te voegen of al in de DB
-		if (spelbordNaam.equals(null) || spelbordNaam.equals("")) {
-			throw new IllegalArgumentException(Taal.vertaal("game_board_name") + Taal.vertaal("exception_not_blank"));
-		}
-		if(gekozenSpel.getBordnamen().contains(spelbordNaam) || spelbordRepository.bordExists(spelbordNaam)) {
-			throw new IllegalArgumentException(Taal.vertaal("exception_board_exists"));
-		}
-		
+	public void creeerSpelbord(String spelbordNaam) throws IllegalArgumentException, RuntimeException {
 		int volgorde = gekozenSpel.getBordenTotaal();
 		huidigSpelbord = new Spelbord(spelbordNaam, volgorde);
+		
+		if(gekozenSpel.containsSpelbord(spelbordNaam)|| spelbordRepository.bordExists(spelbordNaam)) {
+			throw new IllegalArgumentException(Taal.vertaal("exception_board_exists"));
+		}
 	}
 
 	/**
@@ -152,15 +145,7 @@ public class DomeinController {
 	 * @throws RuntimeException indien het aantal kisten niet gelijk is
 	 * aan het aantal doelen, indien er niet genoeg doelen of kisten op het bord staan of indien er geen mannetje op het bord staat.
 	 */
-	public void voegSpelbordToe() throws RuntimeException{
-		if(huidigSpelbord.getKisten().size() != huidigSpelbord.getAantalDoelen())
-			throw new RuntimeException(Taal.vertaal("exception_goals_boxes"));
-		if(huidigSpelbord.getKisten().size() == 0 || huidigSpelbord.getAantalDoelen() == 0) {
-			throw new RuntimeException(Taal.vertaal("exception_minimum"));
-		}
-		if(Objects.equals(huidigSpelbord.getMannetje(), null)){
-			throw new RuntimeException(Taal.vertaal("exception_worker_required"));
-		}
+	public void voegSpelbordToe() throws RuntimeException {
 		gekozenSpel.voegNieuwSpelbordToe(huidigSpelbord);
 
 	}
@@ -168,7 +153,7 @@ public class DomeinController {
 	/**
 	 * Registreert het gekozen spel en zijn spelborden in de repositories.
 	 */
-	public void registreerSpel() {
+	public void registreerSpel() throws RuntimeException {
 		spelRepository.insertSpel(gekozenSpel);
 		gekozenSpel.getSpelborden().stream().forEach(b -> spelbordRepository.insertBord(b, gekozenSpel.getSpelNaam()));
 	}
@@ -193,7 +178,7 @@ public class DomeinController {
 	 * op en stelt het spel in als gekozen spel. 
 	 * @param spelNaam De opgegeven naam waarmee het spel opgehaald wordt.
 	 */
-	public void kiesSpel(String spelNaam) {
+	public void kiesSpel(String spelNaam) throws RuntimeException {
 		gekozenSpel = spelRepository.geefSpel(spelNaam);
 		List<Spelbord> borden = spelbordRepository.geefSpelborden(spelNaam);
 		gekozenSpel.setSpelborden(borden);
@@ -239,7 +224,7 @@ public class DomeinController {
 	 * 
 	 * @return true indien het spelbord voltooid is, anders false.
 	 */
-	public boolean checkBordVoltooid() {
+	public boolean checkBordVoltooid() throws RuntimeException {
 		boolean voltooid = huidigSpelbord.isVoltooid();
 		if (voltooid && !(checkSpelVoltooid())) {
 			gekozenSpel.volgendBord();
@@ -273,7 +258,7 @@ public class DomeinController {
 	/**
 	 * Reset het spelbord op het moment van spelen.
 	 */
-	public void resetBord() {
+	public void resetBord() throws RuntimeException {
 		huidigSpelbord = spelbordRepository.geefSpelbordMetVelden(huidigSpelbord.getSpelbordNaam(), BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen());
 	}
 	/**

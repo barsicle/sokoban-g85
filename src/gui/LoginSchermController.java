@@ -75,7 +75,6 @@ public class LoginSchermController{
 			gc.switchScherm(Scherm.SpelMenuScherm);
 		}
 		catch(RuntimeException e) {
-			e.printStackTrace();
 			lblMessage.setText(e.getMessage());
 		}
 		

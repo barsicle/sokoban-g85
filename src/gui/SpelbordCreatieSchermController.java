@@ -79,6 +79,7 @@ public class SpelbordCreatieSchermController {
 			speelVeld.setDisable(false);
 			btnRegistreerBord.setDisable(false);
 			btnReset.setDisable(false);
+			txfBordNaam.setDisable(true);
 			btnCreateBoard.setDisable(true);
 			bouwLeegSpelbord();
 		} catch (Exception e) {
@@ -88,6 +89,7 @@ public class SpelbordCreatieSchermController {
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();
 		}
+		
 	}
 
 	@FXML
@@ -116,8 +118,9 @@ public class SpelbordCreatieSchermController {
 	}
 
 	private void bouwLeegSpelbord() {
-		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
-			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
+		//i = kolom, j = rij
+		for (int i = 0; i < BordDimensies.getAantalKolommen(); i++) {
+			for (int j = 0; j < BordDimensies.getAantalRijen(); j++) {
 				Tile box = new Tile(i, j);
 				Image image;
 				try {
@@ -264,12 +267,7 @@ public class SpelbordCreatieSchermController {
 	}
 
 	class Tile extends Pane {
-		private int positionX;
-		private int positionY;
-
 		public Tile(int x, int y) {
-			positionX = x;
-			positionY = y;
 			setOnMouseClicked(e -> {
 				if (geselecteerdeActie == null) {
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);

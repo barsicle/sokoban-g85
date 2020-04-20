@@ -96,7 +96,6 @@ public class RegistreerSchermController{
 			gc.dc.registreer(naam, voornaam, gebruikersnaam, wachtwoord, wachtwoordBevestiging);
 			gc.switchScherm(Scherm.SpelMenuScherm);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
 			lblMessage.setText(e.getMessage());
 		}
 		

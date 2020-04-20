@@ -39,7 +39,7 @@ public class SpelerRepository {
 	 * al in de database zit.
 	 * @param speler De speler die wordt toegevoegd aan de database.
 	 */ 
-	public void voegSpelerToe(Speler speler) throws IllegalArgumentException {
+	public void voegSpelerToe(Speler speler) throws IllegalArgumentException, RuntimeException {
 		
 	       if (bestaatSpeler(speler.getGebruikersnaam()))
 	            throw new IllegalArgumentException("De gebruiker bestaat reeds.");

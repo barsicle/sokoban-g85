@@ -22,8 +22,8 @@ import vertalingen.Talen;
 public class CliController {
 	private DomeinController dc;
 	private Scanner scan;
-	Character[][] fields = new Character[10][10];
-	Character[][] moveables = new Character[10][10];
+	Character[][] fields = new Character[BordDimensies.getAantalRijen()][BordDimensies.getAantalKolommen()];
+	Character[][] moveables = new Character[BordDimensies.getAantalRijen()][BordDimensies.getAantalKolommen()];
 	
 	Console view = System.console();
 

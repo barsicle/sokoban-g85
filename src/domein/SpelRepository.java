@@ -21,7 +21,7 @@ public class SpelRepository {
 	 * Geeft een lijst van de namen de spelen terug.
 	 * @return een lijst van de namen van de spelen.
 	 */
-	public List<String> getSpelNamen(){
+	public List<String> getSpelNamen() throws RuntimeException{
 		return spelMapper.getSpelNamen();
 	}
 	/**
@@ -29,14 +29,14 @@ public class SpelRepository {
 	 * @param spelNaam De naam van het gewenste spel.
 	 * @return het spel met de opgegeven naam.
 	 */
-	public Spel geefSpel(String spelNaam) {
+	public Spel geefSpel(String spelNaam) throws RuntimeException {
 		return spelMapper.geefSpel(spelNaam);
 	}
 	/**
 	 * Insert het gegeven spel in de database.
 	 * @param spel het spel om in database te inserten.
 	 */
-	public void insertSpel(Spel spel) {
+	public void insertSpel(Spel spel)  throws RuntimeException {
 		spelMapper.insertSpel(spel);
 	}
 

@@ -65,8 +65,12 @@ public class Spel implements SpelInterface {
 	 * wordt meegegeven.
 	 */
 	public void setSpelNaam(String spelNaam) throws IllegalArgumentException {
+		//Check dat er geen spaties zijn
+		if (spelNaam.contains(" ") || spelNaam.matches("\\s+"))
+			throw new IllegalArgumentException(Taal.vertaal("exception_name_no_spaces"));
+		//check null of leeg
 		if (Objects.equals(spelNaam, null) || spelNaam.isEmpty())
-			throw new IllegalArgumentException(Taal.vertaal("game_name") + Taal.vertaal("exception_not_null"));
+			throw new IllegalArgumentException(Taal.vertaal("game_name") + Taal.vertaal("exception_not_blank"));
 		this.spelNaam = spelNaam;
 	}
 	
@@ -106,7 +110,8 @@ public class Spel implements SpelInterface {
 		this.aanmaker = aanmaker;
 	}
 
-	protected void voegNieuwSpelbordToe(Spelbord spelbord) {
+	protected void voegNieuwSpelbordToe(Spelbord spelbord) throws RuntimeException {
+		spelbord.valideerSpelbord();
 		spelborden.add(spelbord);
 	}
 
@@ -146,8 +151,8 @@ public class Spel implements SpelInterface {
 	public void setSpelborden(List<Spelbord> spelborden) {
 		this.spelborden = spelborden;
 	}
-	
-	
-	
+	public boolean containsSpelbord(String spelbordNaam) {
+		return getBordnamen().contains(spelbordNaam); 
+	}
 
 }
