@@ -72,7 +72,7 @@ public class Spelbord {
 	public void setSpelbordNaam(String spelbordNaam) throws IllegalArgumentException {
 		//Check dat er geen spaties zijn
 		if (spelbordNaam.contains(" ") || spelbordNaam.matches("\\s+")) 
-			throw new IllegalArgumentException(Taal.vertaal("exception_name_no_spaces"));
+			throw new IllegalArgumentException(Taal.vertaal("exception_board_name_no_spaces"));
 		//check null of leeg
 		if (Objects.equals(spelbordNaam, null) || spelbordNaam.isBlank())
 			throw new IllegalArgumentException(Taal.vertaal("game_board_name") + Taal.vertaal("exception_not_blank"));

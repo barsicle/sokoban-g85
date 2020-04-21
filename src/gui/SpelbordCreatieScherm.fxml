@@ -90,28 +90,28 @@
             </VBox>
                   <GridPane fx:id="speelVeld" alignment="CENTER" gridLinesVisible="true" snapToPixel="false" styleClass="gridGame" stylesheets="@../../resources/css/gui.css" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                     <columnConstraints>
-                      <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
-                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
-                      <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
-                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
-                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
-                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
-                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
-                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
-                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
-                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="49.5" minWidth="49.5" percentWidth="0.0" prefWidth="49.5" />
+                      <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
+                      <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
-                      <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
-                      <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
-                        <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
-                        <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
-                        <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
-                        <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
-                        <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
-                        <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
-                        <RowConstraints fillHeight="false" maxHeight="49.5" minHeight="49.5" percentHeight="0.0" prefHeight="49.5" vgrow="NEVER" />
+                      <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
+                      <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
+                      <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
+                        <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
+                        <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
+                        <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
+                        <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
+                        <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
+                        <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
+                        <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
                     </rowConstraints>
                   </GridPane>
                   <ListView fx:id="listViewActions" prefWidth="300.0" styleClass="listview" stylesheets="@../../resources/css/gui.css" GridPane.columnIndex="2" GridPane.rowIndex="4">
