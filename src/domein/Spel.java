@@ -67,7 +67,7 @@ public class Spel implements SpelInterface {
 	public void setSpelNaam(String spelNaam) throws IllegalArgumentException {
 		//Check dat er geen spaties zijn
 		if (spelNaam.contains(" ") || spelNaam.matches("\\s+"))
-			throw new IllegalArgumentException(Taal.vertaal("exception_name_no_spaces"));
+			throw new IllegalArgumentException(Taal.vertaal("exception_game_name_no_spaces"));
 		//check null of leeg
 		if (Objects.equals(spelNaam, null) || spelNaam.isEmpty())
 			throw new IllegalArgumentException(Taal.vertaal("game_name") + Taal.vertaal("exception_not_blank"));
