@@ -132,35 +132,20 @@ public class SpelSchermController {
 	private void checkVoltooid() {
 		if (gc.dc.checkBordVoltooid()) {
 			if (gc.dc.checkSpelVoltooid()) {
-				Alert alert = new Alert(Alert.AlertType.INFORMATION);				
-				alert.setTitle(Taal.vertaal("game_complete_title"));
-				alert.setHeaderText(null);
-				alert.setContentText(Taal.vertaal("game_complete"));
+				Alert alert = AlertFactory.createAlert(Alert.AlertType.INFORMATION, Taal.vertaal("game_complete_title"), Taal.vertaal("game_complete"));
 				alert.showAndWait();
 				gc.dc.resetGekozenSpel();
 				gc.switchScherm(Scherm.SpelMenuScherm);
 			} else {
-				Alert alert = new Alert(Alert.AlertType.NONE);
-				
-				DialogPane dialogPane = alert.getDialogPane();
-				dialogPane.getStylesheets().add(getClass().getResource("alerts.css").toExternalForm());
-				dialogPane.getStyleClass().add("myAlert");
-				
-				alert.getDialogPane().setMinHeight(500);
-				alert.getDialogPane().setMinWidth(500);
-			
-				
-				
-				ButtonType buttonVolgendLevel = new ButtonType(Taal.vertaal("next_board"));
-				ButtonType buttonOpgeven = new ButtonType(Taal.vertaal("quit"));
-				alert.getButtonTypes().setAll(buttonVolgendLevel, buttonOpgeven);
-				alert.setTitle(Taal.vertaal("board_complete_title"));
 				int voltooideBorden = gc.dc.getBordenVoltooid();
 				int totaalBorden = gc.dc.getBordenTotaal();
 				String bordVoltooidContent = Taal.vertaal("board_complete") + Taal.vertaal("completed_boards")
-						+ voltooideBorden + "\r\n" + Taal.vertaal("total_boards") + totaalBorden;
-				alert.setHeaderText(bordVoltooidContent);
-				alert.setContentText(" ");
+				+ voltooideBorden + "\r\n" + Taal.vertaal("total_boards") + totaalBorden;
+				Alert alert = AlertFactory.createAlert(Alert.AlertType.CONFIRMATION, Taal.vertaal("board_complete_title"), bordVoltooidContent);
+
+				ButtonType buttonVolgendLevel = new ButtonType(Taal.vertaal("next_board"));
+				ButtonType buttonOpgeven = new ButtonType(Taal.vertaal("quit"));
+				alert.getButtonTypes().setAll(buttonVolgendLevel, buttonOpgeven);
 
 				Optional<ButtonType> keuze = alert.showAndWait();
 				if (keuze.get() == buttonVolgendLevel) {

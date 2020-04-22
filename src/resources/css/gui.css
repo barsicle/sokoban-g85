@@ -234,7 +234,7 @@
 
 #gameBackground {
 	
-	-fx-background-image: url("file:resources/images/background-game-highres.jpg");
+	-fx-background-image: url("../images/background-game-highres.jpg");
 	-fx-background-position: top, center;
 	-fx-background-repeat: no-repeat;
 	-fx-background-size: cover;
@@ -253,7 +253,7 @@
 
 #statusMessage {
 	
-	-fx-background-image: url("file:resources/images/cloud.png");
+	-fx-background-image: url("../images/cloud.png");
 	-fx-background-position: center center;
 	-fx-background-repeat: stretch;
 	-fx-background-size: 297 125;

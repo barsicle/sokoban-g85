@@ -5,10 +5,10 @@ import javafx.scene.control.DialogPane;
 
 public class AlertFactory {
 
-	public Alert createAlert(Alert.AlertType type, String title, String header, String content) {
+	public static Alert createAlert(Alert.AlertType type, String title, String header, String content) {
 		Alert alert = new Alert(type);
 		DialogPane dialogPane = alert.getDialogPane();
-		dialogPane.getStylesheets().add(getClass().getResource("alerts.css").toExternalForm());
+		dialogPane.getStylesheets().add(AlertFactory.class.getClass().getResource("/resources/css/alerts.css").toExternalForm());
 		dialogPane.getStyleClass().add("myAlert");
 		
 		alert.getDialogPane().setMinHeight(500);
@@ -21,7 +21,7 @@ public class AlertFactory {
 		return alert;
 	}
 	
-	public Alert createAlert(Alert.AlertType type, String title, String content) {
+	public static Alert createAlert(Alert.AlertType type, String title, String content) {
 		return createAlert(type,title,null,content);
 	}
 }

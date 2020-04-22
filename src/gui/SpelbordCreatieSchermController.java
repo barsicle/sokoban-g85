@@ -23,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import vertalingen.Taal;
 import static gui.ImageFactory.SoortImage.*;
+import static gui.AlertFactory.*;
 
 public class SpelbordCreatieSchermController {
 	private GuiController gc;
@@ -81,10 +82,7 @@ public class SpelbordCreatieSchermController {
 			btnCreateBoard.setDisable(true);
 			bouwLeegSpelbord();
 		} catch (Exception e) {
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle(Taal.vertaal("exception_invalid_operation"));
-			alert.setHeaderText(null);
-			alert.setContentText(e.getMessage());
+			Alert alert = AlertFactory.createAlert(Alert.AlertType.ERROR, Taal.vertaal("exception_invalid_operation"), e.getMessage());
 			alert.showAndWait();
 		}
 		
@@ -98,18 +96,11 @@ public class SpelbordCreatieSchermController {
 			speelVeld.setDisable(true);
 			btnRegistreerBord.setDisable(true);
 			
-			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-			alert.setTitle(Taal.vertaal("done"));
-			alert.setHeaderText(null);
-			alert.setContentText(Taal.vertaal("board_saved"));
+			Alert alert = AlertFactory.createAlert(Alert.AlertType.CONFIRMATION, Taal.vertaal("done"), Taal.vertaal("board_saved"));
 			alert.showAndWait();
 			back();
 		} catch (Exception e) {
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle(Taal.vertaal("exception_invalid_operation"));
-			alert.setHeaderText(null);
-			alert.setContentText(e.getMessage());
-
+			Alert alert = AlertFactory.createAlert(Alert.AlertType.ERROR, Taal.vertaal("exception_invalid_operation"), e.getMessage());
 			alert.showAndWait();
 		}
 
@@ -263,22 +254,14 @@ public class SpelbordCreatieSchermController {
 		public Tile(int x, int y) {
 			setOnMouseClicked(e -> {
 				if (geselecteerdeActie == null) {
-					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle(Taal.vertaal("exception_invalid_operation"));
-					alert.setHeaderText(null);
-					alert.setContentText(Taal.vertaal("exception_select_operation"));
-
+					Alert alert = AlertFactory.createAlert(Alert.AlertType.ERROR, Taal.vertaal("exception_invalid_operation"), Taal.vertaal("exception_select_operation"));
 					alert.showAndWait();
 				} else {
 					try {
 						gc.dc.creeerVeld(geselecteerdeActie, x, y);
 						updateTile(x, y);
 					} catch (Exception e1) {
-						Alert alert = new Alert(Alert.AlertType.INFORMATION);
-						alert.setTitle(Taal.vertaal("exception_invalid_operation"));
-						alert.setHeaderText(null);
-						alert.setContentText(e1.getMessage());
-
+						Alert alert = AlertFactory.createAlert(Alert.AlertType.ERROR, Taal.vertaal("exception_invalid_operation"), e1.getMessage());
 						alert.showAndWait();
 					}
 
