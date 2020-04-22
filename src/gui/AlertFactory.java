@@ -8,7 +8,7 @@ public class AlertFactory {
 	public static Alert createAlert(Alert.AlertType type, String title, String header, String content) {
 		Alert alert = new Alert(type);
 		DialogPane dialogPane = alert.getDialogPane();
-		dialogPane.getStylesheets().add(AlertFactory.class.getClass().getResource("/resources/css/alerts.css").toExternalForm());
+		dialogPane.getStylesheets().add(AlertFactory.class.getResource("/resources/css/alerts.css").toExternalForm());
 		dialogPane.getStyleClass().add("myAlert");
 		
 		alert.getDialogPane().setMinHeight(500);
