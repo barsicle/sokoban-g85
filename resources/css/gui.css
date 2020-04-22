@@ -230,16 +230,6 @@
 	
 }
 
-.dialog-pane {
-	
-	-fx-text-fill: black;
-	-fx-font-size: 14;
-	-fx-background-color: #FFDC73;
-	-fx-font-family: 'Verdana';
-	-fx-padding: 25;
-	
-}
-
 /* ID'S */
 
 #gameBackground {
