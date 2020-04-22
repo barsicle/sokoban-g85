@@ -104,8 +104,6 @@ public class Speler{
 	}
 	
 	private void setWachtwoord(String wachtwoord) throws IllegalArgumentException {
-		if (wachtwoord.length() > 45)
-			throw new IllegalArgumentException(Taal.vertaal("name") + " " + Taal.vertaal("exception_max_char"));
 		if (wachtwoord == null || wachtwoord.length() == 0) {
 			throw new IllegalArgumentException(Taal.vertaal("exception_password_required"));
 		}

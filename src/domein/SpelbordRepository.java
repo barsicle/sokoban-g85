@@ -24,7 +24,7 @@ public class SpelbordRepository {
 	 * @param aantalKolommen Het aantal kolommen van het spelbord.
 	 * @return het spelbord met de gegeven naam en de gegeven dimensies.
 	 */
-	public Spelbord geefSpelbordMetVelden(String spelbordNaam, int aantalRijen, int aantalKolommen) throws RuntimeException {
+	protected Spelbord geefSpelbordMetVelden(String spelbordNaam, int aantalRijen, int aantalKolommen) throws RuntimeException {
 		return spelbordMapper.geefBordMetVelden(spelbordNaam, aantalRijen, aantalKolommen);
 	}
 	/**
@@ -32,7 +32,7 @@ public class SpelbordRepository {
 	 * @param spelNaam De naam van het spel.
 	 * @return de lijst van de spelborden met de gegeven spelnaam.
 	 */
-	public List<Spelbord> geefSpelborden(String spelNaam) throws RuntimeException {
+	protected List<Spelbord> geefSpelborden(String spelNaam) throws RuntimeException {
 		return spelbordMapper.geefBorden(spelNaam);
 	}
 	/**
@@ -40,7 +40,7 @@ public class SpelbordRepository {
 	 * @param spelbord Het gegeven spelbord.
 	 * @param spelNaam De gegeven spelnaam.
 	 */
-	public void insertBord(Spelbord spelbord, String spelNaam) throws RuntimeException {
+	protected void insertBord(Spelbord spelbord, String spelNaam) throws RuntimeException {
 		spelbordMapper.insertBord(spelbord, spelNaam);
 	}
 	/**
@@ -48,7 +48,7 @@ public class SpelbordRepository {
 	 * @param spelbordNaam De naam van het spelbord.
 	 * @return true indien het spelbord bestaat, anders false.
 	 */
-	public boolean bordExists(String spelbordNaam) throws RuntimeException {
+	protected boolean bordExists(String spelbordNaam) throws RuntimeException {
 		return !Objects.equals(spelbordMapper.geefBordMetVelden(spelbordNaam, BordDimensies.getAantalRijen(), BordDimensies.getAantalKolommen()), null); 
 	}
 }
