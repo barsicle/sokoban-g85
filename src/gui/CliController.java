@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.Console;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
@@ -22,14 +23,14 @@ import vertalingen.Talen;
 public class CliController {
 	private DomeinController dc;
 	private Scanner scan;
-	Character[][] fields = new Character[BordDimensies.getAantalRijen()][BordDimensies.getAantalKolommen()];
-	Character[][] moveables = new Character[BordDimensies.getAantalRijen()][BordDimensies.getAantalKolommen()];
-	
+	Character[][] fields = new Character[BordDimensies.getAantalKolommen()][BordDimensies.getAantalRijen()];
+	Character[][] moveables = new Character[BordDimensies.getAantalKolommen()][BordDimensies.getAantalRijen()];
+
 	Console view = System.console();
 
 	/**
-	 * Creëert een instantie van de command line controller met een
-	 * domeincontroller object.
+	 * Creëert een instantie van de command line controller met een domeincontroller
+	 * object.
 	 * 
 	 * @param dc Het meegegeven domeincontroller object.
 	 */
@@ -48,11 +49,11 @@ public class CliController {
 
 	private void taalSelect() {
 		// Blijf gaan zolang er geen taal geselecteerd is
-		String taalSelectie = "\nNL: Gelieve uw taal te selecteren (cijfer ingeven)\n" +
-		"FR: Veuillez choisir votre langue (entrez le numéro)\n" +
-		"EN: Please choose your language (enter number)\n";
+		String taalSelectie = "\nNL: Gelieve uw taal te selecteren (cijfer ingeven)\n"
+				+ "FR: Veuillez choisir votre langue (entrez le numéro)\n"
+				+ "EN: Please choose your language (enter number)\n";
 		System.out.print(taalSelectie);
-		
+
 		do {
 
 			System.out.println("1. Nederlands");
@@ -92,19 +93,19 @@ public class CliController {
 				System.out.println("Invalid choice");
 				continue;
 			}
-			
+
 		}
 
 		while (Taal.taalIngesteld() == false);
-		
+
 		System.out.print("\n");
 		showHeader();
 		loginMenu();
 
 	}
-	
+
 	private void showHeader() {
-		
+
 		System.out.println(Taal.vertaal("line_star"));
 		System.out.println(Taal.vertaal("line_star"));
 		System.out.println(Taal.vertaal("line_star"));
@@ -116,33 +117,33 @@ public class CliController {
 	}
 
 	private void loginMenu() {
-		
+
 		// Reïnitialiseren scanner
 		scan = new Scanner(System.in);
 		int keuze = 0;
-		
+
 		int lineStarLength = Taal.vertaal("line_star").length();
 		int loginTitleLength = Taal.vertaal("login_title").length();
-		
+
 		System.out.print("\n");
-		for(int i = 0; i <= lineStarLength; i++) {
-			
-			if(i <= lineStarLength/2 - loginTitleLength/2 || i >= lineStarLength/2 + loginTitleLength/2) {
-				
+		for (int i = 0; i <= lineStarLength; i++) {
+
+			if (i <= lineStarLength / 2 - loginTitleLength / 2 || i >= lineStarLength / 2 + loginTitleLength / 2) {
+
 				System.out.print("_");
-				
+
 			}
-			
+
 			else {
-				
+
 				System.out.print(Taal.vertaal("login_title"));
 				i += loginTitleLength;
-				
+
 			}
-			
+
 		}
 		System.out.print("\n");
-		
+
 		System.out.print(Taal.vertaal("login_choose_option"));
 		System.out.print(Taal.vertaal("scanner_input"));
 		while (keuze <= 0 || keuze > 3) {
@@ -155,10 +156,9 @@ public class CliController {
 				case 1:
 					startAanmelden();
 					break;
-					
+
 				case 2:
 					taalSelect();
-
 
 				case 3:
 					startRegistreer();
@@ -194,63 +194,62 @@ public class CliController {
 		System.out.print("\n");
 		int lineStarLength = Taal.vertaal("line_star").length();
 		int signInTitleLength = Taal.vertaal("sign_in_title").length();
-		
-		for(int i = 0; i <= lineStarLength; i++) {
-			
-			if(i <= lineStarLength/2 - signInTitleLength/2 || i >= lineStarLength/2 + signInTitleLength/2) {
-				
+
+		for (int i = 0; i <= lineStarLength; i++) {
+
+			if (i <= lineStarLength / 2 - signInTitleLength / 2 || i >= lineStarLength / 2 + signInTitleLength / 2) {
+
 				System.out.print("_");
-				
+
 			}
-			
+
 			else {
-				
+
 				System.out.print(Taal.vertaal("sign_in_title"));
 				i += signInTitleLength;
-				
+
 			}
-			
+
 		}
 		System.out.print("\n\n");
-		
+
 		int keuze = 0;
 		System.out.print(Taal.vertaal("sign_in_menu"));
 		while (keuze <= 0 || keuze > 2) {
-			
-			
+
 			try {
-				
+
 				System.out.print(Taal.vertaal("scanner_input"));
 				keuze = scan.nextInt();
-				
-				switch(keuze) {
-				
-					case 1:
-						System.out.print("\n");
-						System.out.print(Taal.vertaal("sign_in_subtitle"));
-						break;
-					case 2:
-						loginMenu();
-						break;
-					default:
-						System.out.print(Taal.vertaal("exception_invalid_sign_in_menu_option"));
-						break;
+
+				switch (keuze) {
+
+				case 1:
+					System.out.print("\n");
+					System.out.print(Taal.vertaal("sign_in_subtitle"));
+					break;
+				case 2:
+					loginMenu();
+					break;
+				default:
+					System.out.print(Taal.vertaal("exception_invalid_sign_in_menu_option"));
+					break;
 
 				}
 
 			}
-			
-			catch(InputMismatchException e) {
-				
+
+			catch (InputMismatchException e) {
+
 				System.out.println(Taal.vertaal("exception_invalid_sign_in_menu_option"));
 				System.out.print(Taal.vertaal("scanner_input"));
-				
+
 			}
-			
+
 		}
-		
+
 		scan = new Scanner(System.in);
-		
+
 		while (true) {
 
 			System.out.print(Taal.vertaal("sign_in_username"));
@@ -273,13 +272,13 @@ public class CliController {
 				continue;
 
 			}
-			
+
 			System.out.print("\n");
 			System.out.print(Taal.vertaal("line_star"));
 			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s!%n", dc.getGebruikersnaam());
 			System.out.print(Taal.vertaal("line_star"));
 			System.out.print("\n");
-			
+
 			System.out.print("\n");
 			hoofdMenu();
 			break;
@@ -296,62 +295,62 @@ public class CliController {
 		System.out.print("\n");
 		int lineStarLength = Taal.vertaal("line_star").length();
 		int registerTitleLength = Taal.vertaal("register_title").length();
-		
-		for(int i = 0; i <= lineStarLength; i++) {
-			
-			if(i <= lineStarLength/2 - registerTitleLength/2 || i >= lineStarLength/2 + registerTitleLength/2) {
-				
+
+		for (int i = 0; i <= lineStarLength; i++) {
+
+			if (i <= lineStarLength / 2 - registerTitleLength / 2
+					|| i >= lineStarLength / 2 + registerTitleLength / 2) {
+
 				System.out.print("_");
-				
+
 			}
-			
+
 			else {
-				
+
 				System.out.print(Taal.vertaal("register_title"));
 				i += registerTitleLength;
-				
+
 			}
-			
+
 		}
 		System.out.print("\n\n");
-		
+
 		int keuze = 0;
 		System.out.print(Taal.vertaal("register_menu"));
 		while (keuze <= 0 || keuze > 2) {
-			
-			
+
 			try {
-				
+
 				System.out.print(Taal.vertaal("scanner_input"));
 				keuze = scan.nextInt();
-				
-				switch(keuze) {
-				
-					case 1:
-						System.out.print("\n");
-						System.out.print(Taal.vertaal("register_subtitle"));
-						break;
-					case 2:
-						loginMenu();
-						break;
-					default:
-						System.out.print(Taal.vertaal("exception_invalid_register_menu_option"));
-						break;
+
+				switch (keuze) {
+
+				case 1:
+					System.out.print("\n");
+					System.out.print(Taal.vertaal("register_subtitle"));
+					break;
+				case 2:
+					loginMenu();
+					break;
+				default:
+					System.out.print(Taal.vertaal("exception_invalid_register_menu_option"));
+					break;
 
 				}
 
 			}
-			
-			catch(InputMismatchException e) {
-				
+
+			catch (InputMismatchException e) {
+
 				System.out.println(Taal.vertaal("exception_invalid_register_menu_option"));
 				System.out.print(Taal.vertaal("scanner_input"));
-				
+
 			}
-			
+
 		}
-		
-		scan = new Scanner(System.in);		
+
+		scan = new Scanner(System.in);
 		System.out.print("\n");
 		while (true) {
 
@@ -405,7 +404,7 @@ public class CliController {
 			System.out.printf(Taal.vertaal("sign_in_welcome") + " %s %n", dc.getGebruikersnaam());
 			System.out.print(Taal.vertaal("line_star"));
 			System.out.print("\n");
-			
+
 			System.out.print("\n");
 			hoofdMenu();
 			break;
@@ -413,34 +412,34 @@ public class CliController {
 		}
 
 	}
-	
+
 	private void hoofdMenu() {
 		// Reïnitialiseren scanner
 		scan = new Scanner(System.in);
 
 		int lineStarLength = Taal.vertaal("line_star").length();
 		int gameTitleLength = Taal.vertaal("game_title").length();
-			
-		for(int i = 0; i <= lineStarLength; i++) {
-				
-			if(i <= lineStarLength/2 - gameTitleLength/2 || i >= lineStarLength/2 + gameTitleLength/2) {
-					
+
+		for (int i = 0; i <= lineStarLength; i++) {
+
+			if (i <= lineStarLength / 2 - gameTitleLength / 2 || i >= lineStarLength / 2 + gameTitleLength / 2) {
+
 				System.out.print("_");
-					
+
 			}
-				
+
 			else {
-					
+
 				System.out.print(Taal.vertaal("game_title"));
 				i += gameTitleLength;
-					
+
 			}
-				
+
 		}
 		System.out.print("\n");
-		
+
 		System.out.print(Taal.vertaal("game_subtitle"));
-			
+
 		while (true) {
 			if (dc.isAdmin() == false) {
 				System.out.print(Taal.vertaal("menu_choose_option_no_admin"));
@@ -512,15 +511,15 @@ public class CliController {
 
 		}
 
-	}	
+	}
 
 	private void speelSpel() {
 
 		startKiesSpel();
 		bouwScherm();
-		while(!dc.checkBordVoltooid()) {
+		while (!dc.checkBordVoltooid()) {
 			beweeg();
-		}	
+		}
 		afsluiten();
 
 	}
@@ -531,16 +530,16 @@ public class CliController {
 		List<String> spelNamen = dc.getSpelNamen();
 		int i = 1;
 		int keuze = 0;
-		
+
 		System.out.printf(Taal.vertaal("title_spel_select"));
 
 		do {
-			
+
 			System.out.print("\n");
 			System.out.print(Taal.vertaal("text_spel_select"));
 
 			for (String spel : spelNamen) {
-				
+
 				System.out.printf("\n" + i + ". " + spel);
 				i++;
 
@@ -554,15 +553,15 @@ public class CliController {
 		System.out.print(Taal.vertaal("pleasure_message"));
 		System.out.print("\n\n");
 
-		dc.kiesSpel(spelNamen.get(keuze-1));
+		dc.kiesSpel(spelNamen.get(keuze - 1));
 
 	}
-	
+
 	private void bouwScherm() {
 		VeldInterface[][] velden = dc.geefVelden();
 
-		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
-			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
+		for (int i = 0; i < BordDimensies.getAantalKolommen(); i++) {
+			for (int j = 0; j < BordDimensies.getAantalRijen(); j++) {
 
 				VeldInterface veld = velden[i][j];
 				char teken = '/';
@@ -593,57 +592,56 @@ public class CliController {
 			}
 
 		}
-		
+
 		System.out.print(Taal.vertaal("game_title_no_space"));
 		updateScherm();
 
 	}
 
 	private void updateScherm() {
-		
+
 		System.out.print(Taal.vertaal("total_displacements") + dc.getAantalBewegingen() + "\n");
 
 		// Eerst wissen, daarna opnieuw opbouwen
-		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
+		for (int i = 0; i < BordDimensies.getAantalKolommen(); i++) {
 
-			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
-				
+			for (int j = 0; j < BordDimensies.getAantalRijen(); j++) {
+
 				moveables[i][j] = null;
 
 			}
-			
+
 		}
 		// Mannetje
 		Moveable mannetje = dc.getMannetje();
 		Veld mannetjePositie = mannetje.getPositie();
 
-		moveables[mannetjePositie.getY()][mannetjePositie.getX()] = 'M';
+		moveables[mannetjePositie.getX()][mannetjePositie.getY()] = 'M';
 
 		List<Moveable> kisten = dc.getKisten();
 
 		for (Moveable kist : kisten) {
 
-			moveables[kist.getPositie().getY()][kist.getPositie().getX()] = 'X';
+			moveables[kist.getPositie().getX()][kist.getPositie().getY()] = 'X';
 
 		}
 
 		tekenScherm();
-		
+
 		// Check of spel voltooid is
 		checkVoltooid();
-
 
 	}
 
 	private void tekenScherm() {
-		
+
 		System.out.print("\n");
 
-		Character[][] statusBord = new Character[BordDimensies.getAantalRijen()][BordDimensies.getAantalKolommen()];
+		Character[][] statusBord = new Character[BordDimensies.getAantalKolommen()][BordDimensies.getAantalRijen()];
 
-		for (int i = 0; i < BordDimensies.getAantalRijen(); i++) {
+		for (int i = 0; i < BordDimensies.getAantalKolommen(); i++) {
 
-			for (int j = 0; j < BordDimensies.getAantalKolommen(); j++) {
+			for (int j = 0; j < BordDimensies.getAantalRijen(); j++) {
 
 				statusBord[i][j] = fields[i][j];
 
@@ -657,24 +655,18 @@ public class CliController {
 
 		}
 
-		for (Character[] rij : statusBord) {
-			
-			String rijResult = "";
-			
-			for(char teken : rij) {
-				
-				rijResult += teken;
-
+		String[] printRijen = new String[] {"","","","","","","","","",""};
+		for (int i = 0; i < BordDimensies.getAantalKolommen(); i++) {
+			for (int j = 0; j < BordDimensies.getAantalRijen(); j++) {
+				printRijen[j] = printRijen[j]+statusBord[i][j];
 			}
 
-			System.out.print(rijResult + '\n');
-
 		}
-		
+		Arrays.asList(printRijen).stream().forEach(r -> System.out.println(r));
+
 		System.out.print("\n");
 
 	}
-	
 
 	private void checkVoltooid() {
 		scan = new Scanner(System.in);
@@ -693,14 +685,14 @@ public class CliController {
 				System.out.print("\n");
 				hoofdMenu();
 			} else {
-				System.out.print("");	
+				System.out.print("");
 				System.out.print("\n");
 				System.out.print(Taal.vertaal("board_complete_title"));
 				System.out.print("\n");
 				int voltooideBorden = dc.getBordenVoltooid();
 				int totaalBorden = dc.getBordenTotaal();
-				String bordVoltooidContent = Taal.vertaal("board_complete") + Taal.vertaal("completed_boards") + voltooideBorden + "\r\n" + 
-						Taal.vertaal("total_boards") + totaalBorden + "\n";		
+				String bordVoltooidContent = Taal.vertaal("board_complete") + Taal.vertaal("completed_boards")
+						+ voltooideBorden + "\r\n" + Taal.vertaal("total_boards") + totaalBorden + "\n";
 				System.out.print(bordVoltooidContent);
 				int keuze = 0;
 				do {
@@ -720,9 +712,9 @@ public class CliController {
 			}
 		}
 	}
-	
+
 	private void beweeg() {
-		
+
 		int keuze = 0;
 
 		do {
@@ -732,8 +724,8 @@ public class CliController {
 			keuze = scan.nextInt();
 
 		} while (keuze <= 0 || keuze > 6);
-		
-		try {			
+
+		try {
 			switch (keuze) {
 			case 1:
 				dc.beweeg(BeweegRichting.BOVEN);
@@ -758,7 +750,7 @@ public class CliController {
 			default:
 				break;
 			}
-			if(keuze != 6)
+			if (keuze != 6)
 				updateScherm();
 		} catch (RuntimeException e) {
 			System.out.print("\n");
@@ -769,12 +761,12 @@ public class CliController {
 	private void back() {
 		hoofdMenu();
 	}
-	
+
 	private void resetSpelbord() {
-		
+
 		dc.resetBord();
 		bouwScherm();
-		
+
 	}
 
 	protected void afsluiten() {
