@@ -1,3 +1,10 @@
 .myAlert {
-	-fx-background-color: blue;
+	-fx-background-color: black;
+	-fx-opacity: 0.8;
+}
+
+.myAlert .label {
+	/*-fx-font-family: 'Verdana';*/
+	-fx-font-size: 16px;
+    -fx-text-fill: white;
 }
