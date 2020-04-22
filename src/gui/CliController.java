@@ -215,13 +215,13 @@ public class CliController {
 
 		int keuze = 0;
 		System.out.print(Taal.vertaal("sign_in_menu"));
-		while (keuze <= 0 || keuze > 2) {
+		while (keuze <= 0 || keuze > 3) {
 
 			try {
 
 				System.out.print(Taal.vertaal("scanner_input"));
 				keuze = scan.nextInt();
-
+				
 				switch (keuze) {
 
 				case 1:
@@ -232,18 +232,16 @@ public class CliController {
 					loginMenu();
 					break;
 				default:
-					System.out.print(Taal.vertaal("exception_invalid_sign_in_menu_option"));
-					break;
+					throw new IllegalArgumentException();
 
 				}
 
 			}
 
-			catch (InputMismatchException e) {
-
+			catch (InputMismatchException | IllegalArgumentException e) {
+				keuze = 0;
+				scan = new Scanner(System.in);
 				System.out.println(Taal.vertaal("exception_invalid_sign_in_menu_option"));
-				System.out.print(Taal.vertaal("scanner_input"));
-
 			}
 
 		}
