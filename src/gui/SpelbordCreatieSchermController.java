@@ -1,10 +1,7 @@
 package gui;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Objects;
-
 import domein.Actie;
 import domein.BordDimensies;
 import domein.MoveableType;
@@ -25,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import vertalingen.Taal;
+import static gui.ImageFactory.SoortImage.*;
 
 public class SpelbordCreatieSchermController {
 	private GuiController gc;
@@ -122,18 +120,13 @@ public class SpelbordCreatieSchermController {
 		for (int i = 0; i < BordDimensies.getAantalKolommen(); i++) {
 			for (int j = 0; j < BordDimensies.getAantalRijen(); j++) {
 				Tile box = new Tile(i, j);
-				Image image;
-				try {
-					image = new Image(new FileInputStream("resources/images/surface.png"));
+				Image image = ImageFactory.geefImage(LEEG);
+				ImageView imageView = new ImageView(image);
+				imageView.setFitHeight(50);
+				imageView.setFitWidth(50);
+				box.getChildren().add(imageView);
+				speelVeld.add(box, i, j);
 
-					ImageView imageView = new ImageView(image);
-					imageView.setFitHeight(50);
-					imageView.setFitWidth(50);
-					box.getChildren().add(imageView);
-					speelVeld.add(box, i, j);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
 
 			}
 		}
@@ -144,34 +137,34 @@ public class SpelbordCreatieSchermController {
 		Tile box = new Tile(x, y);
 		Image image = null;
 		if (Objects.equals(veld, null)) {
-			image = gc.IMAGE_LEEG;
+			image = ImageFactory.geefImage(LEEG);
 		} else {
 			switch (veld.getVeldType()) {
 			case MUUR:
-				image = gc.IMAGE_WALL;
+				image = ImageFactory.geefImage(WALL);
 				break;
 			case VELD:
 				boolean doel = veld.isDoel();
 				if (doel) {
-					image = gc.IMAGE_DOEL;
+					image = ImageFactory.geefImage(DOEL);
 				} else {
 					if (!Objects.equals(veld.getMoveable(), null)) {
 						if (veld.getMoveable().getType().equals(MoveableType.KIST)) {
-							image = gc.IMAGE_KIST;
+							image = ImageFactory.geefImage(KIST);
 							break;
 						} else if (veld.getMoveable().getType().equals(MoveableType.MANNETJE)) {
-							image = gc.IMAGE_MANNETJE;
+							image = ImageFactory.geefImage(MANNETJE);
 							break;
 						}
 					} else {
-						image = gc.IMAGE_VELD;
+						image = ImageFactory.geefImage(VELD);
 						break;
 					}
 				}
 
 				break;
 			default:
-				image = gc.IMAGE_LEEG;
+				image = ImageFactory.geefImage(LEEG);
 				break;
 			}
 		}
@@ -220,27 +213,27 @@ public class SpelbordCreatieSchermController {
 					switch (actie) {
 					case PLAATSMUUR:
 						setText(" " + Taal.vertaal("place_wall"));
-						image = gc.IMAGE_WALL;
+						image = ImageFactory.geefImage(WALL);
 						break;
 					case PLAATSVELD:
 						setText(" " + Taal.vertaal("place_field"));
-						image = gc.IMAGE_VELD;
+						image = ImageFactory.geefImage(VELD);
 						break;
 					case PLAATSMANNETJE:
 						setText(" " + Taal.vertaal("place_worker"));
-						image = gc.IMAGE_MANNETJE;
+						image = ImageFactory.geefImage(MANNETJE);
 						break;
 					case PLAATSKIST:
 						setText(" " + Taal.vertaal("place_box"));
-						image = gc.IMAGE_KIST;
+						image = ImageFactory.geefImage(KIST);
 						break;
 					case PLAATSDOEL:
 						setText(" " + Taal.vertaal("place_goal"));
-						image = gc.IMAGE_DOEL;
+						image = ImageFactory.geefImage(DOEL);
 						break;
 					case CLEAR:
 						setText(" " + Taal.vertaal("clear"));
-						image = gc.IMAGE_ERASER;
+						image = ImageFactory.geefImage(ERASER);
 						break;
 					}
 					imageView.setImage(image);

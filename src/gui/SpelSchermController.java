@@ -1,5 +1,6 @@
 package gui;
 
+import static gui.ImageFactory.SoortImage.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,23 +61,23 @@ public class SpelSchermController {
 				Image image;
 				VeldInterface veld = velden[i][j];
 				if (Objects.equals(veld, null)) {
-					image = gc.IMAGE_LEEG;
+					image = ImageFactory.geefImage(LEEG);
 				} else {
 					switch (veld.getVeldType()) {
 					case MUUR:
-						image = gc.IMAGE_WALL;
+						image = ImageFactory.geefImage(WALL);
 						break;
 					case VELD:
 						boolean doel = veld.isDoel();
 						if (doel) {
-							image = gc.IMAGE_DOEL;
+							image = ImageFactory.geefImage(DOEL);
 						} else {
-							image = gc.IMAGE_VELD;
+							image = ImageFactory.geefImage(VELD);
 						}
 
 						break;
 					default:
-						image = gc.IMAGE_LEEG;
+						image = ImageFactory.geefImage(LEEG);
 						break;
 					}
 				}
@@ -101,7 +102,7 @@ public class SpelSchermController {
 		beweegVeld.getChildren().clear();
 		// Mannetje
 		HBox box = new HBox();
-		Image image = gc.IMAGE_MANNETJE;
+		Image image = ImageFactory.geefImage(MANNETJE);
 		Moveable mannetje = gc.dc.getMannetje();
 		ImageView imageView = new ImageView(image);
 		VeldInterface mannetjePositie = mannetje.getPositie();
@@ -113,7 +114,7 @@ public class SpelSchermController {
 		List<Moveable> kisten = gc.dc.getKisten();
 		for (Moveable kist : kisten) {
 			HBox kistBox = new HBox();
-			Image kistImage = gc.IMAGE_KIST;
+			Image kistImage = ImageFactory.geefImage(KIST);
 			imageView = new ImageView(kistImage);
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);
