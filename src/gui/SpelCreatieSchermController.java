@@ -67,10 +67,7 @@ public class SpelCreatieSchermController{
     	try {
     	gc.dc.registreerSpel();
     	SpelInterface spel = gc.dc.getSpel();
-		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-		alert.setTitle(Taal.vertaal("done"));
-		alert.setHeaderText(null);
-		alert.setContentText(Taal.vertaal("game_saved")+spel.getSpelNaam()+"\n"+Taal.vertaal("number_of_boards") +spel.getBordenTotaal());
+    	Alert alert = AlertFactory.createAlert(Alert.AlertType.CONFIRMATION, Taal.vertaal("done"), Taal.vertaal("game_saved")+spel.getSpelNaam()+"\n"+Taal.vertaal("number_of_boards") +spel.getBordenTotaal());
 		alert.showAndWait();
     	gc.switchScherm(Scherm.SpelMenuScherm);
     	} catch (Exception e) {
