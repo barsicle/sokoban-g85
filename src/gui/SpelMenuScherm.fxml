@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" styleClass="borderpane" stylesheets="@../../resources/css/gui.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" styleClass="borderpane" stylesheets="@../resources/css/gui.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
          <top>
             <GridPane alignment="TOP_CENTER" vgap="10.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
@@ -29,20 +29,20 @@
                <children>
                   <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <image>
-                        <Image url="@../../resources/images/Startscherm.png" />
+                        <Image url="@../resources/images/Startscherm.png" />
                      </image>
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
                   </ImageView>
-                  <Label id="welcome" fx:id="lblWelkom" alignment="CENTER" stylesheets="@../../resources/css/gui.css" text="Label" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <FlowPane id="#flowpaneBackground" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="50.0" stylesheets="@../../resources/css/gui.css" vgap="25.0" GridPane.rowIndex="2">
+                  <Label id="welcome" fx:id="lblWelkom" alignment="CENTER" stylesheets="@../resources/css/gui.css" text="Label" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <FlowPane id="#flowpaneBackground" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="50.0" stylesheets="@../resources/css/gui.css" vgap="25.0" GridPane.rowIndex="2">
                      <children>
-                        <Button fx:id="btnPlay" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#spelButtonPushed" prefHeight="100.0" styleClass="yellowButton" stylesheets="@../../resources/css/gui.css" text="Speel spel">
+                        <Button fx:id="btnPlay" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#spelButtonPushed" prefHeight="100.0" styleClass="yellowButton" stylesheets="@../resources/css/gui.css" text="Speel spel">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../resources/images/dr-mario.png" />
+                                    <Image url="@../resources/images/dr-mario.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -50,11 +50,11 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </Button>
-                        <Button fx:id="btnCreate" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#spelCreateButtonPushed" prefHeight="100.0" styleClass="blueButton" stylesheets="@../../resources/css/gui.css" text="Maak spel">
+                        <Button fx:id="btnCreate" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#spelCreateButtonPushed" prefHeight="100.0" styleClass="blueButton" stylesheets="@../resources/css/gui.css" text="Maak spel">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../resources/images/imagenes-de-mario-bros-png-transparent.png" />
+                                    <Image url="@../resources/images/imagenes-de-mario-bros-png-transparent.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -67,13 +67,13 @@
                         <Insets bottom="15.0" top="50.0" />
                      </GridPane.margin>
                   </FlowPane>
-                  <FlowPane id="#flowpaneBackground" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="50.0" stylesheets="@../../resources/css/gui.css" vgap="25.0" GridPane.rowIndex="3">
+                  <FlowPane id="#flowpaneBackground" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="50.0" stylesheets="@../resources/css/gui.css" vgap="25.0" GridPane.rowIndex="3">
                      <children>
-                        <Button fx:id="btnModify" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" prefHeight="100.0" styleClass="greenButton" stylesheets="@../../resources/css/gui.css" text="Wijzig spel">
+                        <Button fx:id="btnModify" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" prefHeight="100.0" styleClass="greenButton" stylesheets="@../resources/css/gui.css" text="Wijzig spel">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../resources/images/mario-luigi-png-4-transparent.png" />
+                                    <Image url="@../resources/images/mario-luigi-png-4-transparent.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -81,11 +81,11 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </Button>
-                        <Button fx:id="btnExit" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#exitButtonPushed" prefHeight="100.0" styleClass="redButton" stylesheets="@../../resources/css/gui.css" text="Afsluiten">
+                        <Button fx:id="btnExit" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#exitButtonPushed" prefHeight="100.0" styleClass="redButton" stylesheets="@../resources/css/gui.css" text="Afsluiten">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../resources/images/mario-clipart-mario-cart-9-transparent.png" />
+                                    <Image url="@../resources/images/mario-clipart-mario-cart-9-transparent.png" />
                                  </image>
                               </ImageView>
                            </graphic>

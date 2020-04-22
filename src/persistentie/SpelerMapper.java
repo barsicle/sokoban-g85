@@ -31,7 +31,9 @@ public class SpelerMapper {
 
 		//check max 45 characters
 		if (speler.getGebruikersnaam().length() > 45)
-			throw new IllegalArgumentException(Taal.vertaal("game_board_name") + Taal.vertaal("exception_max_char"));
+			throw new IllegalArgumentException(Taal.vertaal("username") + " " + Taal.vertaal("exception_max_char"));
+		if (speler.getWachtwoord().length() > 45)
+			throw new IllegalArgumentException(Taal.vertaal("password") + " " + Taal.vertaal("exception_max_char"));
 		
 		try (Connection conn = DriverManager.getConnection(Connectie.JDBC_URL)) {
 			PreparedStatement query = conn.prepareStatement(INSERT_SPELER);

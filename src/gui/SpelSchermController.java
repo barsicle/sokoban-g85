@@ -1,5 +1,6 @@
 package gui;
 
+import static gui.ImageFactory.SoortImage.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -8,9 +9,11 @@ import domein.BordDimensies;
 import domein.Moveable;
 import domein.VeldInterface;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -18,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import vertalingen.Taal;
 
 public class SpelSchermController {
@@ -60,23 +64,23 @@ public class SpelSchermController {
 				Image image;
 				VeldInterface veld = velden[i][j];
 				if (Objects.equals(veld, null)) {
-					image = gc.IMAGE_LEEG;
+					image = ImageFactory.geefImage(LEEG);
 				} else {
 					switch (veld.getVeldType()) {
 					case MUUR:
-						image = gc.IMAGE_WALL;
+						image = ImageFactory.geefImage(WALL);
 						break;
 					case VELD:
 						boolean doel = veld.isDoel();
 						if (doel) {
-							image = gc.IMAGE_DOEL;
+							image = ImageFactory.geefImage(DOEL);
 						} else {
-							image = gc.IMAGE_VELD;
+							image = ImageFactory.geefImage(VELD);
 						}
 
 						break;
 					default:
-						image = gc.IMAGE_LEEG;
+						image = ImageFactory.geefImage(LEEG);
 						break;
 					}
 				}
@@ -101,7 +105,7 @@ public class SpelSchermController {
 		beweegVeld.getChildren().clear();
 		// Mannetje
 		HBox box = new HBox();
-		Image image = gc.IMAGE_MANNETJE;
+		Image image = ImageFactory.geefImage(MANNETJE);
 		Moveable mannetje = gc.dc.getMannetje();
 		ImageView imageView = new ImageView(image);
 		VeldInterface mannetjePositie = mannetje.getPositie();
@@ -113,7 +117,7 @@ public class SpelSchermController {
 		List<Moveable> kisten = gc.dc.getKisten();
 		for (Moveable kist : kisten) {
 			HBox kistBox = new HBox();
-			Image kistImage = gc.IMAGE_KIST;
+			Image kistImage = ImageFactory.geefImage(KIST);
 			imageView = new ImageView(kistImage);
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);
@@ -128,25 +132,20 @@ public class SpelSchermController {
 	private void checkVoltooid() {
 		if (gc.dc.checkBordVoltooid()) {
 			if (gc.dc.checkSpelVoltooid()) {
-				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle(Taal.vertaal("game_complete_title"));
-				alert.setHeaderText(null);
-				alert.setContentText(Taal.vertaal("game_complete"));
+				Alert alert = AlertFactory.createAlert(Alert.AlertType.INFORMATION, Taal.vertaal("game_complete_title"), Taal.vertaal("game_complete"));
 				alert.showAndWait();
 				gc.dc.resetGekozenSpel();
 				gc.switchScherm(Scherm.SpelMenuScherm);
 			} else {
-				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-				ButtonType buttonVolgendLevel = new ButtonType(Taal.vertaal("next_board"));
-				ButtonType buttonOpgeven = new ButtonType(Taal.vertaal("quit"));
-				alert.getButtonTypes().setAll(buttonVolgendLevel, buttonOpgeven);
-				alert.setTitle(Taal.vertaal("board_complete_title"));
-				alert.setHeaderText(null);
 				int voltooideBorden = gc.dc.getBordenVoltooid();
 				int totaalBorden = gc.dc.getBordenTotaal();
 				String bordVoltooidContent = Taal.vertaal("board_complete") + Taal.vertaal("completed_boards")
-						+ voltooideBorden + "\r\n" + Taal.vertaal("total_boards") + totaalBorden;
-				alert.setContentText(bordVoltooidContent);
+				+ voltooideBorden + "\r\n" + Taal.vertaal("total_boards") + totaalBorden;
+				Alert alert = AlertFactory.createAlert(Alert.AlertType.CONFIRMATION, Taal.vertaal("board_complete_title"), bordVoltooidContent);
+
+				ButtonType buttonVolgendLevel = new ButtonType(Taal.vertaal("next_board"));
+				ButtonType buttonOpgeven = new ButtonType(Taal.vertaal("quit"));
+				alert.getButtonTypes().setAll(buttonVolgendLevel, buttonOpgeven);
 
 				Optional<ButtonType> keuze = alert.showAndWait();
 				if (keuze.get() == buttonVolgendLevel) {
@@ -157,11 +156,13 @@ public class SpelSchermController {
 					// Voor de cancellation
 				} else {
 					back();
-				}
+				}				
 			}
 		}
 
 	}
+	
+	
 
 	@FXML
 	private void resetBord() {

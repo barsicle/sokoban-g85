@@ -1,0 +1,269 @@
+/* CLASSES */
+.borderpane, .languagepane, .scrollpane {
+	
+	-fx-background-color: black;
+	-fx-opacity: 0.8;	
+	
+}
+
+.button {
+	
+	-fx-background-radius: 1.5em;
+	
+}
+
+.listview {
+	
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+	-fx-font-size: 14;
+	-fx-background-color: silver;
+	-fx-background-radius: 50 0 50 0;
+	-fx-font-family: 'Verdana';	
+	
+}
+
+.listview .list-cell {
+	
+	-fx-background-color: silver;
+	-fx-padding: 10;
+	
+}
+
+.listview .list-cell:hover {
+	
+	-fx-text-fill: white;	
+	-fx-font-size: 18;
+	
+}
+
+.redButton {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-background-color: #cc0000;
+	-fx-font-family: 'Verdana';	
+	
+}
+
+.redButton:hover {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-background-color: #ff4545;
+	-fx-font-family: 'Verdana';
+	
+}
+
+.greenButton {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-background-color: green;
+	-fx-font-family: 'Verdana';
+	
+}
+
+.greenButton:hover {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-background-color: #57cf57;
+	-fx-font-family: 'Verdana';
+	
+}
+
+.yellowButton {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-background-color: #FFD700;
+	-fx-font-family: 'Verdana';
+		
+}
+
+.yellowButton:hover {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-background-color: #FFDC73;
+	-fx-font-family: 'Verdana';
+	
+}
+
+.blueButton {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-background-color: #033C84;
+	-fx-font-family: 'Verdana';	
+	
+}
+
+.blueButton:hover {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-background-color: #53C4F0;
+	-fx-font-family: 'Verdana';	
+	
+}
+
+.combo-box > .list-cell {
+	
+	-fx-text-fill: white;
+
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+	
+    -fx-background-color:  #FFD700;
+    
+} 
+
+.submissionwindow {
+	
+	-fx-padding: 25;
+	
+}
+
+.inputguide {
+	
+	-fx-padding: 25;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-font-family: 'Verdana';
+	
+}
+
+.inputfieldGreen, .inputfieldBlue, .inputfieldYellow, .inputfieldRed {
+	
+	-fx-padding: 25;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-font-family: 'Verdana';	
+		
+}
+
+.inputguide {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	
+}
+
+.inputfieldGreen, .inputfieldBlue, .inputfieldYellow, .inputfieldRed {
+	
+	-fx-background-radius: 0.75em;
+	
+}
+
+.inputfieldGreen:focused {
+	
+	-fx-background-color: #57cf57;
+	
+}
+
+.inputfieldBlue:focused {
+	
+	-fx-background-color: #53C4F0;
+	
+}
+
+.yellowCombo {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-font-size: 16;
+	-fx-background-color: #FFDC73;
+	-fx-font-family: 'Verdana';
+	-fx-padding: 10;
+	-fx-background-radius: 1.5em;	
+	
+	
+}
+
+.invalidMessage {
+	
+	-fx-text-fill: #ff8080;
+	-fx-font-weight: bold;	
+	-fx-font-size: 16;
+	-fx-font-family: 'Verdana';
+	-fx-padding: 10;
+	
+}
+
+.statusMessage {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;	
+	-fx-font-size: 16;
+	-fx-font-family: 'Verdana';
+	-fx-padding: 10;
+	
+}
+
+.titleStatusMessage {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;	
+	-fx-font-size: 20;
+	-fx-font-family: 'Verdana';
+	-fx-padding: 10;	
+	
+}
+
+.gridGame{
+	
+	-fx-border-radius: 1.5em;
+	-fx-border-width: 10;
+	-fx-border-color: #8B4513;
+	
+}
+
+/* ID'S */
+
+#gameBackground {
+	
+	-fx-background-image: url("../images/background-game-highres.jpg");
+	-fx-background-position: top, center;
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: cover;
+		
+}
+
+#welcome {
+	
+	-fx-text-fill: white;
+	-fx-font-weight: bold;	
+	-fx-font-size: 16;
+	-fx-font-family: 'Verdana';
+	-fx-padding: 10;
+	
+}
+
+#statusMessage {
+	
+	-fx-background-image: url("../images/cloud.png");
+	-fx-background-position: center center;
+	-fx-background-repeat: stretch;
+	-fx-background-size: 297 125;
+	
+}
+
+
+
+
+
+
+
+

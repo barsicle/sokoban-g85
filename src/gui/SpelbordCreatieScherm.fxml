@@ -15,19 +15,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" styleClass="borderpane" stylesheets="@../../resources/css/gui.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1600.0" styleClass="borderpane" stylesheets="@../resources/css/gui.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
          <center>
             <GridPane alignment="TOP_CENTER" hgap="50.0" vgap="15.0">
                <children>
-                  <Label fx:id="lblTitle" styleClass="titleStatusMessage" stylesheets="@../../resources/css/gui.css" text="Creëer een eigen bord!" GridPane.columnSpan="3" GridPane.halignment="CENTER">
+                  <Label fx:id="lblTitle" styleClass="titleStatusMessage" stylesheets="@../resources/css/gui.css" text="Creëer een eigen bord!" GridPane.columnSpan="3" GridPane.halignment="CENTER">
                      <font>
                         <Font name="Corbel" size="19.0" />
                      </font>
                   </Label>
                   <FlowPane alignment="CENTER" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <children>
-                        <Label fx:id="lblBordNaam" styleClass="statusMessage" stylesheets="@../../resources/css/gui.css" text="Bordnaam: " />
-                        <TextField fx:id="txfBordNaam" prefHeight="50.0" styleClass="inputfieldBlue" stylesheets="@../../resources/css/gui.css" />
+                        <Label fx:id="lblBordNaam" styleClass="statusMessage" stylesheets="@../resources/css/gui.css" text="Bordnaam: " />
+                        <TextField fx:id="txfBordNaam" prefHeight="50.0" styleClass="inputfieldBlue" stylesheets="@../resources/css/gui.css" />
                      </children>
                <GridPane.margin>
                   <Insets />
@@ -38,11 +38,11 @@
                   <Insets />
                </GridPane.margin>
                <children>
-                        <Button fx:id="btnCreateBoard" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#creeerLeegBord" prefHeight="100.0" styleClass="yellowButton" stylesheets="@../../resources/css/gui.css" text="Creëer leeg bord">
+                        <Button fx:id="btnCreateBoard" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#creeerLeegBord" prefHeight="100.0" styleClass="yellowButton" stylesheets="@../resources/css/gui.css" text="Creëer leeg bord">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../resources/images/mario-clipart-mario-cart-3-transparent.png" />
+                                    <Image url="@../resources/images/mario-clipart-mario-cart-3-transparent.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -50,11 +50,11 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                         </Button>
-                        <Button fx:id="btnRegistreerBord" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#registreerBord" prefHeight="100.0" styleClass="blueButton" stylesheets="@../../resources/css/gui.css" text="Registreer spelbord">
+                        <Button fx:id="btnRegistreerBord" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#registreerBord" prefHeight="100.0" styleClass="blueButton" stylesheets="@../resources/css/gui.css" text="Registreer spelbord">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../resources/images/imagenes-de-mario-bros-png-transparent.png" />
+                                    <Image url="@../resources/images/imagenes-de-mario-bros-png-transparent.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -62,11 +62,11 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                         </Button>
-                        <Button fx:id="btnReset" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#resetBord" prefHeight="100.0" styleClass="greenButton" stylesheets="@../../resources/css/gui.css" text="Reset">
+                        <Button fx:id="btnReset" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#resetBord" prefHeight="100.0" styleClass="greenButton" stylesheets="@../resources/css/gui.css" text="Reset">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../resources/images/refresh.png" />
+                                    <Image url="@../resources/images/refresh.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -74,11 +74,11 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                         </Button>
-                        <Button fx:id="btnBack" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#back" prefHeight="100.0" styleClass="redButton" stylesheets="@../../resources/css/gui.css" text="Terug">
+                        <Button fx:id="btnBack" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#back" prefHeight="100.0" styleClass="redButton" stylesheets="@../resources/css/gui.css" text="Terug">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../resources/images/back.png" />
+                                    <Image url="@../resources/images/back.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -88,7 +88,7 @@
                         </Button>
                </children>
             </VBox>
-                  <GridPane fx:id="speelVeld" alignment="CENTER" gridLinesVisible="true" snapToPixel="false" styleClass="gridGame" stylesheets="@../../resources/css/gui.css" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                  <GridPane fx:id="speelVeld" alignment="CENTER" gridLinesVisible="true" snapToPixel="false" styleClass="gridGame" stylesheets="@../resources/css/gui.css" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                     <columnConstraints>
                       <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
                         <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="50.0" minWidth="50.0" percentWidth="0.0" prefWidth="50.0" />
@@ -114,14 +114,14 @@
                         <RowConstraints fillHeight="false" maxHeight="50.0" minHeight="50.0" percentHeight="0.0" prefHeight="50.0" vgrow="NEVER" />
                     </rowConstraints>
                   </GridPane>
-                  <ListView fx:id="listViewActions" prefWidth="300.0" styleClass="listview" stylesheets="@../../resources/css/gui.css" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                  <ListView fx:id="listViewActions" prefWidth="300.0" styleClass="listview" stylesheets="@../resources/css/gui.css" GridPane.columnIndex="2" GridPane.rowIndex="4">
                      <padding>
                         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                      </padding>
             </ListView>
             <FlowPane alignment="TOP_CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <children>
-                        <Label fx:id="lblToolkit" alignment="TOP_CENTER" styleClass="statusMessage" stylesheets="@../../resources/css/gui.css" text="Toolkit: " />
+                        <Label fx:id="lblToolkit" alignment="TOP_CENTER" styleClass="statusMessage" stylesheets="@../resources/css/gui.css" text="Toolkit: " />
                </children>
             </FlowPane>
                </children>

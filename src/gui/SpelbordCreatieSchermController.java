@@ -1,10 +1,7 @@
 package gui;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Objects;
-
 import domein.Actie;
 import domein.BordDimensies;
 import domein.MoveableType;
@@ -25,6 +22,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import vertalingen.Taal;
+import static gui.ImageFactory.SoortImage.*;
+import static gui.AlertFactory.*;
 
 public class SpelbordCreatieSchermController {
 	private GuiController gc;
@@ -83,10 +82,7 @@ public class SpelbordCreatieSchermController {
 			btnCreateBoard.setDisable(true);
 			bouwLeegSpelbord();
 		} catch (Exception e) {
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle(Taal.vertaal("exception_invalid_operation"));
-			alert.setHeaderText(null);
-			alert.setContentText(e.getMessage());
+			Alert alert = AlertFactory.createAlert(Alert.AlertType.ERROR, Taal.vertaal("exception_invalid_operation"), e.getMessage());
 			alert.showAndWait();
 		}
 		
@@ -100,18 +96,11 @@ public class SpelbordCreatieSchermController {
 			speelVeld.setDisable(true);
 			btnRegistreerBord.setDisable(true);
 			
-			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-			alert.setTitle(Taal.vertaal("done"));
-			alert.setHeaderText(null);
-			alert.setContentText(Taal.vertaal("board_saved"));
+			Alert alert = AlertFactory.createAlert(Alert.AlertType.CONFIRMATION, Taal.vertaal("done"), Taal.vertaal("board_saved"));
 			alert.showAndWait();
 			back();
 		} catch (Exception e) {
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle(Taal.vertaal("exception_invalid_operation"));
-			alert.setHeaderText(null);
-			alert.setContentText(e.getMessage());
-
+			Alert alert = AlertFactory.createAlert(Alert.AlertType.ERROR, Taal.vertaal("exception_invalid_operation"), e.getMessage());
 			alert.showAndWait();
 		}
 
@@ -122,18 +111,13 @@ public class SpelbordCreatieSchermController {
 		for (int i = 0; i < BordDimensies.getAantalKolommen(); i++) {
 			for (int j = 0; j < BordDimensies.getAantalRijen(); j++) {
 				Tile box = new Tile(i, j);
-				Image image;
-				try {
-					image = new Image(new FileInputStream("resources/images/surface.png"));
+				Image image = ImageFactory.geefImage(LEEG);
+				ImageView imageView = new ImageView(image);
+				imageView.setFitHeight(50);
+				imageView.setFitWidth(50);
+				box.getChildren().add(imageView);
+				speelVeld.add(box, i, j);
 
-					ImageView imageView = new ImageView(image);
-					imageView.setFitHeight(50);
-					imageView.setFitWidth(50);
-					box.getChildren().add(imageView);
-					speelVeld.add(box, i, j);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
 
 			}
 		}
@@ -144,34 +128,34 @@ public class SpelbordCreatieSchermController {
 		Tile box = new Tile(x, y);
 		Image image = null;
 		if (Objects.equals(veld, null)) {
-			image = gc.IMAGE_LEEG;
+			image = ImageFactory.geefImage(LEEG);
 		} else {
 			switch (veld.getVeldType()) {
 			case MUUR:
-				image = gc.IMAGE_WALL;
+				image = ImageFactory.geefImage(WALL);
 				break;
 			case VELD:
 				boolean doel = veld.isDoel();
 				if (doel) {
-					image = gc.IMAGE_DOEL;
+					image = ImageFactory.geefImage(DOEL);
 				} else {
 					if (!Objects.equals(veld.getMoveable(), null)) {
 						if (veld.getMoveable().getType().equals(MoveableType.KIST)) {
-							image = gc.IMAGE_KIST;
+							image = ImageFactory.geefImage(KIST);
 							break;
 						} else if (veld.getMoveable().getType().equals(MoveableType.MANNETJE)) {
-							image = gc.IMAGE_MANNETJE;
+							image = ImageFactory.geefImage(MANNETJE);
 							break;
 						}
 					} else {
-						image = gc.IMAGE_VELD;
+						image = ImageFactory.geefImage(VELD);
 						break;
 					}
 				}
 
 				break;
 			default:
-				image = gc.IMAGE_LEEG;
+				image = ImageFactory.geefImage(LEEG);
 				break;
 			}
 		}
@@ -220,27 +204,27 @@ public class SpelbordCreatieSchermController {
 					switch (actie) {
 					case PLAATSMUUR:
 						setText(" " + Taal.vertaal("place_wall"));
-						image = gc.IMAGE_WALL;
+						image = ImageFactory.geefImage(WALL);
 						break;
 					case PLAATSVELD:
 						setText(" " + Taal.vertaal("place_field"));
-						image = gc.IMAGE_VELD;
+						image = ImageFactory.geefImage(VELD);
 						break;
 					case PLAATSMANNETJE:
 						setText(" " + Taal.vertaal("place_worker"));
-						image = gc.IMAGE_MANNETJE;
+						image = ImageFactory.geefImage(MANNETJE);
 						break;
 					case PLAATSKIST:
 						setText(" " + Taal.vertaal("place_box"));
-						image = gc.IMAGE_KIST;
+						image = ImageFactory.geefImage(KIST);
 						break;
 					case PLAATSDOEL:
 						setText(" " + Taal.vertaal("place_goal"));
-						image = gc.IMAGE_DOEL;
+						image = ImageFactory.geefImage(DOEL);
 						break;
 					case CLEAR:
 						setText(" " + Taal.vertaal("clear"));
-						image = gc.IMAGE_ERASER;
+						image = ImageFactory.geefImage(ERASER);
 						break;
 					}
 					imageView.setImage(image);
@@ -270,22 +254,14 @@ public class SpelbordCreatieSchermController {
 		public Tile(int x, int y) {
 			setOnMouseClicked(e -> {
 				if (geselecteerdeActie == null) {
-					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle(Taal.vertaal("exception_invalid_operation"));
-					alert.setHeaderText(null);
-					alert.setContentText(Taal.vertaal("exception_select_operation"));
-
+					Alert alert = AlertFactory.createAlert(Alert.AlertType.ERROR, Taal.vertaal("exception_invalid_operation"), Taal.vertaal("exception_select_operation"));
 					alert.showAndWait();
 				} else {
 					try {
 						gc.dc.creeerVeld(geselecteerdeActie, x, y);
 						updateTile(x, y);
 					} catch (Exception e1) {
-						Alert alert = new Alert(Alert.AlertType.INFORMATION);
-						alert.setTitle(Taal.vertaal("exception_invalid_operation"));
-						alert.setHeaderText(null);
-						alert.setContentText(e1.getMessage());
-
+						Alert alert = AlertFactory.createAlert(Alert.AlertType.ERROR, Taal.vertaal("exception_invalid_operation"), e1.getMessage());
 						alert.showAndWait();
 					}
 

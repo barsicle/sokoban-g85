@@ -27,7 +27,7 @@ public class SpelerRepository {
 	 * @param gebruikersnaam De gebruikersnaam waarmee de speler wordt opgezocht.
 	 * @return de speler met gegeven gebruikersnaam.
 	 */ 
-	public Speler geefSpeler(String gebruikersnaam) throws RuntimeException {
+	protected Speler geefSpeler(String gebruikersnaam) throws RuntimeException {
 		
 		Speler speler = spelerMapper.geefSpeler(gebruikersnaam);
         return speler;
@@ -39,7 +39,7 @@ public class SpelerRepository {
 	 * al in de database zit.
 	 * @param speler De speler die wordt toegevoegd aan de database.
 	 */ 
-	public void voegSpelerToe(Speler speler) throws IllegalArgumentException, RuntimeException {
+	protected void voegSpelerToe(Speler speler) throws IllegalArgumentException, RuntimeException {
 		
 	       if (bestaatSpeler(speler.getGebruikersnaam()))
 	            throw new IllegalArgumentException("De gebruiker bestaat reeds.");
@@ -54,7 +54,7 @@ public class SpelerRepository {
 	 * @param gebruikersnaam De gebruikersnaam waarmee de speler wordt opgezocht in de database.
 	 * @return true indien de speler al bestaat, false indien de speler nog niet bestaat.
 	 */ 
-    public boolean bestaatSpeler(String gebruikersnaam) throws RuntimeException {
+    protected boolean bestaatSpeler(String gebruikersnaam) throws RuntimeException {
         return !Objects.equals(spelerMapper.geefSpeler(gebruikersnaam), null);
     }
 	
