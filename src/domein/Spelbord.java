@@ -394,7 +394,7 @@ public class Spelbord {
 
 		List<Veld> nietIngeslotenMuren = new ArrayList<>();
 		muren.stream().forEach(m -> {
-			if (aantalOmliggendeMuren(m) < 2) {
+			if (omliggendeMuren(m).size() < 2) {
 				nietIngeslotenMuren.add(m);
 			}
 		});
@@ -442,8 +442,7 @@ public class Spelbord {
 		}
 	}
 
-	private int aantalOmliggendeMuren(Veld veld) {
-		int aantal = 0;
+	private List<Veld> omliggendeMuren(Veld veld) {
 		List<Veld> omliggend = new ArrayList<>();
 		// boven
 		if (veld.getY() - 1 >= 0)
@@ -457,23 +456,39 @@ public class Spelbord {
 		// rechts
 		if (veld.getX() + 1 < BordDimensies.getAantalKolommen())
 			omliggend.add(velden[veld.getX() + 1][veld.getY()]);
-		aantal = (int) omliggend.stream().filter(m -> {
+		return omliggend.stream().filter(m -> {
 			return (!Objects.equals(m, null) && m.getVeldType().equals(VeldType.MUUR));
-		}).count();
-
-		return aantal;
+		}).collect(Collectors.toList());
 	}
 	
 	private void valideerBereikbaarheid() {
-		if(aantalOmliggendeMuren(mannetje.getPositie()) == 4)
+		if(omliggendeMuren(mannetje.getPositie()).size() == 4)
 			throw new RuntimeException(Taal.vertaal("exception_worker_stuck"));
 		
 		getFlatListVelden()
 		.stream()
 		.filter(v -> !Objects.equals(v, null) && v.isDoel())
 		.forEach(v -> {
-			if(aantalOmliggendeMuren(v) == 4)
+			if(omliggendeMuren(v).size() == 4)
 				throw new RuntimeException(Taal.vertaal("exception_all_goals_accessible"));
+		});
+		
+		getFlatListVelden()
+		.stream()
+		.filter(v -> !Objects.equals(v, null) && !Objects.equals(v.getMoveable(), null) && v.getMoveable().getType() == MoveableType.KIST)
+		.forEach(v -> {
+			List<Veld> muren = omliggendeMuren(v);
+			// Vanaf 3 muren is het sowieso ingesloten
+			if(muren.size() > 2) {
+				throw new RuntimeException(Taal.vertaal("exception_box_corner"));
+			}
+			// Als het er twee zijn, zie of het een hoek vormt
+			if(muren.size() == 2) {
+				if((muren.get(0).getX() != muren.get(1).getX()) && (muren.get(0).getY() != muren.get(1).getY())) {
+					throw new RuntimeException(Taal.vertaal("exception_box_corner"));
+				}
+			}
+				
 		});
 		
 	}
