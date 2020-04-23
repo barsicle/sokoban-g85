@@ -2,6 +2,7 @@ package domein;
 
 import java.util.Objects;
 import persistentie.*;
+import vertalingen.Taal;
 
 /**
  * Stelt een repository van spelers voor.
@@ -42,7 +43,7 @@ public class SpelerRepository {
 	protected void voegSpelerToe(Speler speler) throws IllegalArgumentException, RuntimeException {
 		
 	       if (bestaatSpeler(speler.getGebruikersnaam()))
-	            throw new IllegalArgumentException("De gebruiker bestaat reeds.");
+	            throw new IllegalArgumentException(Taal.vertaal("exception_user_exists"));
 	       
 	       spelerMapper.voegSpelerToe(speler);
 	       
