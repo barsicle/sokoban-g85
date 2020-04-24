@@ -378,6 +378,7 @@ public class Spelbord {
 		valideerSpelbordRand(muren);
 		valideerScope(muren);
 		valideerBereikbaarheid();
+		valideerKistHoek();
 
 	}
 
@@ -473,6 +474,9 @@ public class Spelbord {
 				throw new RuntimeException(Taal.vertaal("exception_all_goals_accessible"));
 		});
 		
+	}
+
+	private void valideerKistHoek() {
 		getFlatListVelden()
 		.stream()
 		.filter(v -> !Objects.equals(v, null) && !Objects.equals(v.getMoveable(), null) && v.getMoveable().getType() == MoveableType.KIST)
@@ -490,7 +494,6 @@ public class Spelbord {
 			}
 				
 		});
-		
 	}
 
 	private List<Veld> getFlatListVelden() {
