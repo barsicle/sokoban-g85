@@ -378,6 +378,7 @@ public class Spelbord {
 		valideerSpelbordRand(muren);
 		valideerScope(muren);
 		valideerBereikbaarheid();
+		valideerKistHoek();
 
 	}
 
@@ -491,6 +492,26 @@ public class Spelbord {
 				
 		});
 		
+	}
+
+	private void valideerKistHoek() {
+		getFlatListVelden()
+		.stream()
+		.filter(v -> !Objects.equals(v, null) && !Objects.equals(v.getMoveable(), null) && v.getMoveable().getType() == MoveableType.KIST)
+		.forEach(v -> {
+			List<Veld> muren = omliggendeMuren(v);
+			// Vanaf 3 muren is het sowieso ingesloten
+			if(muren.size() > 2) {
+				throw new RuntimeException(Taal.vertaal("exception_box_corner"));
+			}
+			// Als het er twee zijn, zie of het een hoek vormt
+			if(muren.size() == 2) {
+				if((muren.get(0).getX() != muren.get(1).getX()) && (muren.get(0).getY() != muren.get(1).getY())) {
+					throw new RuntimeException(Taal.vertaal("exception_box_corner"));
+				}
+			}
+				
+		});
 	}
 
 	private List<Veld> getFlatListVelden() {
