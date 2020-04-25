@@ -131,13 +131,12 @@ public class DomeinController {
 	 * @throws IllegalArgumentException indien de spelbordnaam null is of een lege string of
 	 * indien het spelbord met de opgegeven naam al bestaat.
 	 */
-	public void creeerSpelbord(String spelbordNaam) throws IllegalArgumentException, RuntimeException {
-		int volgorde = gekozenSpel.getBordenTotaal();
-		huidigSpelbord = new Spelbord(spelbordNaam, volgorde);
-		
-		if(gekozenSpel.containsSpelbord(spelbordNaam)|| spelbordRepository.bordExists(spelbordNaam)) {
+	public void creeerSpelbord(String spelbordNaam) throws IllegalArgumentException, RuntimeException {		
+		if(gekozenSpel.containsSpelbord(spelbordNaam) || spelbordRepository.bordExists(spelbordNaam)) {
 			throw new IllegalArgumentException(Taal.vertaal("exception_board_exists"));
 		}
+		int volgorde = gekozenSpel.getBordenTotaal();
+		huidigSpelbord = new Spelbord(spelbordNaam, volgorde);
 	}
 
 	/**
