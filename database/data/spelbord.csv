@@ -1,4 +1,5 @@
 "spelbordNaam";"volgorde";"spelNaam"
-"Eerste bord";1;"Eerste spel"
-"Eerste bord spel2";1;"Eerste spel"
-"Tweede bord";2;"Tweede spel"
+"CLI1";0;"DemoCLI"
+"CLI2";1;"DemoCLI"
+"GUIBord1";0;"DemoGUI"
+"GUIBord2";1;"DemoGUI"
